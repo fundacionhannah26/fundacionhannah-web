@@ -1,0 +1,2120 @@
+<!doctype html>
+<html lang="es-CO">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Fundación Hannah de la Caridad · Alimentando sueños</title>
+<meta name="description" content="Llevamos comidas ricas en proteína a niños y niñas en situación de vulnerabilidad en Pitalito, Huila. ESAL bajo Régimen Tributario Especial — tus donaciones son deducibles del impuesto de renta." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,400;1,9..144,500;1,9..144,600;1,9..144,700&family=Manrope:wght@300;400;500;600;700;800&family=Caveat+Brush&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --brand-violet:  oklch(0.41 0.18 314);
+  --brand-violet-deep: oklch(0.30 0.16 314);
+  --brand-magenta: oklch(0.65 0.20 14);
+  --brand-magenta-deep: oklch(0.55 0.20 14);
+  --brand-yellow:  oklch(0.84 0.16 90);
+  --brand-cyan:    oklch(0.78 0.10 215);
+  --brand-orange:  oklch(0.72 0.16 50);
+  --brand-cream:   oklch(0.985 0.01 80);
+  --brand-cream-deep: oklch(0.965 0.015 75);
+  --ink:           oklch(0.22 0.02 300);
+  --ink-soft:      oklch(0.40 0.015 300);
+  --ink-muted:     oklch(0.58 0.012 300);
+  --line:          oklch(0.90 0.008 300);
+
+  --shadow-sm: 0 1px 2px rgba(40,20,60,.04), 0 2px 8px rgba(40,20,60,.04);
+  --shadow-md: 0 4px 12px rgba(40,20,60,.06), 0 12px 32px rgba(40,20,60,.06);
+  --shadow-lg: 0 10px 24px rgba(40,20,60,.08), 0 30px 60px rgba(40,20,60,.10);
+
+  --radius-xs: 8px;
+  --radius-sm: 14px;
+  --radius-md: 20px;
+  --radius-lg: 28px;
+  --radius-xl: 36px;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Manrope', system-ui, -apple-system, sans-serif;
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--ink);
+  background: var(--brand-cream);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+img { max-width: 100%; display: block; }
+button { font-family: inherit; cursor: pointer; border: 0; background: 0; color: inherit; }
+a { color: inherit; text-decoration: none; }
+
+/* === Type scale ============================================ */
+.font-serif { font-family: 'Fraunces', 'Iowan Old Style', Georgia, serif; font-optical-sizing: auto; }
+.font-sans  { font-family: 'Manrope', system-ui, sans-serif; }
+
+h1, h2, h3, h4 { font-family: 'Fraunces', Georgia, serif; font-weight: 600; letter-spacing: -0.015em; line-height: 1.05; margin: 0; color: var(--brand-violet-deep); }
+p { margin: 0; }
+
+.eyebrow {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--brand-magenta);
+  display: inline-flex; align-items: center;
+}
+
+.section-num {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 13px;
+  color: var(--ink-muted);
+  letter-spacing: 0.05em;
+}
+
+/* === Layout ================================================ */
+.container { width: 100%; max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+@media (min-width: 768px) { .container { padding: 0 40px; } }
+@media (min-width: 1100px) { .container { padding: 0 56px; } }
+
+section { padding: 96px 0; position: relative; }
+@media (min-width: 768px) { section { padding: 128px 0; } }
+
+/* === Buttons =============================================== */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  padding: 14px 24px;
+  font-family: 'Manrope', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: -0.005em;
+  border-radius: 999px;
+  transition: transform .25s cubic-bezier(.2,.7,.2,1), box-shadow .25s, background .25s, color .25s, border-color .25s;
+  white-space: nowrap;
+}
+.btn-primary {
+  background: var(--brand-magenta);
+  color: white;
+  box-shadow: 0 6px 18px -4px oklch(0.65 0.20 14 / .55);
+}
+.btn-primary:hover { background: var(--brand-magenta-deep); transform: translateY(-2px); box-shadow: 0 12px 28px -8px oklch(0.65 0.20 14 / .65); }
+.btn-ghost {
+  background: transparent;
+  color: var(--brand-violet-deep);
+  border: 1.5px solid currentColor;
+}
+.btn-ghost:hover { background: var(--brand-violet); color: white; border-color: var(--brand-violet); }
+.btn-light {
+  background: white;
+  color: var(--brand-violet-deep);
+}
+.btn-light:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.btn-outline-light {
+  background: transparent;
+  color: white;
+  border: 1.5px solid rgba(255,255,255,.55);
+}
+.btn-outline-light:hover { background: white; color: var(--brand-violet-deep); border-color: white; }
+.btn-arrow { transition: transform .3s; }
+.btn:hover .btn-arrow { transform: translateX(3px); }
+
+/* === Header ================================================ */
+.header {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+  transition: background .3s, backdrop-filter .3s, box-shadow .3s, border-color .3s;
+  border-bottom: 1px solid transparent;
+}
+.header.scrolled {
+  background: rgba(253, 251, 246, 0.85);
+  backdrop-filter: saturate(140%) blur(14px);
+  -webkit-backdrop-filter: saturate(140%) blur(14px);
+  border-bottom-color: var(--line);
+}
+.header-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 76px;
+}
+.logo-mark {
+  display: inline-flex; flex-direction: column; align-items: flex-start;
+  line-height: 1;
+  text-decoration: none;
+  gap: 1px;
+}
+.logo-mark .l-top, .logo-mark .l-bottom {
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--brand-violet-deep);
+  opacity: 0.85;
+}
+.logo-mark .l-bottom { padding-left: 4px; }
+.logo-mark .l-word {
+  font-family: 'Caveat Brush', cursive;
+  font-size: 30px;
+  line-height: 0.9;
+  letter-spacing: -0.01em;
+  display: inline-flex;
+  align-items: baseline;
+  position: relative;
+  padding: 2px 0;
+}
+.logo-mark .l-word span { display: inline-block; }
+.logo-mark .l-word .c1 { color: var(--brand-yellow); transform: rotate(-3deg); }
+.logo-mark .l-word .c2 { color: var(--brand-cyan); transform: rotate(2deg) translateY(-1px); }
+.logo-mark .l-word .c3 { color: var(--brand-magenta); transform: rotate(-2deg); }
+.logo-mark .l-word .c4 { color: var(--brand-violet); transform: rotate(3deg); }
+.logo-mark .l-word .c5 { color: var(--brand-orange); transform: rotate(-2deg) translateY(-1px); }
+.logo-mark .l-word .c6 { color: var(--brand-yellow); transform: rotate(2deg); }
+@media (min-width: 768px) {
+  .logo-mark .l-top, .logo-mark .l-bottom { font-size: 10px; }
+  .logo-mark .l-word { font-size: 34px; }
+}
+.logo-mark.lg .l-word { font-size: 56px; }
+.logo-mark.lg .l-top, .logo-mark.lg .l-bottom { font-size: 14px; }
+.logo-mark.on-dark .l-top, .logo-mark.on-dark .l-bottom { color: rgba(255,255,255,0.9); }
+
+.nav { display: none; gap: 32px; }
+@media (min-width: 980px) { .nav { display: flex; } }
+.nav a {
+  font-size: 14px; font-weight: 500; color: var(--ink-soft);
+  position: relative; padding: 6px 0;
+  transition: color .2s;
+}
+.nav a:hover { color: var(--brand-violet); }
+.nav a::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: -2px;
+  height: 1.5px; background: var(--brand-magenta);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform .3s cubic-bezier(.2,.7,.2,1);
+}
+.nav a:hover::after { transform: scaleX(1); }
+
+.mobile-toggle { display: inline-flex; }
+@media (min-width: 980px) { .mobile-toggle { display: none; } }
+.mobile-toggle {
+  width: 44px; height: 44px; border-radius: 12px;
+  align-items: center; justify-content: center;
+  background: transparent; color: var(--brand-violet-deep);
+}
+.mobile-toggle svg { width: 22px; height: 22px; }
+
+.mobile-menu {
+  position: fixed; inset: 0; z-index: 60;
+  background: var(--brand-cream);
+  padding: 24px;
+  display: flex; flex-direction: column;
+  transform: translateX(100%); transition: transform .35s cubic-bezier(.2,.7,.2,1);
+}
+.mobile-menu.open { transform: translateX(0); }
+.mobile-menu-head { display: flex; justify-content: space-between; align-items: center; height: 52px; margin-bottom: 32px; }
+.mobile-menu nav { display: flex; flex-direction: column; gap: 8px; }
+.mobile-menu nav a {
+  font-family: 'Fraunces', serif; font-size: 32px; font-weight: 500;
+  color: var(--brand-violet-deep);
+  padding: 10px 0; border-bottom: 1px solid var(--line);
+}
+.mobile-menu .btn { margin-top: 32px; align-self: flex-start; }
+
+/* === Hero ================================================== */
+.hero {
+  position: relative;
+  min-height: 100vh; min-height: 100svh;
+  padding-top: 120px; padding-bottom: 80px;
+  display: flex; align-items: center;
+  overflow: hidden;
+  isolation: isolate;
+}
+.hero-bg {
+  position: absolute; inset: 0; z-index: -2;
+}
+.hero-bg-img {
+  position: absolute; inset: 0;
+  background-size: cover; background-position: center;
+  opacity: 0;
+  transition: opacity 1.4s cubic-bezier(.4,.0,.2,1);
+  transform: scale(1.04);
+  animation: heroDrift 24s ease-in-out infinite alternate;
+}
+.hero-bg-img.active { opacity: 1; }
+@keyframes heroDrift {
+  from { transform: scale(1.04) translate3d(0, 0, 0); }
+  to   { transform: scale(1.10) translate3d(-1%, -1%, 0); }
+}
+.hero-overlay {
+  position: absolute; inset: 0; z-index: -1;
+  background:
+    linear-gradient(180deg, rgba(48, 18, 70, 0.55) 0%, rgba(48, 18, 70, 0.25) 30%, rgba(48, 18, 70, 0.40) 65%, rgba(48, 18, 70, 0.85) 100%),
+    radial-gradient(ellipse at 80% 20%, rgba(232, 80, 108, 0.20), transparent 60%);
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 48px;
+  align-items: end;
+  width: 100%;
+}
+@media (min-width: 980px) {
+  .hero-grid { grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: 64px; align-items: end; }
+}
+
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 12px;
+  color: rgba(255,255,255,.85);
+  font-family: 'Manrope', sans-serif;
+  font-weight: 600; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase;
+  margin-bottom: 28px;
+}
+.hero-eyebrow .dot { width: 8px; height: 8px; border-radius: 999px; background: var(--brand-yellow); box-shadow: 0 0 0 4px rgba(244,196,48,.25); }
+
+.hero h1 {
+  color: white;
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: clamp(44px, 8.2vw, 112px);
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+.hero h1 .accent {
+  font-style: italic;
+  font-weight: 400;
+  background: linear-gradient(95deg, var(--brand-yellow) 0%, var(--brand-orange) 35%, var(--brand-magenta) 75%, var(--brand-cyan) 100%);
+  -webkit-background-clip: text; background-clip: text;
+  color: transparent;
+  display: inline-block;
+}
+.hero p.lede {
+  color: rgba(255,255,255,.85);
+  font-size: clamp(16px, 1.6vw, 19px);
+  line-height: 1.55;
+  max-width: 540px;
+  margin-top: 28px;
+}
+.hero-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 36px; }
+
+.hero-side {
+  display: flex; flex-direction: column; gap: 18px; align-items: stretch;
+}
+.hero-stat-card {
+  background: rgba(255,255,255,0.10);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  border: 1px solid rgba(255,255,255,0.20);
+  border-radius: var(--radius-md);
+  padding: 22px 24px;
+  color: white;
+}
+.hero-stat-card .label { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; opacity: .75; font-weight: 600; }
+.hero-stat-card .value { font-family: 'Fraunces', serif; font-size: 36px; font-weight: 500; line-height: 1; margin-top: 8px; letter-spacing: -0.02em; }
+.hero-stat-card .desc { font-size: 14px; line-height: 1.5; margin-top: 8px; opacity: .85; }
+.hero-stat-card.pop {
+  background: linear-gradient(135deg, oklch(0.65 0.20 14) 0%, oklch(0.55 0.22 350) 100%);
+  border-color: transparent;
+}
+
+.hero-photo-pager {
+  position: absolute; left: 24px; bottom: 28px; z-index: 2;
+  display: flex; gap: 8px;
+}
+@media (min-width: 768px) { .hero-photo-pager { left: 40px; bottom: 32px; } }
+@media (min-width: 1100px) { .hero-photo-pager { left: 56px; } }
+.hero-photo-pager button {
+  width: 32px; height: 4px; border-radius: 999px;
+  background: rgba(255,255,255,.35);
+  transition: background .25s, width .35s;
+}
+.hero-photo-pager button.active { background: white; width: 56px; }
+
+.hero-credit {
+  position: absolute; right: 24px; bottom: 28px; z-index: 2;
+  font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+  color: rgba(255,255,255,.6); font-weight: 500;
+}
+@media (min-width: 768px) { .hero-credit { right: 40px; bottom: 32px; } }
+@media (max-width: 600px) { .hero-credit { display: none; } }
+
+/* === Marquee divider ======================================= */
+.marquee {
+  background: var(--brand-violet-deep);
+  color: white;
+  padding: 22px 0;
+  overflow: hidden;
+  border-top: 1px solid rgba(255,255,255,.06);
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+.marquee-track {
+  display: flex; gap: 56px;
+  white-space: nowrap;
+  animation: marquee 38s linear infinite;
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 28px;
+  font-weight: 400;
+}
+.marquee-track span { display: inline-flex; align-items: center; gap: 56px; }
+.marquee-track .dot { width: 10px; height: 10px; border-radius: 999px; background: var(--brand-yellow); display: inline-block; }
+.marquee-track .dot.c { background: var(--brand-cyan); }
+.marquee-track .dot.m { background: var(--brand-magenta); }
+.marquee-track .dot.o { background: var(--brand-orange); }
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* === Mission =============================================== */
+.mission { background: var(--brand-cream); }
+.mission-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 56px;
+  align-items: start;
+}
+@media (min-width: 980px) {
+  .mission-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 80px; }
+}
+.mission-copy h2 {
+  font-size: clamp(36px, 5vw, 64px);
+  margin-top: 24px;
+  text-wrap: balance;
+}
+.mission-copy h2 em {
+  font-style: italic; font-weight: 400;
+  color: var(--brand-magenta);
+}
+.mission-copy p {
+  margin-top: 24px;
+  color: var(--ink-soft);
+  font-size: 17px;
+  line-height: 1.7;
+  max-width: 52ch;
+}
+.mission-copy .pull {
+  margin-top: 36px;
+  padding: 24px 28px;
+  border-left: 3px solid var(--brand-yellow);
+  background: oklch(0.96 0.03 90 / 0.5);
+  border-radius: 4px 16px 16px 4px;
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 19px;
+  color: var(--brand-violet-deep);
+  line-height: 1.5;
+}
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+.stat-card {
+  background: white;
+  border-radius: var(--radius-md);
+  padding: 28px 24px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--line);
+  position: relative;
+  overflow: hidden;
+  transition: transform .3s cubic-bezier(.2,.7,.2,1), box-shadow .3s;
+}
+.stat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+.stat-card .num {
+  font-family: 'Fraunces', serif;
+  font-size: 56px;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--brand-violet-deep);
+  margin-bottom: 6px;
+}
+.stat-card .num small { font-size: 24px; opacity: .6; font-weight: 500; vertical-align: top; }
+.stat-card .lbl {
+  font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+  font-weight: 700; color: var(--brand-magenta);
+  margin-bottom: 10px;
+}
+.stat-card .desc {
+  font-size: 14px; color: var(--ink-soft); line-height: 1.5;
+}
+.stat-card .corner {
+  position: absolute; top: 0; right: 0;
+  width: 48px; height: 48px;
+  border-bottom-left-radius: var(--radius-md);
+}
+.stat-card.violet .corner { background: var(--brand-violet); }
+.stat-card.yellow .corner { background: var(--brand-yellow); }
+.stat-card.cyan .corner { background: var(--brand-cyan); }
+.stat-card.orange .corner { background: var(--brand-orange); }
+.stat-card .corner::after {
+  content: ''; position: absolute; inset: 8px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,.5);
+}
+
+/* Tax-deduction featured card */
+.tax-card {
+  grid-column: span 2;
+  background: linear-gradient(135deg, var(--brand-violet-deep) 0%, var(--brand-violet) 100%);
+  color: white;
+  border: 0;
+}
+.tax-card .num { color: white; }
+.tax-card .lbl { color: var(--brand-yellow); }
+.tax-card .desc { color: rgba(255,255,255,.85); }
+.tax-card .corner { background: var(--brand-yellow); }
+.tax-card .corner::after { border-color: rgba(0,0,0,.15); }
+
+/* === Programs (3 cards) ==================================== */
+.programs { background: var(--brand-cream-deep); }
+.section-head {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  align-items: end;
+  margin-bottom: 56px;
+}
+@media (min-width: 768px) { .section-head { grid-template-columns: 2fr 1fr; gap: 48px; } }
+.section-head h2 {
+  font-size: clamp(36px, 5vw, 64px);
+  margin-top: 16px;
+  text-wrap: balance;
+}
+.section-head .lede {
+  color: var(--ink-soft);
+  font-size: 16px;
+  line-height: 1.65;
+  max-width: 38ch;
+}
+
+.programs-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+@media (min-width: 720px)  { .programs-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1000px) { .programs-grid { grid-template-columns: repeat(3, 1fr); } }
+
+.program-card {
+  position: relative;
+  background: white;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: transform .4s cubic-bezier(.2,.7,.2,1), box-shadow .4s;
+  display: flex; flex-direction: column;
+}
+.program-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+.program-photo {
+  position: relative;
+  aspect-ratio: 4/3;
+  background-size: cover; background-position: center;
+  overflow: hidden;
+}
+.program-photo::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(180deg, transparent 50%, rgba(48,18,70,.55) 100%);
+}
+.program-num {
+  position: absolute; top: 16px; left: 18px; z-index: 2;
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: 14px;
+  color: white;
+  display: flex; align-items: center; gap: 8px;
+}
+.program-num::before {
+  content: ''; width: 24px; height: 1.5px; background: rgba(255,255,255,.7);
+}
+.program-icon {
+  position: absolute; top: 16px; right: 18px; z-index: 2;
+  width: 44px; height: 44px;
+  border-radius: 999px;
+  display: grid; place-items: center;
+  background: white;
+  box-shadow: var(--shadow-sm);
+}
+.program-icon svg { width: 22px; height: 22px; }
+.program-body {
+  padding: 28px 28px 32px;
+}
+.program-body h3 {
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+.program-body p {
+  margin-top: 12px;
+  color: var(--ink-soft);
+  font-size: 15px;
+  line-height: 1.6;
+}
+.program-body .tag {
+  margin-top: 20px;
+  display: inline-block;
+  font-size: 12px; font-weight: 600;
+  padding: 6px 12px; border-radius: 999px;
+  background: var(--brand-cream-deep);
+  color: var(--brand-violet);
+}
+
+/* === Gallery =============================================== */
+.gallery { background: var(--brand-cream); padding-bottom: 0; }
+.gallery-grid {
+  column-count: 1;
+  column-gap: 14px;
+}
+@media (min-width: 600px)  { .gallery-grid { column-count: 2; } }
+@media (min-width: 900px)  { .gallery-grid { column-count: 3; } }
+@media (min-width: 1200px) { .gallery-grid { column-count: 4; } }
+
+.gallery-item {
+  break-inside: avoid;
+  margin-bottom: 14px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  position: relative;
+  cursor: zoom-in;
+  background: var(--brand-cream-deep);
+  transition: transform .35s cubic-bezier(.2,.7,.2,1);
+}
+.gallery-item:hover { transform: translateY(-3px); }
+.gallery-item img {
+  width: 100%; height: auto; display: block;
+  transition: transform .6s cubic-bezier(.2,.7,.2,1), filter .35s;
+}
+.gallery-item:hover img { transform: scale(1.04); }
+.gallery-item::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, transparent 60%, rgba(48,18,70,.55) 100%);
+  opacity: 0; transition: opacity .35s;
+}
+.gallery-item:hover::after { opacity: 1; }
+.gallery-item .gi-tag {
+  position: absolute; left: 14px; bottom: 14px; z-index: 2;
+  color: white; font-family: 'Fraunces', serif; font-style: italic;
+  font-size: 14px; opacity: 0; transform: translateY(6px);
+  transition: opacity .35s, transform .35s;
+}
+.gallery-item:hover .gi-tag { opacity: 1; transform: translateY(0); }
+
+/* lightbox */
+.lightbox {
+  position: fixed; inset: 0; z-index: 100;
+  background: rgba(20, 8, 30, 0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: none;
+  align-items: center; justify-content: center;
+  padding: 5vw;
+  cursor: zoom-out;
+}
+.lightbox.open { display: flex; }
+.lightbox img {
+  max-width: 100%; max-height: 100%;
+  border-radius: 12px;
+  box-shadow: 0 30px 80px rgba(0,0,0,.5);
+}
+.lightbox-close, .lightbox-prev, .lightbox-next {
+  position: absolute;
+  width: 52px; height: 52px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.2);
+  color: white;
+  display: grid; place-items: center;
+  cursor: pointer;
+  transition: background .25s, transform .25s;
+  z-index: 2;
+}
+.lightbox-close:hover, .lightbox-prev:hover, .lightbox-next:hover { background: rgba(255,255,255,.22); transform: scale(1.06); }
+.lightbox-close { top: 24px; right: 24px; }
+.lightbox-prev { left: 24px; top: 50%; transform: translateY(-50%); }
+.lightbox-prev:hover { transform: translateY(-50%) scale(1.06); }
+.lightbox-next { right: 24px; top: 50%; transform: translateY(-50%); }
+.lightbox-next:hover { transform: translateY(-50%) scale(1.06); }
+
+/* === Donation block ======================================== */
+.donation {
+  position: relative;
+  color: white;
+  background: var(--brand-violet-deep);
+  overflow: hidden;
+}
+.donation::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: var(--donation-photo);
+  background-size: cover; background-position: center;
+  opacity: 0.18;
+  filter: saturate(110%);
+}
+.donation::after {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(circle at 80% 30%, oklch(0.55 0.22 350 / .55), transparent 55%),
+    radial-gradient(circle at 15% 85%, oklch(0.55 0.18 220 / .35), transparent 50%),
+    linear-gradient(180deg, oklch(0.30 0.16 314 / .80) 0%, oklch(0.22 0.14 314 / .92) 100%);
+}
+.donation > * { position: relative; z-index: 1; }
+.donation-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 56px;
+  align-items: center;
+}
+@media (min-width: 980px) {
+  .donation-grid { grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr); gap: 72px; }
+}
+.donation .eyebrow { color: var(--brand-yellow); }
+.donation .eyebrow::before { background: var(--brand-yellow); }
+.donation h2 {
+  color: white;
+  font-size: clamp(40px, 6.5vw, 88px);
+  font-weight: 500;
+  margin-top: 20px;
+  letter-spacing: -0.025em;
+  line-height: 1;
+  text-wrap: balance;
+}
+.donation h2 em {
+  font-style: italic; font-weight: 400;
+  background: linear-gradient(95deg, var(--brand-yellow), var(--brand-orange));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.donation p.lede {
+  margin-top: 28px;
+  font-size: 17px;
+  line-height: 1.7;
+  color: rgba(255,255,255,.85);
+  max-width: 52ch;
+}
+.donation-actions { margin-top: 36px; display: flex; flex-wrap: wrap; gap: 14px; }
+
+.tax-pill {
+  display: inline-flex; align-items: center; gap: 12px;
+  padding: 10px 16px 10px 12px;
+  border-radius: 999px;
+  background: rgba(244, 196, 48, 0.16);
+  border: 1px solid rgba(244, 196, 48, 0.4);
+  color: var(--brand-yellow);
+  font-size: 13px; font-weight: 600; letter-spacing: 0.02em;
+  margin-bottom: 24px;
+}
+.tax-pill .icon {
+  width: 22px; height: 22px; border-radius: 999px;
+  background: var(--brand-yellow); color: var(--brand-violet-deep);
+  display: grid; place-items: center; font-weight: 800; font-size: 13px;
+}
+
+.donation-aside {
+  display: flex; flex-direction: column; gap: 18px;
+}
+.donation-tile {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: var(--radius-md);
+  padding: 24px 26px;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+.donation-tile .label { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; opacity: .75; font-weight: 600; }
+.donation-tile h4 { color: white; font-size: 22px; font-weight: 500; margin-top: 8px; letter-spacing: -0.015em; }
+.donation-tile p { font-size: 14px; opacity: .8; margin-top: 8px; line-height: 1.55; }
+.donation-tile.featured {
+  background: white;
+  border-color: white;
+  color: var(--brand-violet-deep);
+}
+.donation-tile.featured h4 { color: var(--brand-violet-deep); }
+.donation-tile.featured p { color: var(--ink-soft); opacity: 1; }
+.donation-tile.featured .label { color: var(--brand-magenta); opacity: 1; }
+
+/* === Contact =============================================== */
+.contact { background: var(--brand-cream); }
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: white;
+  box-shadow: var(--shadow-md);
+}
+@media (min-width: 900px) { .contact-grid { grid-template-columns: 1.1fr 0.9fr; gap: 0; } }
+
+.contact-map {
+  position: relative;
+  min-height: 360px;
+  background: var(--brand-cream-deep);
+}
+.contact-map iframe {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  border: 0;
+}
+.contact-map .map-pin {
+  position: absolute; top: 24px; left: 24px;
+  z-index: 2;
+  background: white;
+  padding: 12px 16px;
+  border-radius: 999px;
+  display: inline-flex; align-items: center; gap: 10px;
+  box-shadow: var(--shadow-md);
+  font-size: 13px; font-weight: 600;
+}
+.contact-map .map-pin .dot {
+  width: 10px; height: 10px; border-radius: 999px;
+  background: var(--brand-magenta);
+  box-shadow: 0 0 0 4px oklch(0.65 0.20 14 / .25);
+  animation: ping 2.4s ease-out infinite;
+}
+@keyframes ping {
+  0%, 100% { box-shadow: 0 0 0 4px oklch(0.65 0.20 14 / .25); }
+  50% { box-shadow: 0 0 0 12px oklch(0.65 0.20 14 / 0); }
+}
+
+.contact-info {
+  padding: 48px 40px;
+  display: flex; flex-direction: column; gap: 4px;
+}
+@media (min-width: 1100px) { .contact-info { padding: 64px 56px; } }
+.contact-info h2 {
+  font-size: clamp(32px, 4vw, 48px);
+  margin-top: 12px;
+  text-wrap: balance;
+}
+.contact-list { list-style: none; padding: 0; margin: 32px 0 0; display: flex; flex-direction: column; gap: 4px; }
+.contact-list li {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  gap: 16px;
+  padding: 16px 0;
+  border-top: 1px solid var(--line);
+  align-items: start;
+}
+.contact-list li:last-child { border-bottom: 1px solid var(--line); }
+.contact-list .ci {
+  width: 44px; height: 44px; border-radius: 12px;
+  background: var(--brand-cream-deep);
+  display: grid; place-items: center;
+  color: var(--brand-violet);
+  flex-shrink: 0;
+}
+.contact-list .ci svg { width: 20px; height: 20px; }
+.contact-list .label { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--brand-magenta); font-weight: 700; }
+.contact-list .value { font-size: 16px; font-weight: 500; color: var(--ink); margin-top: 2px; line-height: 1.45; }
+.contact-list a.value:hover { color: var(--brand-magenta); }
+
+/* === Footer ================================================ */
+footer {
+  background: var(--brand-violet-deep);
+  color: white;
+  padding: 64px 0 32px;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+  padding-bottom: 48px;
+  border-bottom: 1px solid rgba(255,255,255,.12);
+}
+@media (min-width: 900px) {
+  .footer-grid { grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; }
+}
+.footer-brand h3 {
+  color: white;
+  font-size: 32px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  font-style: italic;
+  text-wrap: balance;
+}
+.footer-brand p { color: rgba(255,255,255,.7); margin-top: 16px; max-width: 36ch; font-size: 14px; line-height: 1.6; }
+.footer-col h4 { color: var(--brand-yellow); font-family: 'Manrope', sans-serif; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 700; }
+.footer-col ul { list-style: none; padding: 0; margin: 16px 0 0; display: flex; flex-direction: column; gap: 10px; }
+.footer-col a { font-size: 14px; color: rgba(255,255,255,.75); transition: color .2s; }
+.footer-col a:hover { color: white; }
+
+.footer-bottom {
+  display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between;
+  margin-top: 32px;
+  font-size: 12px; color: rgba(255,255,255,.55);
+}
+.footer-bottom .nit {
+  font-family: 'Manrope', sans-serif;
+  letter-spacing: 0.02em;
+}
+
+.socials { display: flex; gap: 10px; margin-top: 16px; }
+.socials a {
+  width: 40px; height: 40px; border-radius: 999px;
+  background: rgba(255,255,255,.08);
+  display: grid; place-items: center;
+  transition: background .25s, transform .25s;
+}
+.socials a:hover { background: var(--brand-magenta); transform: translateY(-2px); }
+.socials svg { width: 18px; height: 18px; }
+
+/* === Reveal animation ====================================== */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1);
+}
+[data-reveal].in {
+  opacity: 1; transform: translateY(0);
+}
+[data-reveal-delay="1"] { transition-delay: .08s; }
+[data-reveal-delay="2"] { transition-delay: .16s; }
+[data-reveal-delay="3"] { transition-delay: .24s; }
+[data-reveal-delay="4"] { transition-delay: .32s; }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] { opacity: 1; transform: none; }
+  .hero-bg-img { animation: none; }
+  .marquee-track { animation: none; }
+}
+
+/* === Donate Modal ========================================== */
+.donate-modal {
+  position: fixed; inset: 0; z-index: 110;
+  display: none;
+  align-items: center; justify-content: center;
+  padding: 16px;
+  background: rgba(20, 8, 30, 0.55);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  opacity: 0;
+  transition: opacity .3s;
+  overflow-y: auto;
+}
+.donate-modal.open { display: flex; opacity: 1; }
+.donate-card {
+  background: var(--brand-cream);
+  border-radius: var(--radius-lg);
+  width: 100%;
+  max-width: 920px;
+  max-height: calc(100dvh - 32px);
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr;
+  box-shadow: 0 30px 80px rgba(0,0,0,.35);
+  transform: translateY(16px) scale(0.98);
+  transition: transform .35s cubic-bezier(.2,.7,.2,1);
+  margin: auto;
+}
+.donate-modal.open .donate-card { transform: translateY(0) scale(1); }
+@media (min-width: 820px) {
+  .donate-card { grid-template-columns: 0.75fr 1fr; grid-template-rows: 1fr; }
+}
+.donate-aside {
+  background: linear-gradient(160deg, var(--brand-violet-deep) 0%, var(--brand-violet) 70%, oklch(0.55 0.22 350) 100%);
+  color: white;
+  padding: 24px 24px 22px;
+  position: relative;
+  overflow: hidden;
+  display: flex; flex-direction: column; justify-content: space-between;
+  gap: 14px;
+}
+@media (min-width: 820px) {
+  .donate-aside { padding: 36px 32px; min-height: 100%; gap: 0; }
+}
+.donate-aside h3 { font-size: 22px !important; }
+@media (min-width: 820px) {
+  .donate-aside h3 { font-size: 30px !important; }
+}
+.donate-aside p { display: none; }
+@media (min-width: 820px) {
+  .donate-aside p { display: block; }
+}
+.donate-aside .lock { margin-top: 0; }
+@media (min-width: 820px) {
+  .donate-aside .lock { margin-top: 24px; }
+}
+.donate-aside::after {
+  content: '';
+  position: absolute; right: -40px; bottom: -60px;
+  width: 200px; height: 200px;
+  border-radius: 50%;
+  background: oklch(0.84 0.16 90 / .3);
+  filter: blur(20px);
+}
+.donate-aside .badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 700;
+  color: var(--brand-yellow);
+}
+.donate-aside .badge::before { content: '$'; width: 22px; height: 22px; border-radius: 999px; background: var(--brand-yellow); color: var(--brand-violet-deep); display: grid; place-items: center; font-weight: 800; font-size: 13px; }
+.donate-aside h3 {
+  font-family: 'Fraunces', serif;
+  font-size: 30px;
+  font-weight: 500;
+  color: white;
+  margin-top: 16px;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+.donate-aside h3 em { font-style: italic; color: var(--brand-yellow); }
+.donate-aside p { font-size: 14px; opacity: .85; margin-top: 14px; line-height: 1.55; max-width: 28ch; }
+.donate-aside .lock {
+  margin-top: 24px;
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 12px; opacity: .85; font-weight: 500;
+}
+.donate-aside .lock svg { width: 14px; height: 14px; }
+
+.donate-body {
+  padding: 32px 32px 28px;
+  overflow-y: auto;
+  position: relative;
+}
+.donate-close {
+  position: absolute; top: 18px; right: 18px;
+  width: 38px; height: 38px; border-radius: 999px;
+  background: oklch(0.94 0.01 80);
+  color: var(--brand-violet-deep);
+  display: grid; place-items: center;
+  cursor: pointer;
+  transition: background .2s, transform .2s;
+  z-index: 2;
+}
+.donate-close:hover { background: oklch(0.88 0.02 80); transform: rotate(90deg); }
+.donate-step-label {
+  font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--brand-magenta); font-weight: 700;
+}
+.donate-body h4 {
+  font-family: 'Fraunces', serif;
+  font-size: 24px; font-weight: 500; letter-spacing: -0.015em;
+  color: var(--brand-violet-deep);
+  margin-top: 6px;
+  line-height: 1.2;
+}
+
+.freq-toggle {
+  display: grid; grid-template-columns: 1fr 1fr;
+  background: oklch(0.94 0.01 80);
+  border-radius: 999px;
+  padding: 4px;
+  margin-top: 18px;
+  position: relative;
+}
+.freq-toggle button {
+  padding: 11px 14px;
+  font-size: 14px; font-weight: 600;
+  border-radius: 999px;
+  color: var(--ink-soft);
+  transition: color .25s;
+  z-index: 1;
+}
+.freq-toggle button.active { color: white; }
+.freq-toggle .pill {
+  position: absolute;
+  top: 4px; bottom: 4px;
+  left: 4px;
+  width: calc(50% - 4px);
+  background: var(--brand-magenta);
+  border-radius: 999px;
+  transition: transform .35s cubic-bezier(.2,.7,.2,1);
+  box-shadow: 0 4px 12px -3px oklch(0.65 0.20 14 / .55);
+}
+.freq-toggle.mensual .pill { transform: translateX(100%); }
+
+.amount-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 20px;
+}
+.amount-btn {
+  border: 1.5px solid var(--line);
+  background: white;
+  border-radius: 14px;
+  padding: 14px 8px;
+  text-align: center;
+  font-family: 'Fraunces', serif;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--brand-violet-deep);
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  transition: border-color .2s, background .2s, transform .2s;
+}
+.amount-btn small { display: block; font-family: 'Manrope', sans-serif; font-size: 11px; font-weight: 500; color: var(--ink-muted); letter-spacing: 0.04em; margin-top: 4px; text-transform: none; }
+.amount-btn:hover { border-color: var(--brand-magenta); transform: translateY(-2px); }
+.amount-btn.active { border-color: var(--brand-magenta); background: oklch(0.97 0.04 14); color: var(--brand-magenta); }
+.amount-custom {
+  margin-top: 10px;
+  display: flex; align-items: center; gap: 10px;
+  border: 1.5px solid var(--line);
+  border-radius: 14px;
+  padding: 0 16px;
+  background: white;
+  transition: border-color .2s;
+}
+.amount-custom:focus-within { border-color: var(--brand-magenta); }
+.amount-custom .currency { font-family: 'Fraunces', serif; font-weight: 600; color: var(--ink-muted); }
+.amount-custom input {
+  flex: 1; border: 0; outline: 0;
+  padding: 14px 0;
+  font-family: 'Manrope', sans-serif;
+  font-size: 16px; font-weight: 500;
+  color: var(--ink); background: transparent;
+}
+
+.payments-label {
+  margin-top: 26px;
+  font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--ink-muted); font-weight: 700;
+}
+.payments-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 12px;
+}
+.payment-tile {
+  background: white;
+  border: 1.5px solid var(--line);
+  border-radius: 14px;
+  padding: 16px 8px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: border-color .2s, transform .2s, box-shadow .2s;
+  min-height: 60px;
+  position: relative;
+}
+.payment-tile:hover { border-color: var(--brand-violet); transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+.payment-tile.active { border-color: var(--brand-magenta); box-shadow: 0 0 0 3px oklch(0.65 0.20 14 / .15); }
+.payment-tile.active::after {
+  content: '✓';
+  position: absolute; top: 4px; right: 6px;
+  width: 18px; height: 18px;
+  border-radius: 999px;
+  background: var(--brand-magenta);
+  color: white;
+  font-size: 11px; font-weight: 700;
+  display: grid; place-items: center;
+}
+.payment-tile svg, .payment-tile .pay-text { max-height: 28px; }
+.pay-text {
+  font-weight: 800; font-size: 15px; letter-spacing: -0.02em;
+  display: flex; align-items: center; gap: 4px;
+}
+
+.donate-cta {
+  margin-top: 22px;
+  width: 100%;
+  padding: 16px 24px;
+  font-size: 15px;
+  border-radius: 999px;
+  background: var(--brand-magenta);
+  color: white;
+  font-weight: 600;
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  box-shadow: 0 8px 22px -6px oklch(0.65 0.20 14 / .55);
+  transition: background .2s, transform .2s;
+}
+.donate-cta:hover:not(:disabled) { background: var(--brand-magenta-deep); transform: translateY(-2px); }
+.donate-cta:disabled { opacity: .5; cursor: not-allowed; }
+.donate-fineprint {
+  margin-top: 14px;
+  font-size: 12px; color: var(--ink-muted);
+  text-align: center; line-height: 1.5;
+}
+.donate-fineprint strong { color: var(--brand-violet-deep); }
+
+/* success step */
+.donate-success {
+  text-align: center;
+  padding: 16px 0 8px;
+}
+.donate-success .check {
+  width: 72px; height: 72px;
+  border-radius: 50%;
+  background: oklch(0.92 0.10 150);
+  color: oklch(0.40 0.12 150);
+  display: grid; place-items: center;
+  margin: 0 auto 18px;
+  animation: pop .5s cubic-bezier(.2,1.4,.3,1);
+}
+@keyframes pop {
+  0% { transform: scale(0); }
+  100% { transform: scale(1); }
+}
+.donate-success h4 { font-size: 26px; }
+.donate-success p { font-size: 14px; color: var(--ink-soft); margin-top: 12px; line-height: 1.6; max-width: 38ch; margin-left: auto; margin-right: auto; }
+.donate-success .summary {
+  margin-top: 22px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: oklch(0.97 0.01 80);
+  font-size: 13px; text-align: left;
+  display: grid; gap: 8px;
+}
+.donate-success .summary div { display: flex; justify-content: space-between; }
+.donate-success .summary .k { color: var(--ink-muted); }
+.donate-success .summary .v { font-weight: 600; color: var(--brand-violet-deep); }
+</style>
+</head>
+
+<body>
+
+<!-- ============================================================ HEADER -->
+<header class="header" id="site-header">
+  <div class="container header-inner">
+    <a href="#top" class="logo-mark" aria-label="Fundación Hannah de la Caridad">
+      <span class="l-top">Fundación</span>
+      <span class="l-word" aria-hidden="true"><span class="c1">h</span><span class="c2">a</span><span class="c3">n</span><span class="c4">n</span><span class="c5">a</span><span class="c6">h</span></span>
+      <span class="l-bottom">de la Caridad</span>
+    </a>
+
+    <nav class="nav" aria-label="Principal">
+      <a href="#mision">Misión</a>
+      <a href="#impacto">Impacto</a>
+      <a href="#galeria">Galería</a>
+      <a href="#ayudar">Cómo ayudar</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <button type="button" class="btn btn-primary header-donate" style="padding: 11px 20px; font-size: 14px;" data-open-donate>
+        Donar ahora
+        <svg class="btn-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+      <button class="mobile-toggle" id="mobile-toggle" aria-label="Abrir menú" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+  <div class="container">
+    <div class="mobile-menu-head">
+      <a href="#top" class="logo-mark" aria-label="Fundación Hannah">
+        <span class="l-top">Fundación</span>
+        <span class="l-word" aria-hidden="true"><span class="c1">h</span><span class="c2">a</span><span class="c3">n</span><span class="c4">n</span><span class="c5">a</span><span class="c6">h</span></span>
+        <span class="l-bottom">de la Caridad</span>
+      </a>
+      <button class="mobile-toggle" id="mobile-close" aria-label="Cerrar menú">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6l-12 12"/></svg>
+      </button>
+    </div>
+    <nav>
+      <a href="#mision">Misión</a>
+      <a href="#impacto">Impacto</a>
+      <a href="#galeria">Galería</a>
+      <a href="#ayudar">Cómo ayudar</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+    <button type="button" class="btn btn-primary" data-open-donate>Donar ahora
+      <svg class="btn-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- ============================================================ HERO -->
+<section class="hero" id="top" data-screen-label="01 Hero">
+  <div class="hero-bg" id="hero-bg" aria-hidden="true"></div>
+  <div class="hero-overlay" aria-hidden="true"></div>
+
+  <div class="container hero-grid">
+    <div>
+      <div class="hero-eyebrow" data-reveal>
+        <span class="dot"></span>
+        Pitalito · Huila · Colombia
+      </div>
+      <h1 data-reveal data-reveal-delay="1">
+        Alimentando<br>
+        <span class="accent">sueños,</span> sembrando sonrisas.
+      </h1>
+      <p class="lede" data-reveal data-reveal-delay="2">
+        Llevamos comidas ricas en proteína a niños y niñas en situación de vulnerabilidad. Comida real, manos reales, futuros que comienzan en una mesa.
+      </p>
+      <div class="hero-actions" data-reveal data-reveal-delay="3">
+        <a href="#ayudar" class="btn btn-primary">
+          Conocer cómo ayudar
+          <svg class="btn-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#mision" class="btn btn-outline-light">Nuestra historia</a>
+      </div>
+    </div>
+
+    <aside class="hero-side" data-reveal data-reveal-delay="3" aria-label="Cifras de la fundación">
+      <div class="hero-stat-card pop">
+        <div class="label">RTE — ESAL</div>
+        <div class="value">Tu donación es deducible</div>
+        <div class="desc">Régimen Tributario Especial: tu aporte se descuenta del impuesto de renta.</div>
+      </div>
+      <div class="hero-stat-card">
+        <div class="label">Desde 2022</div>
+        <div class="value">+1.200 raciones servidas</div>
+        <div class="desc">Comidas calientes, ricas en proteína, entregadas con dignidad.</div>
+      </div>
+    </aside>
+  </div>
+
+  <div class="hero-photo-pager" id="hero-pager" role="tablist" aria-label="Cambiar foto del hero"></div>
+  <div class="hero-credit">↓ Conoce más</div>
+</section>
+
+<!-- ============================================================ MARQUEE -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>Alimentando sueños <span class="dot"></span> sembrando sonrisas <span class="dot c"></span> nutriendo futuros <span class="dot m"></span> abriendo mesas <span class="dot o"></span> Pitalito · Huila <span class="dot"></span></span>
+    <span>Alimentando sueños <span class="dot"></span> sembrando sonrisas <span class="dot c"></span> nutriendo futuros <span class="dot m"></span> abriendo mesas <span class="dot o"></span> Pitalito · Huila <span class="dot"></span></span>
+  </div>
+</div>
+
+<!-- ============================================================ MISSION -->
+<section class="mission" id="mision" data-screen-label="02 Misión">
+  <div class="container mission-grid">
+    <div class="mission-copy">
+      <span class="section-num">01 / Misión</span>
+      <span class="eyebrow" style="display:block; margin-top: 18px; margin-bottom: 8px;">Por qué existimos</span>
+      <h2 data-reveal>
+        Cada plato es una <em>promesa</em>: ningún niño en Pitalito debería crecer con hambre.
+      </h2>
+      <p data-reveal data-reveal-delay="1">
+        Fundación Hannah de la Caridad nació en 2022 con una idea simple y obstinada: la nutrición es el primer derecho. En los barrios más vulnerables de Pitalito, Huila, llevamos comidas calientes y ricas en proteína —preparadas con cariño, servidas con respeto— a niños, niñas y familias que las necesitan.
+      </p>
+      <p data-reveal data-reveal-delay="2">
+        Trabajamos con voluntarios, vecinos y aliados locales. Sin intermediarios, sin distancias innecesarias. Cada aporte que recibimos termina en una mesa, en un plato, en una sonrisa.
+      </p>
+      <div class="pull" data-reveal data-reveal-delay="3">
+        “Cuando un niño come bien, el barrio entero respira distinto.”
+      </div>
+    </div>
+
+    <div class="stat-grid" data-reveal data-reveal-delay="2" id="impacto">
+      <div class="stat-card violet">
+        <div class="corner"></div>
+        <div class="lbl">Fundada</div>
+        <div class="num">2022</div>
+        <div class="desc">Tres años entregando comidas, escuchando familias, construyendo confianza.</div>
+      </div>
+      <div class="stat-card yellow">
+        <div class="corner"></div>
+        <div class="lbl">Cobertura</div>
+        <div class="num">100<small>%</small></div>
+        <div class="desc">De cada peso donado va directo a comida y atención de los niños.</div>
+      </div>
+      <div class="stat-card cyan">
+        <div class="corner"></div>
+        <div class="lbl">Territorio</div>
+        <div class="num" style="font-size: 36px; line-height: 1.05;">Pitalito,<br>Huila</div>
+        <div class="desc">Operamos en barrios y veredas del sur del Huila colombiano.</div>
+      </div>
+      <div class="stat-card orange">
+        <div class="corner"></div>
+        <div class="lbl">Beneficiarios</div>
+        <div class="num">+300</div>
+        <div class="desc">Niños, niñas y familias acompañados con alimentación y comunidad.</div>
+      </div>
+      <div class="stat-card tax-card">
+        <div class="corner"></div>
+        <div class="lbl">Beneficio tributario</div>
+        <div class="num" style="font-size: 32px; line-height: 1.1;">Donaciones deducibles<br>del impuesto de renta</div>
+        <div class="desc">Somos ESAL bajo Régimen Tributario Especial (NIT 901.631.639-1). Empresas y personas naturales pueden descontar su aporte.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ PROGRAMS -->
+<section class="programs" data-screen-label="03 Programas">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <span class="section-num">02 / Lo que hacemos</span>
+        <span class="eyebrow" style="display:block; margin-top: 18px; margin-bottom: 8px;">Tres frentes, una mesa</span>
+        <h2 data-reveal>Comida con propósito, familias con respaldo, comunidad en acción.</h2>
+      </div>
+      <p class="lede" data-reveal data-reveal-delay="1">
+        Cada programa nace de lo que hemos escuchado en los barrios. No improvisamos: ajustamos, medimos y volvemos al territorio.
+      </p>
+    </div>
+
+    <div class="programs-grid">
+      <article class="program-card" data-reveal>
+        <div class="program-photo" style="background-image: url('uploads/01-foto-real.jpeg');">
+          <span class="program-num">01</span>
+          <span class="program-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="color: var(--brand-magenta);">
+              <path d="M3 11h18a8 8 0 0 1-8 8h-2a8 8 0 0 1-8-8z"/>
+              <path d="M7 7c0-1 1-2 1-3M11 7c0-1 1-2 1-3M15 7c0-1 1-2 1-3"/>
+              <path d="M3 19h18"/>
+            </svg>
+          </span>
+        </div>
+        <div class="program-body">
+          <h3>Alimentación<br>con propósito</h3>
+          <p>Jornadas semanales de comida caliente y rica en proteína, diseñadas con criterios nutricionales y servidas en los barrios donde más se necesita.</p>
+          <span class="tag">Comidas · Refrigerios · Mercados</span>
+        </div>
+      </article>
+
+      <article class="program-card" data-reveal data-reveal-delay="1">
+        <div class="program-photo" style="background-image: url('uploads/30-foto-real.jpeg');">
+          <span class="program-num">02</span>
+          <span class="program-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="color: var(--brand-violet);">
+              <circle cx="9" cy="8" r="3.2"/>
+              <circle cx="17" cy="9" r="2.4"/>
+              <path d="M3 19c0-3 2.5-5 6-5s6 2 6 5"/>
+              <path d="M14.5 19c.2-2 1.5-3.5 4-3.5s3.5 1.5 3.5 3.5"/>
+            </svg>
+          </span>
+        </div>
+        <div class="program-body">
+          <h3>Apoyo<br>a familias</h3>
+          <p>Acompañamos a las familias con orientación, mercados solidarios y conexiones con redes de apoyo local. Nadie come solo; nadie cría solo.</p>
+          <span class="tag">Mercados · Acompañamiento · Redes</span>
+        </div>
+      </article>
+
+      <article class="program-card" data-reveal data-reveal-delay="2">
+        <div class="program-photo" style="background-image: url('uploads/45-galeria-15.jpeg');">
+          <span class="program-num">03</span>
+          <span class="program-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="color: var(--brand-orange);">
+              <path d="M12 21s-7-4.5-7-10a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 21 11c0 5.5-7 10-7 10z" transform="translate(-1 0)"/>
+            </svg>
+          </span>
+        </div>
+        <div class="program-body">
+          <h3>Comunidad<br>en acción</h3>
+          <p>Voluntarios, cocineras del barrio, parroquias y aliados que se suman cada semana. La fundación no es un edificio: es una red de manos.</p>
+          <span class="tag">Voluntariado · Eventos · Aliados</span>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ GALLERY -->
+<section class="gallery" id="galeria" data-screen-label="04 Galería">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <span class="section-num">03 / Galería</span>
+        <span class="eyebrow" style="display:block; margin-top: 18px; margin-bottom: 8px;">Lo que pasa en la mesa</span>
+        <h2 data-reveal>Rostros, manos y momentos del territorio.</h2>
+      </div>
+      <p class="lede" data-reveal data-reveal-delay="1">
+        Estas no son fotos de archivo. Son niños, niñas y voluntarios reales en jornadas reales en Pitalito.
+      </p>
+    </div>
+
+    <div class="gallery-grid" id="gallery-grid"></div>
+  </div>
+</section>
+
+<!-- ============================================================ DONATION -->
+<section class="donation" id="ayudar" data-screen-label="05 Cómo ayudar" style="--donation-photo: url('uploads/03-foto-real.jpeg');">
+  <div class="container donation-grid">
+    <div>
+      <span class="section-num" style="color: rgba(255,255,255,.55); display: block; margin-bottom: 20px;">04 / Cómo ayudar</span>
+      <div class="tax-pill" data-reveal>
+        <span class="icon">$</span>
+        Donación deducible del impuesto de renta — RTE
+      </div>
+      <span class="eyebrow" style="display:block; margin-top: 18px; margin-bottom: 8px;">Tu aporte transforma</span>
+      <h2 data-reveal>
+        Cada aporte transforma <em>una vida.</em>
+      </h2>
+      <p class="lede" data-reveal data-reveal-delay="1">
+        Como Entidad Sin Ánimo de Lucro bajo Régimen Tributario Especial, tus donaciones —de empresa o persona natural— son deducibles del impuesto de renta. Y se traducen, sin desvíos, en comida caliente para un niño esta semana.
+      </p>
+      <div class="donation-actions" data-reveal data-reveal-delay="2">
+        <button type="button" class="btn btn-primary" data-open-donate>
+          Donar ahora
+          <svg class="btn-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </button>
+        <a href="https://www.instagram.com/hannah_delacaridad/" target="_blank" rel="noopener" class="btn btn-outline-light">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".7" fill="currentColor"/></svg>
+          Síguenos en Instagram
+        </a>
+      </div>
+    </div>
+
+    <aside class="donation-aside" data-reveal data-reveal-delay="2">
+      <div class="donation-tile featured">
+        <div class="label">Empresas</div>
+        <h4>Aporta y descuenta</h4>
+        <p>Tu empresa puede deducir hasta el 25% del aporte. Solicita certificado de donación con NIT 901.631.639-1.</p>
+      </div>
+      <div class="donation-tile">
+        <div class="label">Personas naturales</div>
+        <h4>Tu donación, tu deducción</h4>
+        <p>Beneficiate del descuento tributario y entrega comida real a un niño en Pitalito.</p>
+      </div>
+      <div class="donation-tile">
+        <div class="label">Voluntariado</div>
+        <h4>Suma tus manos</h4>
+        <p>Cocinas, jornadas, logística, redes. Hay un lugar para ti los sábados en Pitalito.</p>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- ============================================================ CONTACT -->
+<section class="contact" id="contacto" data-screen-label="06 Contacto">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <span class="section-num">05 / Contacto</span>
+        <span class="eyebrow" style="display:block; margin-top: 18px; margin-bottom: 8px;">Hablemos</span>
+        <h2 data-reveal>Te respondemos. Te recibimos.</h2>
+      </div>
+      <p class="lede" data-reveal data-reveal-delay="1">
+        Empresa, donante, voluntario o vecino: escríbenos. Estamos en Pitalito y siempre tenemos café.
+      </p>
+    </div>
+
+    <div class="contact-grid" data-reveal>
+      <div class="contact-map">
+        <div class="map-pin"><span class="dot"></span> Calle 15 Sur # 2 Este — 200 · Pitalito</div>
+        <iframe
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          src="https://www.google.com/maps?q=Pitalito,Huila,Colombia&z=13&output=embed"
+          title="Mapa de Pitalito, Huila"
+          aria-label="Mapa que muestra la ubicación de Fundación Hannah de la Caridad en Pitalito, Huila">
+        </iframe>
+      </div>
+
+      <div class="contact-info">
+        <span class="section-num">Visítanos</span>
+        <h2>Pitalito,<br>el corazón del Huila.</h2>
+        <ul class="contact-list">
+          <li>
+            <span class="ci">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-7-7-12a7 7 0 1 1 14 0c0 5-7 12-7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            </span>
+            <div>
+              <div class="label">Dirección</div>
+              <div class="value">Calle 15 Sur # 2 Este — 200<br>Barrio Solarte, Pitalito, Huila</div>
+            </div>
+          </li>
+          <li>
+            <span class="ci">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+            </span>
+            <div>
+              <div class="label">Email</div>
+              <a class="value" href="mailto:hannahdelacaridad26@gmail.com">hannahdelacaridad26@gmail.com</a>
+            </div>
+          </li>
+          <li>
+            <span class="ci">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92V21a1 1 0 0 1-1.1 1A19 19 0 0 1 2 5.1 1 1 0 0 1 3 4h4.1a1 1 0 0 1 1 .75l1 4a1 1 0 0 1-.27 1L7.2 11.2a16 16 0 0 0 5.6 5.6l1.45-1.63a1 1 0 0 1 1-.27l4 1a1 1 0 0 1 .75 1z"/></svg>
+            </span>
+            <div>
+              <div class="label">Teléfono</div>
+              <a class="value" href="tel:+573159899377">+57 315 989 9377</a>
+            </div>
+          </li>
+          <li>
+            <span class="ci">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".7" fill="currentColor"/></svg>
+            </span>
+            <div>
+              <div class="label">Instagram</div>
+              <a class="value" href="https://www.instagram.com/hannah_delacaridad/" target="_blank" rel="noopener">@hannah_delacaridad</a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#top" class="logo-mark on-dark lg" aria-label="Fundación Hannah de la Caridad" style="margin-bottom: 24px;">
+          <span class="l-top">Fundación</span>
+          <span class="l-word" aria-hidden="true"><span class="c1">h</span><span class="c2">a</span><span class="c3">n</span><span class="c4">n</span><span class="c5">a</span><span class="c6">h</span></span>
+          <span class="l-bottom">de la Caridad</span>
+        </a>
+        <span class="section-num" style="color: var(--brand-yellow); font-style: normal; letter-spacing: 0.2em; text-transform: uppercase; font-size: 11px; font-weight: 700; display: block;">Fundación Hannah de la Caridad</span>
+        <h3>“Alimentando sueños, sembrando sonrisas.”</h3>
+        <p>Entidad Sin Ánimo de Lucro (ESAL) bajo Régimen Tributario Especial. Pitalito, Huila — Colombia.</p>
+        <div class="socials">
+          <a href="https://www.instagram.com/hannah_delacaridad/" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".7" fill="currentColor"/></svg>
+          </a>
+          <a href="mailto:hannahdelacaridad26@gmail.com" aria-label="Email">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+          </a>
+          <a href="https://wa.me/573159899377" target="_blank" rel="noopener" aria-label="WhatsApp">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92V21a1 1 0 0 1-1.1 1A19 19 0 0 1 2 5.1 1 1 0 0 1 3 4h4.1a1 1 0 0 1 1 .75l1 4a1 1 0 0 1-.27 1L7.2 11.2a16 16 0 0 0 5.6 5.6l1.45-1.63a1 1 0 0 1 1-.27l4 1a1 1 0 0 1 .75 1z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Navegación</h4>
+        <ul>
+          <li><a href="#mision">Misión</a></li>
+          <li><a href="#impacto">Impacto</a></li>
+          <li><a href="#galeria">Galería</a></li>
+          <li><a href="#ayudar">Cómo ayudar</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Donar</h4>
+        <ul>
+          <li><a href="mailto:hannahdelacaridad26@gmail.com">Donación empresarial</a></li>
+          <li><a href="mailto:hannahdelacaridad26@gmail.com">Donación personal</a></li>
+          <li><a href="mailto:hannahdelacaridad26@gmail.com">Voluntariado</a></li>
+          <li><a href="mailto:hannahdelacaridad26@gmail.com">Aliados</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Contacto</h4>
+        <ul>
+          <li><a href="tel:+573159899377">+57 315 989 9377</a></li>
+          <li><a href="mailto:hannahdelacaridad26@gmail.com">hannahdelacaridad26<wbr>@gmail.com</a></li>
+          <li>Calle 15 Sur # 2 Este — 200<br>Pitalito, Huila</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>© 2022—2026 Fundación Hannah de la Caridad. Todos los derechos reservados.</div>
+      <div class="nit">NIT 901.631.639-1 · ESAL — Régimen Tributario Especial</div>
+    </div>
+  </div>
+</footer>
+
+<!-- ============================================================ DONATE MODAL -->
+<div class="donate-modal" id="donate-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="donate-modal-title">
+  <div class="donate-card">
+    <aside class="donate-aside">
+      <div>
+        <span class="badge">Pago seguro</span>
+        <h3 id="donate-modal-title">Tu aporte llega <em>directo</em> a un plato.</h3>
+        <p>Cada peso se traduce en comida caliente y rica en proteína para niños y niñas en Pitalito.</p>
+      </div>
+      <div class="lock">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+        Conexión cifrada · ESAL · NIT 901.631.639-1
+      </div>
+    </aside>
+
+    <div class="donate-body">
+      <button type="button" class="donate-close" id="donate-close" aria-label="Cerrar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6l-12 12"/></svg>
+      </button>
+
+      <!-- STEP 1: amount + method -->
+      <div class="donate-step" id="donate-step-form">
+        <span class="donate-step-label">Paso 1 de 2</span>
+        <h4>Elige tu donación</h4>
+
+        <div class="freq-toggle" id="freq-toggle">
+          <span class="pill"></span>
+          <button type="button" data-freq="unica" class="active">Única donación</button>
+          <button type="button" data-freq="mensual">Mensualmente</button>
+        </div>
+
+        <div class="amount-grid" id="amount-grid">
+          <button type="button" class="amount-btn" data-amount="20000">$20.000<small>1 plato</small></button>
+          <button type="button" class="amount-btn active" data-amount="50000">$50.000<small>3 platos</small></button>
+          <button type="button" class="amount-btn" data-amount="100000">$100.000<small>una familia</small></button>
+          <button type="button" class="amount-btn" data-amount="250000">$250.000<small>un barrio</small></button>
+          <button type="button" class="amount-btn" data-amount="500000">$500.000<small>una jornada</small></button>
+          <button type="button" class="amount-btn" data-amount="1000000">$1.000.000<small>un mes</small></button>
+        </div>
+
+        <label class="amount-custom">
+          <span class="currency">$</span>
+          <input type="text" inputmode="numeric" id="amount-custom-input" placeholder="Otro monto en pesos colombianos" />
+          <span style="font-size: 12px; color: var(--ink-muted); font-weight: 600;">COP</span>
+        </label>
+
+        <div class="payments-label">Método de pago</div>
+        <div class="payments-grid" id="payments-grid">
+          <button type="button" class="payment-tile" data-pay="paypal" aria-label="PayPal">
+            <span class="pay-text" style="color:#003087;">Pay<span style="color:#0070BA;">Pal</span></span>
+          </button>
+          <button type="button" class="payment-tile active" data-pay="bancolombia" aria-label="Bancolombia">
+            <span class="pay-text" style="color:#0a0a0a; font-size:13px;">
+              <span style="display:inline-block; width:14px; height:14px; background:#FDDA24; border-radius:2px; margin-right:4px; transform:skewX(-12deg);"></span>
+              Bancolombia
+            </span>
+          </button>
+          <button type="button" class="payment-tile" data-pay="wompi" aria-label="Wompi">
+            <span class="pay-text" style="color:#0a0a0a; font-size:14px;">Wompi</span>
+          </button>
+          <button type="button" class="payment-tile" data-pay="mastercard" aria-label="Mastercard">
+            <svg viewBox="0 0 40 24" width="40" height="24" aria-hidden="true">
+              <circle cx="15" cy="12" r="8" fill="#EB001B"/>
+              <circle cx="25" cy="12" r="8" fill="#F79E1B"/>
+              <path d="M20 6.5a8 8 0 0 1 0 11A8 8 0 0 1 20 6.5z" fill="#FF5F00"/>
+            </svg>
+          </button>
+          <button type="button" class="payment-tile" data-pay="amex" aria-label="American Express">
+            <span style="background:#2E77BC; color:white; padding:4px 8px; border-radius:3px; font-size:9px; font-weight:800; letter-spacing:0.05em; line-height:1.1; text-align:center;">AMERICAN<br>EXPRESS</span>
+          </button>
+          <button type="button" class="payment-tile" data-pay="visa" aria-label="Visa">
+            <span class="pay-text" style="color:#1A1F71; font-size:18px; font-style:italic; font-weight:900; letter-spacing:-0.02em;">VISA</span>
+          </button>
+        </div>
+
+        <button type="button" class="donate-cta" id="donate-continue">
+          <span id="donate-cta-label">Continuar a pago seguro</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </button>
+        <div class="donate-fineprint">
+          Tu donación es <strong>deducible del impuesto de renta</strong>. Recibirás certificado a tu correo.
+        </div>
+      </div>
+
+      <!-- STEP 2: success -->
+      <div class="donate-step donate-success" id="donate-step-success" style="display:none;">
+        <div class="check">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>
+        </div>
+        <span class="donate-step-label">Redirigiendo a pago seguro</span>
+        <h4>Gracias por sumarte.</h4>
+        <p>En un momento abriremos tu pasarela de pago. Si no se abre automáticamente, escríbenos y te enviamos el enlace.</p>
+        <div class="summary" id="donate-summary">
+          <div><span class="k">Frecuencia</span><span class="v" id="sum-freq">Única</span></div>
+          <div><span class="k">Monto</span><span class="v" id="sum-amount">$50.000 COP</span></div>
+          <div><span class="k">Método</span><span class="v" id="sum-method">Bancolombia</span></div>
+        </div>
+        <button type="button" class="donate-cta" id="donate-restart" style="margin-top: 22px;">Hacer otra donación</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ LIGHTBOX -->
+<div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-label="Imagen ampliada">
+  <button class="lightbox-close" id="lb-close" aria-label="Cerrar">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6l-12 12"/></svg>
+  </button>
+  <button class="lightbox-prev" id="lb-prev" aria-label="Anterior">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
+  </button>
+  <button class="lightbox-next" id="lb-next" aria-label="Siguiente">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+  </button>
+  <img id="lb-img" alt="" />
+</div>
+
+<!-- ============================================================ TWEAKS DEFAULTS -->
+<script>
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "heroSet": "kids-with-food",
+  "heroAutoplay": true,
+  "accentBoost": "balanced",
+  "headline": "Alimentando sueños, sembrando sonrisas.",
+  "showMarquee": true
+}/*EDITMODE-END*/;
+</script>
+
+<!-- ============================================================ SCRIPTS -->
+<script>
+// ----- Hero photo carousel ---------------------------------
+const HERO_SETS = {
+  'kids-with-food': [
+    'uploads/01-foto-real.jpeg',
+    'uploads/25-foto-real.jpeg',
+    'uploads/05-foto-real.jpeg',
+    'uploads/35-galeria-5.jpeg',
+  ],
+  'community': [
+    'uploads/45-galeria-15.jpeg',
+    'uploads/40-galeria-10.jpeg',
+    'uploads/03-foto-real.jpeg',
+    'uploads/15-foto-real.jpeg',
+  ],
+  'portraits': [
+    'uploads/12-foto-real.jpeg',
+    'uploads/10-foto-real.jpeg',
+    'uploads/05-foto-real.jpeg',
+    'uploads/30-foto-real.jpeg',
+  ],
+};
+
+let currentHeroSet = TWEAK_DEFAULTS.heroSet;
+let currentHeroIdx = 0;
+let heroTimer = null;
+let heroAutoplay = TWEAK_DEFAULTS.heroAutoplay;
+
+function buildHero(setKey) {
+  const bg = document.getElementById('hero-bg');
+  const pager = document.getElementById('hero-pager');
+  const photos = HERO_SETS[setKey] || HERO_SETS['kids-with-food'];
+  bg.innerHTML = '';
+  pager.innerHTML = '';
+  photos.forEach((src, i) => {
+    const div = document.createElement('div');
+    div.className = 'hero-bg-img' + (i === 0 ? ' active' : '');
+    div.style.backgroundImage = `url('${src}')`;
+    bg.appendChild(div);
+
+    const btn = document.createElement('button');
+    btn.setAttribute('aria-label', `Foto ${i+1}`);
+    if (i === 0) btn.classList.add('active');
+    btn.addEventListener('click', () => {
+      currentHeroIdx = i;
+      updateHero();
+      restartHeroTimer();
+    });
+    pager.appendChild(btn);
+  });
+  currentHeroIdx = 0;
+}
+
+function updateHero() {
+  const bg = document.getElementById('hero-bg');
+  const pager = document.getElementById('hero-pager');
+  const imgs = bg.querySelectorAll('.hero-bg-img');
+  const btns = pager.querySelectorAll('button');
+  imgs.forEach((img, i) => img.classList.toggle('active', i === currentHeroIdx));
+  btns.forEach((btn, i) => btn.classList.toggle('active', i === currentHeroIdx));
+}
+function nextHero() {
+  const photos = HERO_SETS[currentHeroSet] || HERO_SETS['kids-with-food'];
+  currentHeroIdx = (currentHeroIdx + 1) % photos.length;
+  updateHero();
+}
+function restartHeroTimer() {
+  if (heroTimer) clearInterval(heroTimer);
+  if (heroAutoplay) heroTimer = setInterval(nextHero, 5500);
+}
+
+buildHero(currentHeroSet);
+restartHeroTimer();
+
+// ----- Header scroll state ---------------------------------
+const header = document.getElementById('site-header');
+const onScroll = () => {
+  if (window.scrollY > 24) header.classList.add('scrolled');
+  else header.classList.remove('scrolled');
+};
+window.addEventListener('scroll', onScroll, { passive: true });
+onScroll();
+
+// ----- Mobile menu -----------------------------------------
+const mobileMenu = document.getElementById('mobile-menu');
+document.getElementById('mobile-toggle').addEventListener('click', () => {
+  mobileMenu.classList.add('open');
+  mobileMenu.setAttribute('aria-hidden', 'false');
+});
+document.getElementById('mobile-close').addEventListener('click', () => {
+  mobileMenu.classList.remove('open');
+  mobileMenu.setAttribute('aria-hidden', 'true');
+});
+mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+  mobileMenu.classList.remove('open');
+  mobileMenu.setAttribute('aria-hidden', 'true');
+}));
+
+// ----- Reveal on scroll ------------------------------------
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('in');
+      io.unobserve(e.target);
+    }
+  });
+}, { rootMargin: '0px 0px -10% 0px', threshold: 0.05 });
+document.querySelectorAll('[data-reveal]').forEach(el => io.observe(el));
+
+// ----- Gallery (masonry) -----------------------------------
+const GALLERY_PHOTOS = [
+  { src: 'uploads/01-foto-real.jpeg', tag: 'Comida y compañía' },
+  { src: 'uploads/02-foto-real.jpeg', tag: 'Sonrisas con plato' },
+  { src: 'uploads/03-foto-real.jpeg', tag: 'Familia entera' },
+  { src: 'uploads/04-foto-real.jpeg', tag: 'Compartir el pan' },
+  { src: 'uploads/05-foto-real.jpeg', tag: 'Sueño en la mesa' },
+  { src: 'uploads/06-foto-real.jpeg', tag: 'Pitalito en jornada' },
+  { src: 'uploads/07-foto-real.jpeg', tag: 'Voluntariado' },
+  { src: 'uploads/08-foto-real.jpeg', tag: 'Manos al servicio' },
+  { src: 'uploads/09-foto-real.jpeg', tag: 'Cocina solidaria' },
+  { src: 'uploads/10-foto-real.jpeg', tag: 'Retrato del barrio' },
+  { src: 'uploads/11-foto-real.jpeg', tag: 'Niños del Solarte' },
+  { src: 'uploads/12-foto-real.jpeg', tag: 'Pitalito, Huila' },
+  { src: 'uploads/13-foto-real.jpeg', tag: 'En el comedor' },
+  { src: 'uploads/14-foto-real.jpeg', tag: 'Acompañamiento' },
+  { src: 'uploads/15-foto-real.jpeg', tag: 'Nochebuena 2024' },
+  { src: 'uploads/16-foto-real.jpeg', tag: 'Aprender jugando' },
+  { src: 'uploads/17-foto-real.jpeg', tag: 'Trabajo de campo' },
+  { src: 'uploads/18-foto-real.jpeg', tag: 'Familias unidas' },
+  { src: 'uploads/19-foto-real.jpeg', tag: 'Comunidad' },
+  { src: 'uploads/20-foto-real.jpeg', tag: 'Visita pastoral' },
+  { src: 'uploads/21-foto-real.jpeg', tag: 'Mercado solidario' },
+  { src: 'uploads/22-foto-real.jpeg', tag: 'Manos pequeñas' },
+  { src: 'uploads/23-foto-real.jpeg', tag: 'Compartir' },
+  { src: 'uploads/24-foto-real.jpeg', tag: 'Tarde de entrega' },
+  { src: 'uploads/25-foto-real.jpeg', tag: 'Bolsa con cariño' },
+  { src: 'uploads/26-foto-real.jpeg', tag: 'En la fila' },
+  { src: 'uploads/27-foto-real.jpeg', tag: 'Voluntarias' },
+  { src: 'uploads/28-foto-real.jpeg', tag: 'En el barrio' },
+  { src: 'uploads/29-foto-real.jpeg', tag: 'Comer juntos' },
+  { src: 'uploads/30-foto-real.jpeg', tag: 'Padre e hijo' },
+  { src: 'uploads/31-galeria-1.jpeg', tag: 'Jornada' },
+  { src: 'uploads/32-galeria-2.jpeg', tag: 'Jornada' },
+  { src: 'uploads/33-galeria-3.jpeg', tag: 'Jornada' },
+  { src: 'uploads/34-galeria-4.jpeg', tag: 'Jornada' },
+  { src: 'uploads/35-galeria-5.jpeg', tag: 'Entrega' },
+  { src: 'uploads/36-galeria-6.jpeg', tag: 'Entrega' },
+  { src: 'uploads/37-galeria-7.jpeg', tag: 'Equipo' },
+  { src: 'uploads/38-galeria-8.jpeg', tag: 'Equipo' },
+  { src: 'uploads/39-galeria-9.jpeg', tag: 'Comunidad' },
+  { src: 'uploads/40-galeria-10.jpeg', tag: 'Convocatoria' },
+  { src: 'uploads/41-galeria-11.jpeg', tag: 'Convocatoria' },
+  { src: 'uploads/42-galeria-12.jpeg', tag: 'Voluntariado' },
+  { src: 'uploads/43-galeria-13.jpeg', tag: 'Donaciones' },
+  { src: 'uploads/44-galeria-14.jpeg', tag: 'Niños del barrio' },
+  { src: 'uploads/45-galeria-15.jpeg', tag: 'Equipo Hannah' },
+  { src: 'uploads/46-galeria-16.jpeg', tag: 'Comunidad en acción' },
+];
+
+const galleryGrid = document.getElementById('gallery-grid');
+GALLERY_PHOTOS.forEach((p, i) => {
+  const el = document.createElement('button');
+  el.className = 'gallery-item';
+  el.setAttribute('aria-label', `Ampliar: ${p.tag}`);
+  el.dataset.idx = i;
+  el.innerHTML = `<img src="${p.src}" alt="${p.tag} — Fundación Hannah" loading="lazy"><span class="gi-tag">${p.tag}</span>`;
+  el.addEventListener('click', () => openLightbox(i));
+  galleryGrid.appendChild(el);
+});
+
+// ----- Lightbox --------------------------------------------
+const lb = document.getElementById('lightbox');
+const lbImg = document.getElementById('lb-img');
+let lbIdx = 0;
+function openLightbox(idx) {
+  lbIdx = idx;
+  lbImg.src = GALLERY_PHOTOS[idx].src;
+  lbImg.alt = GALLERY_PHOTOS[idx].tag;
+  lb.classList.add('open');
+  lb.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  lb.classList.remove('open');
+  lb.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
+function lbStep(d) {
+  lbIdx = (lbIdx + d + GALLERY_PHOTOS.length) % GALLERY_PHOTOS.length;
+  lbImg.src = GALLERY_PHOTOS[lbIdx].src;
+  lbImg.alt = GALLERY_PHOTOS[lbIdx].tag;
+}
+document.getElementById('lb-close').addEventListener('click', (e) => { e.stopPropagation(); closeLightbox(); });
+document.getElementById('lb-prev').addEventListener('click', (e) => { e.stopPropagation(); lbStep(-1); });
+document.getElementById('lb-next').addEventListener('click', (e) => { e.stopPropagation(); lbStep(1); });
+lb.addEventListener('click', closeLightbox);
+window.addEventListener('keydown', (e) => {
+  if (!lb.classList.contains('open')) return;
+  if (e.key === 'Escape') closeLightbox();
+  if (e.key === 'ArrowLeft') lbStep(-1);
+  if (e.key === 'ArrowRight') lbStep(1);
+});
+
+// ----- Donate modal ----------------------------------------
+const donateModal = document.getElementById('donate-modal');
+const donateCloseBtn = document.getElementById('donate-close');
+const donateContinue = document.getElementById('donate-continue');
+const donateCtaLabel = document.getElementById('donate-cta-label');
+const donateRestart = document.getElementById('donate-restart');
+const freqToggle = document.getElementById('freq-toggle');
+const amountGrid = document.getElementById('amount-grid');
+const amountCustomInput = document.getElementById('amount-custom-input');
+const paymentsGrid = document.getElementById('payments-grid');
+const stepForm = document.getElementById('donate-step-form');
+const stepSuccess = document.getElementById('donate-step-success');
+
+const PAY_LABELS = { paypal: 'PayPal', bancolombia: 'Bancolombia', wompi: 'Wompi', mastercard: 'Mastercard', amex: 'American Express', visa: 'Visa' };
+
+let donateState = { freq: 'unica', amount: 50000, method: 'bancolombia', custom: false };
+
+function fmtCOP(n) {
+  if (!n) return '$0';
+  return '$' + Number(n).toLocaleString('es-CO');
+}
+
+function openDonate() {
+  donateModal.classList.add('open');
+  donateModal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+  // reset to step 1
+  stepForm.style.display = '';
+  stepSuccess.style.display = 'none';
+}
+function closeDonate() {
+  donateModal.classList.remove('open');
+  donateModal.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
+
+document.querySelectorAll('[data-open-donate]').forEach(b => b.addEventListener('click', openDonate));
+donateCloseBtn.addEventListener('click', closeDonate);
+donateModal.addEventListener('click', (e) => { if (e.target === donateModal) closeDonate(); });
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && donateModal.classList.contains('open')) closeDonate();
+});
+
+// Frequency
+freqToggle.querySelectorAll('button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const freq = btn.dataset.freq;
+    donateState.freq = freq;
+    freqToggle.querySelectorAll('button').forEach(b => b.classList.toggle('active', b === btn));
+    freqToggle.classList.toggle('mensual', freq === 'mensual');
+    updateCtaLabel();
+  });
+});
+
+// Amount tiles
+amountGrid.querySelectorAll('.amount-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    amountGrid.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    donateState.amount = parseInt(btn.dataset.amount, 10);
+    donateState.custom = false;
+    amountCustomInput.value = '';
+    updateCtaLabel();
+  });
+});
+
+// Custom amount
+amountCustomInput.addEventListener('input', () => {
+  let raw = amountCustomInput.value.replace(/[^\d]/g, '');
+  amountCustomInput.value = raw ? Number(raw).toLocaleString('es-CO') : '';
+  if (raw) {
+    amountGrid.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('active'));
+    donateState.amount = parseInt(raw, 10);
+    donateState.custom = true;
+  }
+  updateCtaLabel();
+});
+
+// Payment method
+paymentsGrid.querySelectorAll('.payment-tile').forEach(tile => {
+  tile.addEventListener('click', () => {
+    paymentsGrid.querySelectorAll('.payment-tile').forEach(t => t.classList.remove('active'));
+    tile.classList.add('active');
+    donateState.method = tile.dataset.pay;
+    updateCtaLabel();
+  });
+});
+
+function updateCtaLabel() {
+  const amt = fmtCOP(donateState.amount);
+  const freqText = donateState.freq === 'mensual' ? '/mes' : '';
+  donateCtaLabel.textContent = donateState.amount > 0
+    ? `Donar ${amt}${freqText} con ${PAY_LABELS[donateState.method]}`
+    : 'Continuar a pago seguro';
+}
+updateCtaLabel();
+
+donateContinue.addEventListener('click', () => {
+  if (!donateState.amount || donateState.amount < 1000) {
+    amountCustomInput.focus();
+    return;
+  }
+  document.getElementById('sum-freq').textContent = donateState.freq === 'mensual' ? 'Mensual' : 'Única';
+  document.getElementById('sum-amount').textContent = fmtCOP(donateState.amount) + ' COP';
+  document.getElementById('sum-method').textContent = PAY_LABELS[donateState.method];
+  stepForm.style.display = 'none';
+  stepSuccess.style.display = '';
+});
+
+donateRestart.addEventListener('click', () => {
+  stepForm.style.display = '';
+  stepSuccess.style.display = 'none';
+});
+
+// ----- Tweaks bridge ---------------------------------------
+let tweaks = { ...TWEAK_DEFAULTS };
+function applyTweaks(t) {
+  tweaks = { ...tweaks, ...t };
+  // hero set
+  if (t.heroSet && t.heroSet !== currentHeroSet) {
+    currentHeroSet = t.heroSet;
+    buildHero(currentHeroSet);
+    restartHeroTimer();
+  }
+  // autoplay
+  if (typeof t.heroAutoplay === 'boolean') {
+    heroAutoplay = t.heroAutoplay;
+    restartHeroTimer();
+  }
+  // headline
+  if (typeof t.headline === 'string') {
+    const h1 = document.querySelector('.hero h1');
+    if (h1) {
+      // split on first comma; first half = neutral, rest = accent
+      const txt = t.headline;
+      const parts = txt.split(/,(.+)/);
+      if (parts.length >= 2) {
+        h1.innerHTML = `${parts[0]},<br><span class="accent">${parts[1].trim()}</span>`;
+      } else {
+        h1.innerHTML = `<span class="accent">${txt}</span>`;
+      }
+    }
+  }
+  // marquee
+  const marquee = document.querySelector('.marquee');
+  if (marquee) marquee.style.display = (t.showMarquee === false) ? 'none' : '';
+  // accent boost
+  if (t.accentBoost) {
+    const root = document.documentElement;
+    if (t.accentBoost === 'sober') {
+      root.style.setProperty('--brand-magenta', 'oklch(0.55 0.16 14)');
+      root.style.setProperty('--brand-violet', 'oklch(0.38 0.14 314)');
+    } else if (t.accentBoost === 'vivid') {
+      root.style.setProperty('--brand-magenta', 'oklch(0.68 0.24 14)');
+      root.style.setProperty('--brand-violet', 'oklch(0.43 0.20 314)');
+    } else {
+      root.style.removeProperty('--brand-magenta');
+      root.style.removeProperty('--brand-violet');
+    }
+  }
+}
+
+// initial
+applyTweaks(TWEAK_DEFAULTS);
+</script>
+
+<!-- ============================================================ TWEAKS PANEL -->
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel" src="tweaks-app.jsx"></script>
+
+</body>
+</html>
