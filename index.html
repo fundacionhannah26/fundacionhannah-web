@@ -1202,6 +1202,18 @@ footer {
 .donate-success .summary div { display: flex; justify-content: space-between; }
 .donate-success .summary .k { color: var(--ink-muted); }
 .donate-success .summary .v { font-weight: 600; color: var(--brand-violet-deep); }
+
+.donate-fields { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
+.donate-fields input {
+  font-family: 'Manrope', sans-serif; font-size: 14px; color: var(--ink);
+  background: white; border: 1.5px solid var(--line); border-radius: 12px;
+  padding: 12px 14px; outline: 0; width: 100%; transition: border-color .2s;
+}
+.donate-fields input:focus { border-color: var(--brand-magenta); }
+.donate-error {
+  margin-top: 14px; font-size: 13px; font-weight: 500; line-height: 1.5;
+  color: var(--brand-magenta-deep); text-align: center;
+}
 </style>
 </head>
 
@@ -1746,10 +1758,18 @@ footer {
           </button>
         </div>
 
+        <div class="payments-label" style="margin-top: 26px;">Tus datos</div>
+        <div class="donate-fields">
+          <input id="donate-nombre" type="text" placeholder="Tu nombre *" autocomplete="name" />
+          <input id="donate-email" type="email" placeholder="Tu correo *" autocomplete="email" />
+          <input id="donate-telefono" type="tel" placeholder="Teléfono / WhatsApp (opcional)" autocomplete="tel" />
+        </div>
+
         <button type="button" class="donate-cta" id="donate-continue">
           <span id="donate-cta-label">Continuar a pago seguro</span>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
         </button>
+        <div class="donate-error" id="donate-error" role="alert" style="display:none;"></div>
         <div class="donate-fineprint">
           Tu donación es <strong>deducible del impuesto de renta</strong>. Recibirás certificado a tu correo.
         </div>
@@ -1760,9 +1780,9 @@ footer {
         <div class="check">
           <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>
         </div>
-        <span class="donate-step-label">Redirigiendo a pago seguro</span>
+        <span class="donate-step-label">Interés registrado</span>
         <h4>Gracias por sumarte.</h4>
-        <p>En un momento abriremos tu pasarela de pago. Si no se abre automáticamente, escríbenos y te enviamos el enlace.</p>
+        <p>Registramos tu intención de donar. Te escribiremos a tu correo con los datos para completar tu aporte de forma segura y enviarte el certificado de deducción.</p>
         <div class="summary" id="donate-summary">
           <div><span class="k">Frecuencia</span><span class="v" id="sum-freq">Única</span></div>
           <div><span class="k">Monto</span><span class="v" id="sum-amount">$50.000 COP</span></div>
@@ -2101,19 +2121,67 @@ function updateCtaLabel() {
 }
 updateCtaLabel();
 
+const DONATE_SB_URL = "https://gchassziamqbrgqiijpo.supabase.co";
+const DONATE_SB_KEY = "sb_publishable_aRu6LMgrGgEnogb1dQ6DsA_M7MgZQlU";
+
 donateContinue.addEventListener('click', () => {
+  const errEl = document.getElementById('donate-error');
+  const nombre = (document.getElementById('donate-nombre').value || '').trim();
+  const email = (document.getElementById('donate-email').value || '').trim();
+  const telefono = (document.getElementById('donate-telefono').value || '').trim();
+  errEl.style.display = 'none';
+
   if (!donateState.amount || donateState.amount < 1000) {
     amountCustomInput.focus();
     return;
   }
-  document.getElementById('sum-freq').textContent = donateState.freq === 'mensual' ? 'Mensual' : 'Única';
-  document.getElementById('sum-amount').textContent = fmtCOP(donateState.amount) + ' COP';
-  document.getElementById('sum-method').textContent = PAY_LABELS[donateState.method];
-  stepForm.style.display = 'none';
-  stepSuccess.style.display = '';
+  if (!nombre || !email) {
+    errEl.textContent = 'Por favor escribe tu nombre y tu correo para continuar.';
+    errEl.style.display = '';
+    return;
+  }
+
+  donateContinue.disabled = true;
+  const prevLabel = donateCtaLabel.textContent;
+  donateCtaLabel.textContent = 'Enviando…';
+
+  fetch(DONATE_SB_URL + '/rest/v1/donaciones_interes', {
+    method: 'POST',
+    headers: {
+      'apikey': DONATE_SB_KEY,
+      'Authorization': 'Bearer ' + DONATE_SB_KEY,
+      'Content-Type': 'application/json',
+      'Prefer': 'return=minimal'
+    },
+    body: JSON.stringify({
+      nombre: nombre,
+      email: email,
+      telefono: telefono || null,
+      monto: donateState.amount,
+      frecuencia: donateState.freq,
+      metodo: donateState.method
+    })
+  }).then((res) => {
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    document.getElementById('sum-freq').textContent = donateState.freq === 'mensual' ? 'Mensual' : 'Única';
+    document.getElementById('sum-amount').textContent = fmtCOP(donateState.amount) + ' COP';
+    document.getElementById('sum-method').textContent = PAY_LABELS[donateState.method];
+    stepForm.style.display = 'none';
+    stepSuccess.style.display = '';
+  }).catch(() => {
+    errEl.textContent = 'Hubo un problema al registrar tu donación. Intenta de nuevo o escríbenos por correo.';
+    errEl.style.display = '';
+  }).finally(() => {
+    donateContinue.disabled = false;
+    donateCtaLabel.textContent = prevLabel;
+  });
 });
 
 donateRestart.addEventListener('click', () => {
+  document.getElementById('donate-nombre').value = '';
+  document.getElementById('donate-email').value = '';
+  document.getElementById('donate-telefono').value = '';
+  document.getElementById('donate-error').style.display = 'none';
   stepForm.style.display = '';
   stepSuccess.style.display = 'none';
 });
