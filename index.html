@@ -819,6 +819,37 @@ section { padding: 96px 0; position: relative; }
 .contact-list .value { font-size: 16px; font-weight: 500; color: var(--ink); margin-top: 2px; line-height: 1.45; }
 .contact-list a.value:hover { color: var(--brand-magenta); }
 
+/* === Formulario de contacto ================================ */
+.contact-form-wrap {
+  margin-top: 20px;
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: 36px 28px;
+}
+@media (min-width: 900px) { .contact-form-wrap { padding: 48px 56px; } }
+.contact-form-wrap h3 { font-size: clamp(26px, 3vw, 34px); text-wrap: balance; }
+.contact-form-wrap .cf-lede { color: var(--ink-soft); margin-top: 12px; font-size: 15px; line-height: 1.6; max-width: 54ch; }
+.cf-grid { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 28px; }
+@media (min-width: 700px) { .cf-grid { grid-template-columns: 1fr 1fr; } }
+.cf-field { display: flex; flex-direction: column; gap: 7px; }
+.cf-field.full { grid-column: 1 / -1; }
+.cf-field label { font-size: 12px; font-weight: 600; letter-spacing: 0.02em; color: var(--ink-soft); }
+.cf-field input, .cf-field textarea {
+  font-family: 'Manrope', sans-serif; font-size: 15px; color: var(--ink);
+  background: var(--brand-cream); border: 1.5px solid var(--line); border-radius: 14px;
+  padding: 13px 16px; outline: 0; width: 100%;
+  transition: border-color .2s, background .2s;
+}
+.cf-field input:focus, .cf-field textarea:focus { border-color: var(--brand-magenta); background: white; }
+.cf-field textarea { min-height: 130px; resize: vertical; }
+.cf-actions { grid-column: 1 / -1; display: flex; align-items: center; gap: 18px; flex-wrap: wrap; margin-top: 6px; }
+.cf-status { font-size: 14px; font-weight: 500; line-height: 1.5; }
+.cf-status.ok { color: oklch(0.45 0.13 150); }
+.cf-status.err { color: var(--brand-magenta-deep); }
+.contact-form-wrap button[type="submit"]:disabled { opacity: .55; cursor: not-allowed; transform: none; }
+
 /* === Footer ================================================ */
 footer {
   background: var(--brand-violet-deep);
@@ -1544,6 +1575,36 @@ footer {
         </ul>
       </div>
     </div>
+
+    <div class="contact-form-wrap" data-reveal>
+      <span class="eyebrow" style="color: var(--brand-magenta);">Escríbenos</span>
+      <h3 style="margin-top: 12px;">Envíanos un mensaje</h3>
+      <p class="cf-lede">Cuéntanos cómo quieres ayudar, propón una alianza o déjanos tu inquietud. Te respondemos pronto.</p>
+      <form id="contact-form" class="cf-grid" novalidate>
+        <div class="cf-field">
+          <label for="cf-nombre">Nombre *</label>
+          <input id="cf-nombre" name="nombre" type="text" required autocomplete="name" placeholder="Tu nombre" />
+        </div>
+        <div class="cf-field">
+          <label for="cf-email">Correo electrónico *</label>
+          <input id="cf-email" name="email" type="email" required autocomplete="email" placeholder="tu@correo.com" />
+        </div>
+        <div class="cf-field full">
+          <label for="cf-telefono">Teléfono / WhatsApp (opcional)</label>
+          <input id="cf-telefono" name="telefono" type="tel" autocomplete="tel" placeholder="+57 300 000 0000" />
+        </div>
+        <div class="cf-field full">
+          <label for="cf-mensaje">Mensaje *</label>
+          <textarea id="cf-mensaje" name="mensaje" required placeholder="Escribe aquí tu mensaje..."></textarea>
+        </div>
+        <div class="cf-actions">
+          <button type="submit" class="btn btn-primary">Enviar mensaje
+            <svg class="btn-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </button>
+          <span id="cf-status" class="cf-status" role="status" aria-live="polite"></span>
+        </div>
+      </form>
+    </div>
   </div>
 </section>
 
@@ -2109,12 +2170,67 @@ function applyTweaks(t) {
 applyTweaks(TWEAK_DEFAULTS);
 </script>
 
-<!-- ============================================================ TWEAKS PANEL -->
-<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
-<script type="text/babel" src="tweaks-panel.jsx"></script>
-<script type="text/babel" src="tweaks-app.jsx"></script>
+<!-- ============================================================ FORMULARIO DE CONTACTO (Supabase) -->
+<script>
+(function () {
+  var SUPABASE_URL = "https://gchassziamqbrgqiijpo.supabase.co";
+  var SUPABASE_KEY = "sb_publishable_aRu6LMgrGgEnogb1dQ6DsA_M7MgZQlU";
+  var form = document.getElementById("contact-form");
+  if (!form) return;
+  var statusEl = document.getElementById("cf-status");
+  var btn = form.querySelector('button[type="submit"]');
+  var btnHTML = btn.innerHTML;
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var nombre = form.nombre.value.trim();
+    var email = form.email.value.trim();
+    var telefono = form.telefono.value.trim();
+    var mensaje = form.mensaje.value.trim();
+    statusEl.className = "cf-status";
+
+    if (!nombre || !email || !mensaje) {
+      statusEl.textContent = "Por favor completa nombre, correo y mensaje.";
+      statusEl.classList.add("err");
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = "Enviando…";
+
+    fetch(SUPABASE_URL + "/rest/v1/contactos", {
+      method: "POST",
+      headers: {
+        "apikey": SUPABASE_KEY,
+        "Authorization": "Bearer " + SUPABASE_KEY,
+        "Content-Type": "application/json",
+        "Prefer": "return=minimal"
+      },
+      body: JSON.stringify({
+        nombre: nombre,
+        email: email,
+        telefono: telefono || null,
+        mensaje: mensaje,
+        origen: "web"
+      })
+    })
+      .then(function (res) {
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        form.reset();
+        statusEl.textContent = "¡Gracias! Tu mensaje fue enviado. Te responderemos muy pronto. 💛";
+        statusEl.classList.add("ok");
+      })
+      .catch(function () {
+        statusEl.textContent = "Hubo un problema al enviar. Intenta de nuevo o escríbenos por correo.";
+        statusEl.classList.add("err");
+      })
+      .finally(function () {
+        btn.disabled = false;
+        btn.innerHTML = btnHTML;
+      });
+  });
+})();
+</script>
 
 </body>
 </html>
