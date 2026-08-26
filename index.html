@@ -609,6 +609,39 @@ section { padding: 96px 0; position: relative; }
 }
 .gallery-item:hover .gi-tag { opacity: 1; transform: translateY(0); }
 
+/* video dentro de la galería */
+.gallery-item.is-video { cursor: pointer; }
+.gallery-item .gi-play {
+  position: absolute; inset: 0; z-index: 2;
+  display: grid; place-items: center;
+  pointer-events: none;
+}
+.gallery-item .gi-play span {
+  width: 54px; height: 54px; border-radius: 999px;
+  background: rgba(255,255,255,.9);
+  color: var(--brand-violet);
+  display: grid; place-items: center;
+  box-shadow: 0 8px 26px rgba(20,8,30,.35);
+  transition: transform .35s cubic-bezier(.2,.7,.2,1), background .25s;
+}
+.gallery-item.is-video:hover .gi-play span { transform: scale(1.1); background: #fff; }
+.gallery-item .gi-dur {
+  position: absolute; right: 12px; top: 12px; z-index: 2;
+  font-size: 11px; font-weight: 700; letter-spacing: .04em;
+  color: white; background: rgba(20,8,30,.55);
+  padding: 3px 8px; border-radius: 999px;
+  backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+}
+.gallery-item.is-video::after { opacity: .55; }
+
+.lightbox video {
+  max-width: 100%; max-height: 100%;
+  border-radius: 12px;
+  box-shadow: 0 30px 80px rgba(0,0,0,.5);
+  background: #000;
+  cursor: default;
+}
+
 /* lightbox */
 .lightbox {
   position: fixed; inset: 0; z-index: 100;
@@ -1462,7 +1495,7 @@ footer {
         <h2 data-reveal>Rostros, manos y momentos del territorio.</h2>
       </div>
       <p class="lede" data-reveal data-reveal-delay="1">
-        Estas no son fotos de archivo. Son niños, niñas y voluntarios reales en jornadas reales en Pitalito.
+        Estas no son fotos de archivo. Son fotos y videos de niños, niñas y voluntarios reales en jornadas reales en Pitalito.
       </p>
     </div>
 
@@ -1807,6 +1840,7 @@ footer {
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
   </button>
   <img id="lb-img" alt="" />
+  <video id="lb-video" controls playsinline preload="metadata" style="display:none;"></video>
 </div>
 
 <!-- ============================================================ TWEAKS DEFAULTS -->
@@ -1938,6 +1972,7 @@ const GALLERY_PHOTOS = [
   { src: 'uploads/04-foto-real.jpeg', tag: 'Compartir el pan' },
   { src: 'uploads/05-foto-real.jpeg', tag: 'Sueño en la mesa' },
   { src: 'uploads/06-foto-real.jpeg', tag: 'Pitalito en jornada' },
+  { src: 'uploads/video-01-poster.jpeg', video: 'uploads/video-01.mp4', tag: 'Nuestro mural' , dur: '0:15' },
   { src: 'uploads/07-foto-real.jpeg', tag: 'Voluntariado' },
   { src: 'uploads/08-foto-real.jpeg', tag: 'Manos al servicio' },
   { src: 'uploads/09-foto-real.jpeg', tag: 'Cocina solidaria' },
@@ -1948,45 +1983,78 @@ const GALLERY_PHOTOS = [
   { src: 'uploads/14-foto-real.jpeg', tag: 'Acompañamiento' },
   { src: 'uploads/15-foto-real.jpeg', tag: 'Nochebuena 2024' },
   { src: 'uploads/16-foto-real.jpeg', tag: 'Aprender jugando' },
-  { src: 'uploads/17-foto-real.jpeg', tag: 'Trabajo de campo' },
+  { src: 'uploads/video-02-poster.jpeg', video: 'uploads/video-02.mp4', tag: 'Jornada completa' , dur: '0:29' },
   { src: 'uploads/18-foto-real.jpeg', tag: 'Familias unidas' },
-  { src: 'uploads/19-foto-real.jpeg', tag: 'Comunidad' },
   { src: 'uploads/20-foto-real.jpeg', tag: 'Visita pastoral' },
   { src: 'uploads/21-foto-real.jpeg', tag: 'Mercado solidario' },
   { src: 'uploads/22-foto-real.jpeg', tag: 'Manos pequeñas' },
-  { src: 'uploads/23-foto-real.jpeg', tag: 'Compartir' },
   { src: 'uploads/24-foto-real.jpeg', tag: 'Tarde de entrega' },
   { src: 'uploads/25-foto-real.jpeg', tag: 'Bolsa con cariño' },
   { src: 'uploads/26-foto-real.jpeg', tag: 'En la fila' },
-  { src: 'uploads/27-foto-real.jpeg', tag: 'Voluntarias' },
+  { src: 'uploads/video-03-poster.jpeg', video: 'uploads/video-03.mp4', tag: 'Equipo Hannah' , dur: '0:11' },
   { src: 'uploads/28-foto-real.jpeg', tag: 'En el barrio' },
   { src: 'uploads/29-foto-real.jpeg', tag: 'Comer juntos' },
   { src: 'uploads/30-foto-real.jpeg', tag: 'Padre e hijo' },
   { src: 'uploads/31-galeria-1.jpeg', tag: 'Jornada' },
-  { src: 'uploads/32-galeria-2.jpeg', tag: 'Jornada' },
   { src: 'uploads/33-galeria-3.jpeg', tag: 'Jornada' },
   { src: 'uploads/34-galeria-4.jpeg', tag: 'Jornada' },
   { src: 'uploads/35-galeria-5.jpeg', tag: 'Entrega' },
   { src: 'uploads/36-galeria-6.jpeg', tag: 'Entrega' },
+  { src: 'uploads/video-04-poster.jpeg', video: 'uploads/video-04.mp4', tag: 'Mercados que llegan' , dur: '0:11' },
   { src: 'uploads/37-galeria-7.jpeg', tag: 'Equipo' },
   { src: 'uploads/38-galeria-8.jpeg', tag: 'Equipo' },
   { src: 'uploads/39-galeria-9.jpeg', tag: 'Comunidad' },
   { src: 'uploads/40-galeria-10.jpeg', tag: 'Convocatoria' },
-  { src: 'uploads/41-galeria-11.jpeg', tag: 'Convocatoria' },
   { src: 'uploads/42-galeria-12.jpeg', tag: 'Voluntariado' },
   { src: 'uploads/43-galeria-13.jpeg', tag: 'Donaciones' },
   { src: 'uploads/44-galeria-14.jpeg', tag: 'Niños del barrio' },
   { src: 'uploads/45-galeria-15.jpeg', tag: 'Equipo Hannah' },
   { src: 'uploads/46-galeria-16.jpeg', tag: 'Comunidad en acción' },
+  { src: 'uploads/video-05-poster.jpeg', video: 'uploads/video-05.mp4', tag: 'Juntos' , dur: '0:10' },
+  { src: 'uploads/47-galeria-17.jpeg', tag: 'Entrega en el barrio' },
+  { src: 'uploads/48-galeria-18.jpeg', tag: 'Una familia, un mercado' },
+  { src: 'uploads/49-galeria-19.jpeg', tag: 'Pan compartido' },
+  { src: 'uploads/50-galeria-20.jpeg', tag: 'Sonrisas de la jornada' },
+  { src: 'uploads/51-galeria-21.jpeg', tag: 'Manos llenas' },
+  { src: 'uploads/52-galeria-22.jpeg', tag: 'La más pequeña' },
+  { src: 'uploads/53-galeria-23.jpeg', tag: 'Todos reciben' },
+  { src: 'uploads/54-galeria-24.jpeg', tag: 'Jornada Hannah' },
+  { src: 'uploads/55-galeria-25.jpeg', tag: 'Todos juntos' },
+  { src: 'uploads/56-galeria-26.jpeg', tag: 'Convocatoria en el barrio' },
+  { src: 'uploads/video-06-poster.jpeg', video: 'uploads/video-06.mp4', tag: 'Camino a la jornada' , dur: '0:05' },
+  { src: 'uploads/57-galeria-27.jpeg', tag: 'Esperando el turno' },
+  { src: 'uploads/58-galeria-28.jpeg', tag: 'Voluntarios en jornada' },
+  { src: 'uploads/59-galeria-29.jpeg', tag: 'Acompañamiento en salud' },
+  { src: 'uploads/60-galeria-30.jpeg', tag: 'Cuidado que abraza' },
+  { src: 'uploads/61-galeria-31.jpeg', tag: 'Su regalo' },
+  { src: 'uploads/62-galeria-32.jpeg', tag: 'En la sede' },
+  { src: 'uploads/63-galeria-33.jpeg', tag: 'Los más pequeños' },
+  { src: 'uploads/64-galeria-34.jpeg', tag: 'Hermanos' },
+  { src: 'uploads/65-galeria-35.jpeg', tag: 'Nuestra mascota' },
+  { src: 'uploads/66-galeria-36.jpeg', tag: 'Abrazo de Hannah' },
+  { src: 'uploads/video-07-poster.jpeg', video: 'uploads/video-07.mp4', tag: 'Su legado' , dur: '1:14' },
+  { src: 'uploads/67-galeria-37.jpeg', tag: 'Jornada con la comunidad' },
+  { src: 'uploads/68-galeria-38.jpeg', tag: 'Entrega en la vía' },
+  { src: 'uploads/69-galeria-39.jpeg', tag: 'Tarde de juego' },
+  { src: 'uploads/70-galeria-40.jpeg', tag: 'Comunidad en acción' },
+  { src: 'uploads/71-galeria-41.jpeg', tag: 'Reparto en la cancha' },
+  { src: 'uploads/72-galeria-42.jpeg', tag: 'Un abrazo' },
+  { src: 'uploads/73-galeria-43.jpeg', tag: 'Hannah saluda' },
 ];
 
 const galleryGrid = document.getElementById('gallery-grid');
+const PLAY_ICON = '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>';
 GALLERY_PHOTOS.forEach((p, i) => {
   const el = document.createElement('button');
-  el.className = 'gallery-item';
-  el.setAttribute('aria-label', `Ampliar: ${p.tag}`);
+  const esVideo = !!p.video;
+  el.className = 'gallery-item' + (esVideo ? ' is-video' : '');
+  el.setAttribute('aria-label', (esVideo ? 'Reproducir video: ' : 'Ampliar: ') + p.tag);
   el.dataset.idx = i;
-  el.innerHTML = `<img src="${p.src}" alt="${p.tag} — Fundación Hannah" loading="lazy"><span class="gi-tag">${p.tag}</span>`;
+  const alt = `${p.tag} — Fundación Hannah`;
+  el.innerHTML =
+    `<img src="${p.src}" alt="${alt}" loading="lazy">` +
+    (esVideo ? `<span class="gi-play"><span>${PLAY_ICON}</span></span><span class="gi-dur">${p.dur || ''}</span>` : '') +
+    `<span class="gi-tag">${p.tag}</span>`;
   el.addEventListener('click', () => openLightbox(i));
   galleryGrid.appendChild(el);
 });
@@ -1994,25 +2062,52 @@ GALLERY_PHOTOS.forEach((p, i) => {
 // ----- Lightbox --------------------------------------------
 const lb = document.getElementById('lightbox');
 const lbImg = document.getElementById('lb-img');
+const lbVideo = document.getElementById('lb-video');
 let lbIdx = 0;
+
+function lbRender(idx) {
+  const item = GALLERY_PHOTOS[idx];
+  if (item.video) {
+    lbImg.style.display = 'none';
+    lbImg.removeAttribute('src');
+    lbVideo.style.display = '';
+    lbVideo.poster = item.src;
+    lbVideo.src = item.video;
+    lbVideo.setAttribute('aria-label', item.tag);
+    const p = lbVideo.play();
+    if (p && p.catch) p.catch(() => {});   // autoplay bloqueado: quedan los controles
+  } else {
+    lbVideo.pause();
+    lbVideo.removeAttribute('src');
+    lbVideo.load();
+    lbVideo.style.display = 'none';
+    lbImg.style.display = '';
+    lbImg.src = item.src;
+    lbImg.alt = item.tag;
+  }
+}
 function openLightbox(idx) {
   lbIdx = idx;
-  lbImg.src = GALLERY_PHOTOS[idx].src;
-  lbImg.alt = GALLERY_PHOTOS[idx].tag;
+  lbRender(idx);
   lb.classList.add('open');
   lb.setAttribute('aria-hidden', 'false');
   document.body.style.overflow = 'hidden';
 }
 function closeLightbox() {
+  lbVideo.pause();
+  lbVideo.removeAttribute('src');
+  lbVideo.load();
+  lbVideo.style.display = 'none';
   lb.classList.remove('open');
   lb.setAttribute('aria-hidden', 'true');
   document.body.style.overflow = '';
 }
 function lbStep(d) {
   lbIdx = (lbIdx + d + GALLERY_PHOTOS.length) % GALLERY_PHOTOS.length;
-  lbImg.src = GALLERY_PHOTOS[lbIdx].src;
-  lbImg.alt = GALLERY_PHOTOS[lbIdx].tag;
+  lbRender(lbIdx);
 }
+// los controles del video no deben cerrar el lightbox
+lbVideo.addEventListener('click', (e) => e.stopPropagation());
 document.getElementById('lb-close').addEventListener('click', (e) => { e.stopPropagation(); closeLightbox(); });
 document.getElementById('lb-prev').addEventListener('click', (e) => { e.stopPropagation(); lbStep(-1); });
 document.getElementById('lb-next').addEventListener('click', (e) => { e.stopPropagation(); lbStep(1); });
