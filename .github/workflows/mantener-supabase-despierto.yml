@@ -1,0 +1,66 @@
+# Mantiene despierto el proyecto de Supabase y avisa si el sitio deja de guardar.
+#
+# ¿Por qué existe? Supabase (plan gratuito) apaga el proyecto tras ~7 días sin
+# actividad. Cuando eso pasa, el formulario de Contacto y el modal "Donar ahora"
+# dejan de funcionar en el sitio, y no hay ninguna señal visible: la página se ve
+# perfecta y solo falla al enviar. Ya ocurrió: estuvo caído del 5 al 28 de agosto
+# de 2026 sin que nadie se enterara.
+#
+# Qué hace: cada 3 días consulta el mismo endpoint que usa la web. Eso cuenta como
+# actividad y evita la pausa. Si el endpoint no responde, el workflow FALLA a
+# propósito para que GitHub mande un correo de aviso.
+#
+# No usa contraseñas ni tokens: la URL y la clave se leen del index.html, donde ya
+# son públicas por diseño (la clave "publishable" es segura porque las tablas están
+# protegidas con RLS y solo permiten insertar, no leer).
+
+name: Mantener Supabase despierto
+
+on:
+  schedule:
+    # Cada 3 días a las 09:17 UTC (~04:17 en Colombia). El minuto raro es a
+    # propósito: en punto los cron de GitHub se congestionan y se retrasan.
+    - cron: '17 9 */3 * *'
+  workflow_dispatch:   # permite ejecutarlo a mano desde la pestaña Actions
+
+jobs:
+  latido:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Leer la configuración de Supabase desde index.html
+        id: cfg
+        run: |
+          URL=$(grep -oE 'https://[a-z0-9]+\.supabase\.co' index.html | head -1)
+          KEY=$(grep -oE 'sb_publishable_[A-Za-z0-9_-]+' index.html | head -1)
+          if [ -z "$URL" ] || [ -z "$KEY" ]; then
+            echo "::error::No se encontró la URL o la clave de Supabase en index.html."
+            echo "Si cambiaron de formato, hay que actualizar este workflow."
+            exit 1
+          fi
+          echo "url=$URL" >> "$GITHUB_OUTPUT"
+          echo "key=$KEY" >> "$GITHUB_OUTPUT"
+          echo "Proyecto detectado: $URL"
+
+      - name: Consultar el endpoint (hasta 3 intentos)
+        run: |
+          URL='${{ steps.cfg.outputs.url }}'
+          KEY='${{ steps.cfg.outputs.key }}'
+          for intento in 1 2 3; do
+            code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 30 \
+              "$URL/rest/v1/contactos?select=id&limit=1" \
+              -H "apikey: $KEY" -H "Authorization: Bearer $KEY" || echo "000")
+            echo "Intento $intento → HTTP $code"
+            if [ "$code" = "200" ]; then
+              echo "✅ Supabase responde. El formulario del sitio está funcionando."
+              exit 0
+            fi
+            [ "$intento" -lt 3 ] && sleep 20
+          done
+          echo "::error::Supabase NO responde (último código: $code)."
+          echo "El formulario de Contacto y el modal de Donar están caídos en el sitio."
+          echo "Lo más probable es que el proyecto esté pausado."
+          echo "Reactivar en: https://supabase.com/dashboard  →  proyecto  →  Restore project"
+          exit 1
