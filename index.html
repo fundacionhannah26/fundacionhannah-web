@@ -1626,6 +1626,9 @@ footer {
       <h3 style="margin-top: 12px;">Envíanos un mensaje</h3>
       <p class="cf-lede">Cuéntanos cómo quieres ayudar, propón una alianza o déjanos tu inquietud. Te respondemos pronto.</p>
       <form id="contact-form" class="cf-grid" novalidate>
+        <!-- Trampa antispam: invisible para personas; los robots la rellenan y descartamos el envío. -->
+        <input type="checkbox" name="botcheck" id="cf-botcheck" tabindex="-1" autocomplete="off"
+               style="position:absolute!important;left:-9999px!important;opacity:0!important" aria-hidden="true">
         <div class="cf-field">
           <label for="cf-nombre">Nombre *</label>
           <input id="cf-nombre" name="nombre" type="text" required autocomplete="name" placeholder="Tu nombre" />
@@ -1796,6 +1799,9 @@ footer {
           <input id="donate-nombre" type="text" placeholder="Tu nombre *" autocomplete="name" />
           <input id="donate-email" type="email" placeholder="Tu correo *" autocomplete="email" />
           <input id="donate-telefono" type="tel" placeholder="Teléfono / WhatsApp (opcional)" autocomplete="tel" />
+          <!-- Trampa antispam: invisible para personas. -->
+          <input type="checkbox" id="donate-botcheck" tabindex="-1" autocomplete="off"
+                 style="position:absolute!important;left:-9999px!important;opacity:0!important" aria-hidden="true">
         </div>
 
         <button type="button" class="donate-cta" id="donate-continue">
@@ -2216,6 +2222,27 @@ function updateCtaLabel() {
 }
 updateCtaLabel();
 
+// ----- Aviso por correo (Web3Forms) -------------------------
+// Se envía EN PARALELO a Supabase. Si la base está pausada o caída, el mensaje
+// llega igual al correo de la fundación. La clave es pública por diseño: solo
+// sirve para enviar correo a la fundación, no da acceso a nada.
+const W3F_KEY = '68cd81da-51c8-417c-9665-04db64ec703d';
+window.avisarPorCorreo = function (asunto, campos) {
+  return fetch('https://api.web3forms.com/submit', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify(Object.assign({
+      access_key: W3F_KEY,
+      subject: asunto,
+      from_name: 'Sitio web Fundación Hannah'
+    }, campos))
+  }).then(function (r) { return r.json(); })
+    .then(function (d) {
+      if (!d || !d.success) throw new Error('Web3Forms: ' + ((d && d.message) || 'rechazado'));
+      return d;
+    });
+};
+
 const DONATE_SB_URL = "https://gchassziamqbrgqiijpo.supabase.co";
 const DONATE_SB_KEY = "sb_publishable_aRu6LMgrGgEnogb1dQ6DsA_M7MgZQlU";
 
@@ -2236,11 +2263,15 @@ donateContinue.addEventListener('click', () => {
     return;
   }
 
+  // Trampa antispam: si viene marcada, fue un robot. Fingimos éxito y no enviamos nada.
+  const trampa = document.getElementById('donate-botcheck');
+  if (trampa && trampa.checked) { stepForm.style.display = 'none'; stepSuccess.style.display = ''; return; }
+
   donateContinue.disabled = true;
   const prevLabel = donateCtaLabel.textContent;
   donateCtaLabel.textContent = 'Enviando…';
 
-  fetch(DONATE_SB_URL + '/rest/v1/donaciones_interes', {
+  const guardarEnBase = fetch(DONATE_SB_URL + '/rest/v1/donaciones_interes', {
     method: 'POST',
     headers: {
       'apikey': DONATE_SB_KEY,
@@ -2257,15 +2288,33 @@ donateContinue.addEventListener('click', () => {
       metodo: donateState.method
     })
   }).then((res) => {
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    document.getElementById('sum-freq').textContent = donateState.freq === 'mensual' ? 'Mensual' : 'Única';
-    document.getElementById('sum-amount').textContent = fmtCOP(donateState.amount) + ' COP';
-    document.getElementById('sum-method').textContent = PAY_LABELS[donateState.method];
-    stepForm.style.display = 'none';
-    stepSuccess.style.display = '';
-  }).catch(() => {
-    errEl.textContent = 'Hubo un problema al registrar tu donación. Intenta de nuevo o escríbenos por correo.';
-    errEl.style.display = '';
+    if (!res.ok) throw new Error('Supabase HTTP ' + res.status);
+    return res;
+  });
+
+  const avisarPorMail = window.avisarPorCorreo('Nueva intención de donación — ' + nombre, {
+    nombre: nombre,
+    email: email,
+    telefono: telefono || 'no indicado',
+    monto: fmtCOP(donateState.amount) + ' COP',
+    frecuencia: donateState.freq === 'mensual' ? 'Mensual' : 'Única',
+    metodo: PAY_LABELS[donateState.method]
+  });
+
+  // Basta con que UNO de los dos funcione para dar el envío por bueno:
+  // así un fallo de la base no le niega a la persona su donación.
+  Promise.allSettled([guardarEnBase, avisarPorMail]).then((r) => {
+    r.forEach((x) => { if (x.status === 'rejected') console.warn('Donación, envío fallido:', x.reason); });
+    if (r.some((x) => x.status === 'fulfilled')) {
+      document.getElementById('sum-freq').textContent = donateState.freq === 'mensual' ? 'Mensual' : 'Única';
+      document.getElementById('sum-amount').textContent = fmtCOP(donateState.amount) + ' COP';
+      document.getElementById('sum-method').textContent = PAY_LABELS[donateState.method];
+      stepForm.style.display = 'none';
+      stepSuccess.style.display = '';
+    } else {
+      errEl.textContent = 'Hubo un problema al registrar tu donación. Intenta de nuevo o escríbenos por correo.';
+      errEl.style.display = '';
+    }
   }).finally(() => {
     donateContinue.disabled = false;
     donateCtaLabel.textContent = prevLabel;
@@ -2358,10 +2407,19 @@ applyTweaks(TWEAK_DEFAULTS);
       return;
     }
 
+    // Trampa antispam: si viene marcada, fue un robot. Fingimos éxito y no enviamos nada.
+    var trampa = document.getElementById("cf-botcheck");
+    if (trampa && trampa.checked) {
+      form.reset();
+      statusEl.textContent = "¡Gracias! Tu mensaje fue enviado. Te responderemos muy pronto. 💛";
+      statusEl.classList.add("ok");
+      return;
+    }
+
     btn.disabled = true;
     btn.textContent = "Enviando…";
 
-    fetch(SUPABASE_URL + "/rest/v1/contactos", {
+    var guardarEnBase = fetch(SUPABASE_URL + "/rest/v1/contactos", {
       method: "POST",
       headers: {
         "apikey": SUPABASE_KEY,
@@ -2376,16 +2434,31 @@ applyTweaks(TWEAK_DEFAULTS);
         mensaje: mensaje,
         origen: "web"
       })
-    })
-      .then(function (res) {
-        if (!res.ok) throw new Error("HTTP " + res.status);
-        form.reset();
-        statusEl.textContent = "¡Gracias! Tu mensaje fue enviado. Te responderemos muy pronto. 💛";
-        statusEl.classList.add("ok");
-      })
-      .catch(function () {
-        statusEl.textContent = "Hubo un problema al enviar. Intenta de nuevo o escríbenos por correo.";
-        statusEl.classList.add("err");
+    }).then(function (res) {
+      if (!res.ok) throw new Error("Supabase HTTP " + res.status);
+      return res;
+    });
+
+    var avisarPorMail = window.avisarPorCorreo("Nuevo mensaje desde la web — " + nombre, {
+      nombre: nombre,
+      email: email,
+      telefono: telefono || "no indicado",
+      mensaje: mensaje
+    });
+
+    // Basta con que UNO de los dos funcione: si la base está caída, el correo
+    // igual llega, y la persona no recibe un error por algo que sí se envió.
+    Promise.allSettled([guardarEnBase, avisarPorMail])
+      .then(function (r) {
+        r.forEach(function (x) { if (x.status === "rejected") console.warn("Contacto, envío fallido:", x.reason); });
+        if (r.some(function (x) { return x.status === "fulfilled"; })) {
+          form.reset();
+          statusEl.textContent = "¡Gracias! Tu mensaje fue enviado. Te responderemos muy pronto. 💛";
+          statusEl.classList.add("ok");
+        } else {
+          statusEl.textContent = "Hubo un problema al enviar. Intenta de nuevo o escríbenos por correo.";
+          statusEl.classList.add("err");
+        }
       })
       .finally(function () {
         btn.disabled = false;
