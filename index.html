@@ -2340,7 +2340,13 @@ donateContinue.addEventListener('click', () => {
       telefono: telefono || null,
       monto: donateState.amount,
       frecuencia: donateState.freq,
-      metodo: donateState.method
+      metodo: donateState.method,
+      // Con PayPal el monto de arriba es solo orientativo: el aporte real se
+      // escribe en dolares dentro de PayPal y puede no coincidir. Se deja
+      // anotado para que quien lea la tabla despues no saque cuentas erradas.
+      mensaje: esPaypal
+        ? 'Monto indicativo: el aporte real se paga en USD dentro de PayPal y puede no coincidir. Confirmar con el aviso de pago de PayPal.'
+        : null
     })
   }).then((res) => {
     if (!res.ok) throw new Error('Supabase HTTP ' + res.status);
