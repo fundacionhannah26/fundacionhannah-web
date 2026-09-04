@@ -922,6 +922,17 @@ footer {
   font-family: 'Manrope', sans-serif;
   letter-spacing: 0.02em;
 }
+/* Acceso al panel: discreto para quien visita, encontrable para la fundación. */
+.footer-admin {
+  display: inline-flex; align-items: center; gap: 6px;
+  color: rgba(255,255,255,.32);
+  text-decoration: none;
+  font-size: 12px; letter-spacing: 0.02em;
+  transition: color .18s ease;
+}
+.footer-admin svg { width: 13px; height: 13px; flex-shrink: 0; }
+.footer-admin:hover, .footer-admin:focus-visible { color: rgba(255,255,255,.82); }
+.footer-admin:focus-visible { outline: 2px solid rgba(255,255,255,.5); outline-offset: 4px; border-radius: 4px; }
 
 .socials { display: flex; gap: 10px; margin-top: 16px; }
 .socials a {
@@ -1725,6 +1736,10 @@ footer {
     <div class="footer-bottom">
       <div>© 2022—2026 Fundación Hannah de la Caridad. Todos los derechos reservados.</div>
       <div class="nit">NIT 901.631.639-1 · ESAL — Régimen Tributario Especial</div>
+      <a class="footer-admin" href="/admin/" rel="nofollow" title="Panel de administración del sitio">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+        Administrar
+      </a>
     </div>
   </div>
 </footer>
