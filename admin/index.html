@@ -298,6 +298,9 @@ $('btn-view').addEventListener('click',()=>{window.open('../','_blank')});
 // El panel arranca cargando el contenido real del sitio y comprobando la sesión.
 async function arrancar(){
   await CMS.init();
+  // El borrador debe partir del contenido REAL del sitio. Antes se creaba al
+  // cargar el script, cuando CMS.data() aún eran los valores por defecto.
+  draft=CMS.clone(CMS.data());
   enter();
 }
 (async()=>{ if(await CMS.session.active()) await arrancar(); })();
@@ -459,7 +462,7 @@ function wireDrag(container,sel,onMove){
 /* ---------- save / reset ---------- */
 $('btn-save').addEventListener('click',async()=>{
   const btn=$('btn-save');
-  const campos=CMS.diff();
+  const campos=CMS.diff(draft);
   if(!campos.length){toast('No hay cambios que publicar');return}
   btn.disabled=true; const etiqueta=btn.textContent; btn.textContent='Publicando…';
   try{

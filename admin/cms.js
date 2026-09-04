@@ -309,8 +309,12 @@ window.CMS = (function () {
     return data;
   }
   // ¿Hay cambios respecto a lo que está publicado?
-  function dirty() { return JSON.stringify(data) !== JSON.stringify(original); }
-  function diff() {
+  // Compara lo que se está editando (el borrador) con lo que está publicado.
+  // Sin argumento compara el contenido cargado, que es justamente lo publicado:
+  // por eso antes nunca detectaba cambios.
+  function dirty(actual) { return JSON.stringify(actual || data) !== JSON.stringify(original); }
+  function diff(actual) {
+    const nuevo = actual || data;
     const out = [];
     const walk = (a, b, ruta) => {
       if (JSON.stringify(a) === JSON.stringify(b)) return;
@@ -318,7 +322,7 @@ window.CMS = (function () {
         new Set([...Object.keys(a), ...Object.keys(b)]).forEach(k => walk(a[k], b[k], ruta ? ruta + '.' + k : k));
       } else out.push(ruta);
     };
-    walk(original, data, '');
+    walk(original, nuevo, '');
     return out;
   }
 
