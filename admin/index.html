@@ -260,6 +260,18 @@ const SECTION_DESC={hero:'Lo primero que ve quien llega: titular, párrafo de en
 const svg=(p)=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
 
 let draft=CMS.clone(CMS.data());
+
+// Sube una foto avisando de lo que pasa. Devuelve null si falla, para que quien
+// la llama no meta rutas vacías en la galería.
+async function subirFoto(file, i, total){
+  try{
+    toast(total>1 ? 'Subiendo foto '+(i+1)+' de '+total+'…' : 'Subiendo foto…');
+    return await CMS.upload(file);
+  }catch(e){
+    alert('No se pudo subir «'+(file.name||'la foto')+'»:\n\n'+e.message);
+    return null;
+  }
+}
 let current=CMS.SCHEMA[0].id;
 let dirty=false;
 
