@@ -233,9 +233,9 @@ a:hover{color:var(--brand-magenta-deep)}
       <p id="ph-desc"></p>
     </div>
     <div class="aviso-fase" style="margin:0 0 22px;padding:13px 16px;border-radius:12px;border-left:3px solid #d4a12a;background:#fdf6e3;font-size:13px;line-height:1.55;color:#5c4a1a">
-      <b>Panel en construcción.</b> Ya puedes entrar con tu cuenta y ver todo el contenido del sitio,
-      pero <b>los cambios todavía no se publican</b>: falta conectar la publicación. Por ahora sirve
-      para revisar y preparar los textos.
+      <b>Al publicar, el sitio tarda un par de minutos</b> en mostrar los cambios: se guardan y la
+      página se vuelve a generar. Refresca pasado ese rato. <b>Subir fotos todavía no está
+      disponible</b> desde aquí.
     </div>
     <div id="form"></div>
   </main>
@@ -458,20 +458,32 @@ function wireDrag(container,sel,onMove){
 
 /* ---------- save / reset ---------- */
 $('btn-save').addEventListener('click',async()=>{
-  // FASE 3: aquí irá el envío al servidor, que escribirá contenido.json en el
-  // repositorio y hará que Vercel republique el sitio. Mientras no exista, el
-  // botón NO debe decir que publicó: sería mentirle a quien lo usa.
-  CMS.save(CMS.clone(draft));
-  const campos = CMS.diff();
-  const resumen = campos.length ? campos.slice(0,4).join(', ') + (campos.length>4 ? ' y '+(campos.length-4)+' más' : '') : '';
-  alert(
-    'Todavía no se puede publicar desde el panel.\n\n' +
-    'Tus cambios están anotados aquí (' + campos.length + ' campo' + (campos.length===1?'':'s') + ':\n' +
-    resumen + '),\npero el sitio público sigue mostrando lo anterior.\n\n' +
-    'La publicación se conecta en la siguiente fase del desarrollo. ' +
-    'Si sales o recargas, estos cambios se pierden.'
-  );
-  toast('Cambios anotados · aún no publicados');
+  const btn=$('btn-save');
+  const campos=CMS.diff();
+  if(!campos.length){toast('No hay cambios que publicar');return}
+  btn.disabled=true; const etiqueta=btn.textContent; btn.textContent='Publicando…';
+  try{
+    const token=await CMS.session.token();
+    if(!token){alert('Tu sesión expiró. Vuelve a entrar al panel.');location.reload();return}
+    const r=await fetch('/api/publicar',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},
+      body:JSON.stringify(draft)
+    });
+    const d=await r.json().catch(()=>({ok:false,mensaje:'El servidor respondió algo inesperado.'}));
+    if(r.ok&&d.ok){
+      CMS.save(CMS.clone(draft));
+      markClean('Publicado · el sitio se actualiza en un par de minutos');
+      toast('Cambios publicados');
+    }else{
+      alert(d.mensaje||'No se pudo publicar.');
+      if(r.status===401){location.reload()}
+    }
+  }catch(e){
+    alert('No se pudo conectar para publicar: '+e.message+'\n\nTus cambios siguen en pantalla.');
+  }finally{
+    btn.disabled=false; btn.textContent=etiqueta;
+  }
 });
 $('btn-reset').addEventListener('click',()=>{
   if(!confirm('Esto devuelve TODO el contenido del sitio a su versión original. ¿Continuar?'))return;
