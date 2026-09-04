@@ -85,8 +85,10 @@ a:hover{color:var(--brand-magenta-deep)}
 .side-foot{margin-top:auto;display:flex;flex-direction:column;gap:9px;font-size:12px;color:rgba(255,255,255,.55)}
 @media(max-width:999px){.side-foot{margin-top:16px}}
 .side-foot .row{display:flex;gap:8px;flex-wrap:wrap}
-.side-foot button{font-size:12.5px;font-weight:600;padding:9px 13px;border-radius:999px;background:rgba(255,255,255,.1);color:#fff;transition:background .2s}
-.side-foot button:hover{background:rgba(255,255,255,.2)}
+.side-foot button,.side-foot a#btn-view{font-size:12.5px;font-weight:600;padding:9px 13px;border-radius:999px;background:rgba(255,255,255,.1);color:#fff;transition:background .2s;border:0;cursor:pointer;font-family:inherit;line-height:1.2}
+.side-foot a#btn-view{display:inline-flex;align-items:center;text-decoration:none}
+.side-foot button:hover,.side-foot a#btn-view:hover{background:rgba(255,255,255,.2)}
+.side-foot a#btn-view:focus-visible{outline:2px solid rgba(255,255,255,.6);outline-offset:2px}
 .storage{font-size:11px;letter-spacing:.06em}
 .storage .bar{height:4px;border-radius:99px;background:rgba(255,255,255,.15);margin-top:6px;overflow:hidden}
 .storage .bar i{display:block;height:100%;background:var(--brand-yellow);width:0;transition:width .5s}
@@ -218,9 +220,8 @@ a:hover{color:var(--brand-magenta-deep)}
     <span class="logo dark"><span class="t">Fundación</span><span class="w"><span class="c1">h</span><span class="c2">a</span><span class="c3">n</span><span class="c4">n</span><span class="c5">a</span><span class="c6">h</span></span><span class="b">de la Caridad</span></span>
     <nav id="nav"></nav>
     <div class="side-foot">
-      <div class="storage" id="storage">Almacenamiento local<div class="bar"><i></i></div><span id="storage-txt">—</span></div>
       <div class="row">
-        <button type="button" id="btn-view">Ver sitio</button>
+        <a id="btn-view" href="../" target="_blank" rel="noopener">Ver sitio</a>
         <button type="button" id="btn-logout">Salir</button>
       </div>
     </div>
@@ -307,7 +308,6 @@ $('btn-logout').addEventListener('click',async()=>{
   if(dirty&&!confirm('Tienes cambios sin publicar. ¿Salir de todas formas?'))return;
   await CMS.session.logout();location.reload();
 });
-$('btn-view').addEventListener('click',()=>{window.open('../','_blank')});
 // El panel arranca cargando el contenido real del sitio y comprobando la sesión.
 async function arrancar(){
   await CMS.init();
@@ -521,13 +521,10 @@ $('btn-reset').addEventListener('click',()=>{
 });
 window.addEventListener('beforeunload',(e)=>{if(dirty){e.preventDefault();e.returnValue=''}});
 
-async function updateStorage(){
-  const est=await CMS.usage();
-  if(!est||!est.quota){$('storage').style.display='none';return}
-  const pct=Math.min(100,Math.round(est.usage/est.quota*100));
-  $('storage').querySelector('.bar i').style.width=pct+'%';
-  $('storage-txt').textContent=`${(est.usage/1048576).toFixed(1)} MB usados · ${pct}%`;
-}
+// Las fotos viven en el repositorio, no en el navegador: no hay almacenamiento
+// local que medir. Se conserva la función porque varias partes del panel la
+// llaman tras subir o borrar.
+function updateStorage(){}
 </script>
 </body>
 </html>
