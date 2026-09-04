@@ -1993,7 +1993,7 @@ const io = new IntersectionObserver((entries) => {
 document.querySelectorAll('[data-reveal]').forEach(el => io.observe(el));
 
 // ----- Gallery (masonry) -----------------------------------
-const GALLERY_PHOTOS = [
+let GALLERY_PHOTOS = [
   { src: 'uploads/01-foto-real.jpeg', tag: 'Comida y compañía' },
   { src: 'uploads/02-foto-real.jpeg', tag: 'Sonrisas con plato' },
   { src: 'uploads/03-foto-real.jpeg', tag: 'Familia entera' },
@@ -2072,20 +2072,24 @@ const GALLERY_PHOTOS = [
 
 const galleryGrid = document.getElementById('gallery-grid');
 const PLAY_ICON = '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>';
-GALLERY_PHOTOS.forEach((p, i) => {
-  const el = document.createElement('button');
-  const esVideo = !!p.video;
-  el.className = 'gallery-item' + (esVideo ? ' is-video' : '');
-  el.setAttribute('aria-label', (esVideo ? 'Reproducir video: ' : 'Ampliar: ') + p.tag);
-  el.dataset.idx = i;
-  const alt = `${p.tag} — Fundación Hannah`;
-  el.innerHTML =
-    `<img src="${p.src}" alt="${alt}" loading="lazy">` +
-    (esVideo ? `<span class="gi-play"><span>${PLAY_ICON}</span></span><span class="gi-dur">${p.dur || ''}</span>` : '') +
-    `<span class="gi-tag">${p.tag}</span>`;
-  el.addEventListener('click', () => openLightbox(i));
-  galleryGrid.appendChild(el);
-});
+function renderGallery() {
+  galleryGrid.innerHTML = '';
+  GALLERY_PHOTOS.forEach((p, i) => {
+    const el = document.createElement('button');
+    const esVideo = !!p.video;
+    el.className = 'gallery-item' + (esVideo ? ' is-video' : '');
+    el.setAttribute('aria-label', (esVideo ? 'Reproducir video: ' : 'Ampliar: ') + p.tag);
+    el.dataset.idx = i;
+    const alt = `${p.tag} — Fundación Hannah`;
+    el.innerHTML =
+      `<img src="${p.src}" alt="${alt}" loading="lazy">` +
+      (esVideo ? `<span class="gi-play"><span>${PLAY_ICON}</span></span><span class="gi-dur">${p.dur || ''}</span>` : '') +
+      `<span class="gi-tag">${p.tag}</span>`;
+    el.addEventListener('click', () => openLightbox(i));
+    galleryGrid.appendChild(el);
+  });
+}
+renderGallery();
 
 // ----- Lightbox --------------------------------------------
 const lb = document.getElementById('lightbox');
@@ -2467,6 +2471,177 @@ function applyTweaks(t) {
 
 // initial
 applyTweaks(TWEAK_DEFAULTS);
+
+// ----- Contenido editable desde el panel ---------------------
+// El contenido vive en contenido.json y lo edita el panel de administración.
+// Si ese archivo falta o falla, la página sigue mostrando lo que trae escrito:
+// nunca se queda en blanco por un problema de red o un JSON mal formado.
+(async function cargarContenido() {
+  let C;
+  try {
+    const r = await fetch('contenido.json', { cache: 'no-cache' });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    C = await r.json();
+  } catch (e) {
+    console.warn('contenido.json no disponible; se usa el contenido escrito en la página.', e);
+    return;
+  }
+
+  const esc = (s) => String(s == null ? '' : s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  // *palabra* -> cursiva destacada;  salto de línea -> <br>
+  const rich = (s) => esc(s).replace(/\*([^*]+)\*/g, '<em>$1</em>').replace(/\n/g, '<br>');
+  const txt = (sel, v) => { const el = document.querySelector(sel); if (el && v != null) el.textContent = v; };
+  const html = (sel, v) => { const el = document.querySelector(sel); if (el && v != null) el.innerHTML = rich(v); };
+  const txt2 = (root, sel, v) => { const el = root.querySelector(sel); if (el && v != null) el.textContent = v; };
+
+  // ---- Portada
+  if (C.hero) {
+    const eyebrow = document.querySelector('.hero-eyebrow');
+    if (eyebrow && C.hero.eyebrow) eyebrow.lastChild.textContent = ' ' + C.hero.eyebrow;
+    if (C.hero.headline && typeof TWEAK_DEFAULTS !== 'undefined') {
+      TWEAK_DEFAULTS.headline = C.hero.headline;
+      applyTweaks({ headline: C.hero.headline });
+    }
+    txt('.hero p.lede', C.hero.lede);
+    const btns = document.querySelectorAll('.hero-actions .btn');
+    if (btns[0] && C.hero.cta1) btns[0].childNodes[0].textContent = C.hero.cta1 + ' ';
+    if (btns[1] && C.hero.cta2) btns[1].textContent = C.hero.cta2;
+    document.querySelectorAll('.hero-side .hero-stat-card').forEach((card, i) => {
+      const s = (C.hero.stats || [])[i]; if (!s) return;
+      txt2(card, '.label', s.label); txt2(card, '.value', s.value); txt2(card, '.desc', s.desc);
+    });
+    if (Array.isArray(C.hero.photos) && C.hero.photos.length) {
+      HERO_SETS['kids-with-food'] = C.hero.photos;
+      buildHero(currentHeroSet);
+      restartHeroTimer();
+    }
+  }
+
+  // ---- Cinta deslizante
+  if (C.marquee) {
+    const dots = ['', 'c', 'm', 'o'];
+    const run = String(C.marquee).split('·').map(s => s.trim()).filter(Boolean)
+      .map((p, i) => esc(p) + ' <span class="dot ' + dots[i % 4] + '"></span>').join(' ');
+    document.querySelectorAll('.marquee-track span:not(.dot)').forEach(s => { s.innerHTML = run; });
+  }
+
+  // ---- Misión e impacto
+  if (C.mission) {
+    txt('.mission-copy .section-num', C.mission.num);
+    txt('.mission-copy .eyebrow', C.mission.eyebrow);
+    html('.mission-copy h2', C.mission.title);
+    const ps = document.querySelectorAll('.mission-copy > p');
+    if (ps[0] && C.mission.p1) ps[0].textContent = C.mission.p1;
+    if (ps[1] && C.mission.p2) ps[1].textContent = C.mission.p2;
+    txt('.mission-copy .pull', C.mission.pull);
+  }
+  if (Array.isArray(C.stats)) {
+    document.querySelectorAll('.stat-grid .stat-card').forEach((card, i) => {
+      const s = C.stats[i]; if (!s) return;
+      txt2(card, '.lbl', s.lbl);
+      const num = card.querySelector('.num');
+      if (num && s.num != null) num.innerHTML = esc(s.num).replace(/%/g, '<small>%</small>').replace(/\n/g, '<br>');
+      txt2(card, '.desc', s.desc);
+    });
+  }
+
+  // ---- Programas
+  if (C.programs) {
+    txt('.programs .section-num', C.programs.num);
+    txt('.programs .eyebrow', C.programs.eyebrow);
+    html('.programs .section-head h2', C.programs.title);
+    txt('.programs .section-head .lede', C.programs.lede);
+    document.querySelectorAll('.program-card').forEach((card, i) => {
+      const p = (C.programs.items || [])[i]; if (!p) return;
+      const h3 = card.querySelector('.program-body h3');
+      if (h3 && p.title) h3.innerHTML = esc(p.title).replace(/ (?=\S+$)/, '<br>');
+      txt2(card, '.program-body p', p.body);
+      txt2(card, '.program-body .tag', p.tag);
+      const foto = card.querySelector('.program-photo');
+      if (foto && p.photo) foto.style.backgroundImage = "url('" + p.photo + "')";
+    });
+  }
+
+  // ---- Galería (conserva videos: src es el póster, video el archivo)
+  if (C.gallery) {
+    txt('.gallery .section-num', C.gallery.num);
+    txt('.gallery .eyebrow', C.gallery.eyebrow);
+    html('.gallery .section-head h2', C.gallery.title);
+    txt('.gallery .section-head .lede', C.gallery.lede);
+    if (Array.isArray(C.gallery.items) && C.gallery.items.length) {
+      GALLERY_PHOTOS = C.gallery.items;
+      renderGallery();
+    }
+  }
+
+  // ---- Donaciones
+  if (C.donation) {
+    txt('.donation .section-num', C.donation.num);
+    const pill = document.querySelector('.tax-pill');
+    if (pill && C.donation.pill) pill.lastChild.textContent = ' ' + C.donation.pill;
+    txt('.donation .eyebrow', C.donation.eyebrow);
+    html('.donation h2', C.donation.title);
+    txt('.donation p.lede', C.donation.lede);
+    if (C.donation.cta) {
+      document.querySelectorAll('[data-open-donate]').forEach(b => { b.childNodes[0].textContent = C.donation.cta + ' '; });
+    }
+    document.querySelectorAll('.donation-tile').forEach((t, i) => {
+      const d = (C.donation.tiles || [])[i]; if (!d) return;
+      txt2(t, '.label', d.label); txt2(t, 'h4', d.title); txt2(t, 'p', d.body);
+    });
+    html('#donate-modal-title', C.donation.modalTitle);
+    txt('.donate-aside p', C.donation.modalDesc);
+    if (Array.isArray(C.donation.amounts)) {
+      document.querySelectorAll('#amount-grid .amount-btn').forEach((b, i) => {
+        const a = C.donation.amounts[i];
+        if (!a) { b.style.display = 'none'; return; }
+        b.style.display = '';
+        b.dataset.amount = String(a.value).replace(/\D/g, '');
+        b.innerHTML = '$' + Number(b.dataset.amount).toLocaleString('es-CO') + '<small>' + esc(a.note) + '</small>';
+      });
+      const activo = document.querySelector('#amount-grid .amount-btn.active');
+      if (activo) { donateState.amount = parseInt(activo.dataset.amount, 10); updateCtaLabel(); }
+    }
+    if (C.donation.photo) {
+      const dn = document.querySelector('.donation');
+      if (dn) dn.style.setProperty('--donation-photo', "url('" + C.donation.photo + "')");
+    }
+  }
+
+  // ---- Contacto
+  if (C.contact) {
+    txt('.contact .section-num', C.contact.num);
+    txt('.contact .eyebrow', C.contact.eyebrow);
+    html('.contact .section-head h2', C.contact.title);
+    txt('.contact .section-head .lede', C.contact.lede);
+    html('.contact-info h2', C.contact.infoTitle);
+    const filas = document.querySelectorAll('.contact-list li');
+    if (filas[0] && C.contact.address) filas[0].querySelector('.value').innerHTML = rich(C.contact.address);
+    if (filas[1] && C.contact.email) { const a = filas[1].querySelector('.value'); a.textContent = C.contact.email; a.href = 'mailto:' + C.contact.email; }
+    if (filas[2] && C.contact.phone) { const a = filas[2].querySelector('.value'); a.textContent = C.contact.phone; a.href = 'tel:' + C.contact.phone.replace(/[^\d+]/g, ''); }
+    if (filas[3] && C.contact.instagram) { const a = filas[3].querySelector('.value'); a.textContent = C.contact.instagram; a.href = 'https://www.instagram.com/' + C.contact.instagram.replace('@', '') + '/'; }
+    const pin = document.querySelector('.map-pin');
+    if (pin && C.contact.address) pin.lastChild.textContent = ' ' + C.contact.address.split('\n')[0];
+    const mapa = document.querySelector('.contact-map iframe');
+    if (mapa && C.contact.mapQuery) mapa.src = 'https://www.google.com/maps?q=' + encodeURIComponent(C.contact.mapQuery) + '&z=13&output=embed';
+    // Todo enlace de correo del sitio apunta al mismo buzón
+    if (C.contact.email) {
+      document.querySelectorAll('a[href^="mailto:"]').forEach(a => { a.href = 'mailto:' + C.contact.email; });
+    }
+  }
+
+  // ---- Pie de página
+  if (C.footer) {
+    txt('.footer-brand h3', C.footer.quote);
+    txt('.footer-brand > p', C.footer.desc);
+    txt('.footer-bottom > div:first-child', C.footer.copyright);
+    txt('.footer-bottom .nit', C.footer.nit);
+    const enlaces = document.querySelectorAll('.footer-col:last-child a');
+    if (enlaces[0] && C.contact && C.contact.phone) { enlaces[0].textContent = C.contact.phone; enlaces[0].href = 'tel:' + C.contact.phone.replace(/[^\d+]/g, ''); }
+    if (enlaces[1] && C.contact && C.contact.email) { enlaces[1].textContent = C.contact.email; enlaces[1].href = 'mailto:' + C.contact.email; }
+  }
+})();
 </script>
 
 <!-- ============================================================ FORMULARIO DE CONTACTO (Supabase) -->

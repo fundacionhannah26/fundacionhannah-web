@@ -1,0 +1,499 @@
+{
+  "hero": {
+    "eyebrow": "Pitalito · Huila · Colombia",
+    "headline": "Alimentando sueños, sembrando sonrisas.",
+    "lede": "Llevamos comidas ricas en proteína a niños y niñas en situación de vulnerabilidad. Comida real, manos reales, futuros que comienzan en una mesa.",
+    "cta1": "Conocer cómo ayudar",
+    "cta2": "Nuestra historia",
+    "photos": [
+      "uploads/01-foto-real.jpeg",
+      "uploads/25-foto-real.jpeg",
+      "uploads/05-foto-real.jpeg",
+      "uploads/35-galeria-5.jpeg"
+    ],
+    "stats": [
+      {
+        "label": "RTE — ESAL",
+        "value": "Tu donación es deducible",
+        "desc": "Régimen Tributario Especial: tu aporte se descuenta del impuesto de renta."
+      },
+      {
+        "label": "Desde 2022",
+        "value": "+1.200 raciones servidas",
+        "desc": "Comidas calientes, ricas en proteína, entregadas con dignidad."
+      }
+    ],
+    "sets": {
+      "kids-with-food": [
+        "uploads/01-foto-real.jpeg",
+        "uploads/25-foto-real.jpeg",
+        "uploads/05-foto-real.jpeg",
+        "uploads/35-galeria-5.jpeg"
+      ],
+      "community": [
+        "uploads/45-galeria-15.jpeg",
+        "uploads/40-galeria-10.jpeg",
+        "uploads/03-foto-real.jpeg",
+        "uploads/15-foto-real.jpeg"
+      ],
+      "portraits": [
+        "uploads/12-foto-real.jpeg",
+        "uploads/10-foto-real.jpeg",
+        "uploads/05-foto-real.jpeg",
+        "uploads/30-foto-real.jpeg"
+      ]
+    }
+  },
+  "marquee": "Alimentando sueños · sembrando sonrisas · nutriendo futuros · abriendo mesas · Pitalito · Huila",
+  "mission": {
+    "num": "01 / Misión",
+    "eyebrow": "Por qué existimos",
+    "title": "Cada plato es una *promesa*: ningún niño en Pitalito debería crecer con hambre.",
+    "p1": "Fundación Hannah de la Caridad nació en 2022 con una idea simple y obstinada: la nutrición es el primer derecho. En los barrios más vulnerables de Pitalito, Huila, llevamos comidas calientes y ricas en proteína —preparadas con cariño, servidas con respeto— a niños, niñas y familias que las necesitan.",
+    "p2": "Trabajamos con voluntarios, vecinos y aliados locales. Sin intermediarios, sin distancias innecesarias. Cada aporte que recibimos termina en una mesa, en un plato, en una sonrisa.",
+    "pull": "“Cuando un niño come bien, el barrio entero respira distinto.”"
+  },
+  "stats": [
+    {
+      "lbl": "Fundada",
+      "num": "2022",
+      "desc": "Tres años entregando comidas, escuchando familias, construyendo confianza."
+    },
+    {
+      "lbl": "Cobertura",
+      "num": "100%",
+      "desc": "De cada peso donado va directo a comida y atención de los niños."
+    },
+    {
+      "lbl": "Territorio",
+      "num": "Pitalito, Huila",
+      "desc": "Operamos en barrios y veredas del sur del Huila colombiano."
+    },
+    {
+      "lbl": "Beneficiarios",
+      "num": "+300",
+      "desc": "Niños, niñas y familias acompañados con alimentación y comunidad."
+    },
+    {
+      "lbl": "Beneficio tributario",
+      "num": "Donaciones deducibles del impuesto de renta",
+      "desc": "Somos ESAL bajo Régimen Tributario Especial (NIT 901.631.639-1). Empresas y personas naturales pueden descontar su aporte."
+    }
+  ],
+  "programs": {
+    "num": "02 / Lo que hacemos",
+    "eyebrow": "Tres frentes, una mesa",
+    "title": "Comida con propósito, familias con respaldo, comunidad en acción.",
+    "lede": "Cada programa nace de lo que hemos escuchado en los barrios. No improvisamos: ajustamos, medimos y volvemos al territorio.",
+    "items": [
+      {
+        "title": "Alimentación con propósito",
+        "body": "Jornadas semanales de comida caliente y rica en proteína, diseñadas con criterios nutricionales y servidas en los barrios donde más se necesita.",
+        "tag": "Comidas · Refrigerios · Mercados",
+        "photo": "uploads/01-foto-real.jpeg"
+      },
+      {
+        "title": "Apoyo a familias",
+        "body": "Acompañamos a las familias con orientación, mercados solidarios y conexiones con redes de apoyo local. Nadie come solo; nadie cría solo.",
+        "tag": "Mercados · Acompañamiento · Redes",
+        "photo": "uploads/30-foto-real.jpeg"
+      },
+      {
+        "title": "Comunidad en acción",
+        "body": "Voluntarios, cocineras del barrio, parroquias y aliados que se suman cada semana. La fundación no es un edificio: es una red de manos.",
+        "tag": "Voluntariado · Eventos · Aliados",
+        "photo": "uploads/45-galeria-15.jpeg"
+      }
+    ]
+  },
+  "gallery": {
+    "num": "03 / Galería",
+    "eyebrow": "Lo que pasa en la mesa",
+    "title": "Rostros, manos y momentos del territorio.",
+    "lede": "Estas no son fotos de archivo. Son niños, niñas y voluntarios reales en jornadas reales en Pitalito.",
+    "items": [
+      {
+        "src": "uploads/01-foto-real.jpeg",
+        "tag": "Comida y compañía"
+      },
+      {
+        "src": "uploads/02-foto-real.jpeg",
+        "tag": "Sonrisas con plato"
+      },
+      {
+        "src": "uploads/03-foto-real.jpeg",
+        "tag": "Familia entera"
+      },
+      {
+        "src": "uploads/04-foto-real.jpeg",
+        "tag": "Compartir el pan"
+      },
+      {
+        "src": "uploads/05-foto-real.jpeg",
+        "tag": "Sueño en la mesa"
+      },
+      {
+        "src": "uploads/06-foto-real.jpeg",
+        "tag": "Pitalito en jornada"
+      },
+      {
+        "src": "uploads/video-01-poster.jpeg",
+        "video": "uploads/video-01.mp4",
+        "tag": "Nuestro mural",
+        "dur": "0:15"
+      },
+      {
+        "src": "uploads/07-foto-real.jpeg",
+        "tag": "Voluntariado"
+      },
+      {
+        "src": "uploads/08-foto-real.jpeg",
+        "tag": "Manos al servicio"
+      },
+      {
+        "src": "uploads/09-foto-real.jpeg",
+        "tag": "Cocina solidaria"
+      },
+      {
+        "src": "uploads/10-foto-real.jpeg",
+        "tag": "Retrato del barrio"
+      },
+      {
+        "src": "uploads/11-foto-real.jpeg",
+        "tag": "Niños del Solarte"
+      },
+      {
+        "src": "uploads/12-foto-real.jpeg",
+        "tag": "Pitalito, Huila"
+      },
+      {
+        "src": "uploads/13-foto-real.jpeg",
+        "tag": "En el comedor"
+      },
+      {
+        "src": "uploads/14-foto-real.jpeg",
+        "tag": "Acompañamiento"
+      },
+      {
+        "src": "uploads/15-foto-real.jpeg",
+        "tag": "Nochebuena 2024"
+      },
+      {
+        "src": "uploads/16-foto-real.jpeg",
+        "tag": "Aprender jugando"
+      },
+      {
+        "src": "uploads/video-02-poster.jpeg",
+        "video": "uploads/video-02.mp4",
+        "tag": "Jornada completa",
+        "dur": "0:29"
+      },
+      {
+        "src": "uploads/18-foto-real.jpeg",
+        "tag": "Familias unidas"
+      },
+      {
+        "src": "uploads/20-foto-real.jpeg",
+        "tag": "Visita pastoral"
+      },
+      {
+        "src": "uploads/21-foto-real.jpeg",
+        "tag": "Mercado solidario"
+      },
+      {
+        "src": "uploads/22-foto-real.jpeg",
+        "tag": "Manos pequeñas"
+      },
+      {
+        "src": "uploads/24-foto-real.jpeg",
+        "tag": "Tarde de entrega"
+      },
+      {
+        "src": "uploads/25-foto-real.jpeg",
+        "tag": "Bolsa con cariño"
+      },
+      {
+        "src": "uploads/26-foto-real.jpeg",
+        "tag": "En la fila"
+      },
+      {
+        "src": "uploads/video-03-poster.jpeg",
+        "video": "uploads/video-03.mp4",
+        "tag": "Equipo Hannah",
+        "dur": "0:11"
+      },
+      {
+        "src": "uploads/28-foto-real.jpeg",
+        "tag": "En el barrio"
+      },
+      {
+        "src": "uploads/29-foto-real.jpeg",
+        "tag": "Comer juntos"
+      },
+      {
+        "src": "uploads/30-foto-real.jpeg",
+        "tag": "Padre e hijo"
+      },
+      {
+        "src": "uploads/31-galeria-1.jpeg",
+        "tag": "Jornada"
+      },
+      {
+        "src": "uploads/33-galeria-3.jpeg",
+        "tag": "Jornada"
+      },
+      {
+        "src": "uploads/34-galeria-4.jpeg",
+        "tag": "Jornada"
+      },
+      {
+        "src": "uploads/35-galeria-5.jpeg",
+        "tag": "Entrega"
+      },
+      {
+        "src": "uploads/36-galeria-6.jpeg",
+        "tag": "Entrega"
+      },
+      {
+        "src": "uploads/video-04-poster.jpeg",
+        "video": "uploads/video-04.mp4",
+        "tag": "Mercados que llegan",
+        "dur": "0:11"
+      },
+      {
+        "src": "uploads/37-galeria-7.jpeg",
+        "tag": "Equipo"
+      },
+      {
+        "src": "uploads/38-galeria-8.jpeg",
+        "tag": "Equipo"
+      },
+      {
+        "src": "uploads/39-galeria-9.jpeg",
+        "tag": "Comunidad"
+      },
+      {
+        "src": "uploads/40-galeria-10.jpeg",
+        "tag": "Convocatoria"
+      },
+      {
+        "src": "uploads/42-galeria-12.jpeg",
+        "tag": "Voluntariado"
+      },
+      {
+        "src": "uploads/43-galeria-13.jpeg",
+        "tag": "Donaciones"
+      },
+      {
+        "src": "uploads/44-galeria-14.jpeg",
+        "tag": "Niños del barrio"
+      },
+      {
+        "src": "uploads/45-galeria-15.jpeg",
+        "tag": "Equipo Hannah"
+      },
+      {
+        "src": "uploads/46-galeria-16.jpeg",
+        "tag": "Comunidad en acción"
+      },
+      {
+        "src": "uploads/video-05-poster.jpeg",
+        "video": "uploads/video-05.mp4",
+        "tag": "Juntos",
+        "dur": "0:10"
+      },
+      {
+        "src": "uploads/47-galeria-17.jpeg",
+        "tag": "Entrega en el barrio"
+      },
+      {
+        "src": "uploads/48-galeria-18.jpeg",
+        "tag": "Una familia, un mercado"
+      },
+      {
+        "src": "uploads/49-galeria-19.jpeg",
+        "tag": "Pan compartido"
+      },
+      {
+        "src": "uploads/50-galeria-20.jpeg",
+        "tag": "Sonrisas de la jornada"
+      },
+      {
+        "src": "uploads/51-galeria-21.jpeg",
+        "tag": "Manos llenas"
+      },
+      {
+        "src": "uploads/52-galeria-22.jpeg",
+        "tag": "La más pequeña"
+      },
+      {
+        "src": "uploads/53-galeria-23.jpeg",
+        "tag": "Todos reciben"
+      },
+      {
+        "src": "uploads/54-galeria-24.jpeg",
+        "tag": "Jornada Hannah"
+      },
+      {
+        "src": "uploads/55-galeria-25.jpeg",
+        "tag": "Todos juntos"
+      },
+      {
+        "src": "uploads/56-galeria-26.jpeg",
+        "tag": "Convocatoria en el barrio"
+      },
+      {
+        "src": "uploads/video-06-poster.jpeg",
+        "video": "uploads/video-06.mp4",
+        "tag": "Camino a la jornada",
+        "dur": "0:05"
+      },
+      {
+        "src": "uploads/57-galeria-27.jpeg",
+        "tag": "Esperando el turno"
+      },
+      {
+        "src": "uploads/58-galeria-28.jpeg",
+        "tag": "Voluntarios en jornada"
+      },
+      {
+        "src": "uploads/59-galeria-29.jpeg",
+        "tag": "Acompañamiento en salud"
+      },
+      {
+        "src": "uploads/60-galeria-30.jpeg",
+        "tag": "Cuidado que abraza"
+      },
+      {
+        "src": "uploads/61-galeria-31.jpeg",
+        "tag": "Su regalo"
+      },
+      {
+        "src": "uploads/62-galeria-32.jpeg",
+        "tag": "En la sede"
+      },
+      {
+        "src": "uploads/63-galeria-33.jpeg",
+        "tag": "Los más pequeños"
+      },
+      {
+        "src": "uploads/64-galeria-34.jpeg",
+        "tag": "Hermanos"
+      },
+      {
+        "src": "uploads/65-galeria-35.jpeg",
+        "tag": "Nuestra mascota"
+      },
+      {
+        "src": "uploads/66-galeria-36.jpeg",
+        "tag": "Abrazo de Hannah"
+      },
+      {
+        "src": "uploads/video-07-poster.jpeg",
+        "video": "uploads/video-07.mp4",
+        "tag": "Su legado",
+        "dur": "1:14"
+      },
+      {
+        "src": "uploads/67-galeria-37.jpeg",
+        "tag": "Jornada con la comunidad"
+      },
+      {
+        "src": "uploads/68-galeria-38.jpeg",
+        "tag": "Entrega en la vía"
+      },
+      {
+        "src": "uploads/69-galeria-39.jpeg",
+        "tag": "Tarde de juego"
+      },
+      {
+        "src": "uploads/70-galeria-40.jpeg",
+        "tag": "Comunidad en acción"
+      },
+      {
+        "src": "uploads/71-galeria-41.jpeg",
+        "tag": "Reparto en la cancha"
+      },
+      {
+        "src": "uploads/72-galeria-42.jpeg",
+        "tag": "Un abrazo"
+      },
+      {
+        "src": "uploads/73-galeria-43.jpeg",
+        "tag": "Hannah saluda"
+      }
+    ]
+  },
+  "donation": {
+    "num": "04 / Cómo ayudar",
+    "pill": "Donación deducible del impuesto de renta — RTE",
+    "eyebrow": "Tu aporte transforma",
+    "title": "Cada aporte transforma *una vida.*",
+    "lede": "Como Entidad Sin Ánimo de Lucro bajo Régimen Tributario Especial, tus donaciones —de empresa o persona natural— son deducibles del impuesto de renta. Y se traducen, sin desvíos, en comida caliente para un niño esta semana.",
+    "cta": "Donar ahora",
+    "photo": "uploads/03-foto-real.jpeg",
+    "modalTitle": "Tu aporte llega *directo* a un plato.",
+    "modalDesc": "Cada peso se traduce en comida caliente y rica en proteína para niños y niñas en Pitalito.",
+    "tiles": [
+      {
+        "label": "Empresas",
+        "title": "Aporta y descuenta",
+        "body": "Tu empresa puede deducir hasta el 25% del aporte. Solicita certificado de donación con NIT 901.631.639-1."
+      },
+      {
+        "label": "Personas naturales",
+        "title": "Tu donación, tu deducción",
+        "body": "Benefíciate del descuento tributario y entrega comida real a un niño en Pitalito."
+      },
+      {
+        "label": "Voluntariado",
+        "title": "Suma tus manos",
+        "body": "Cocinas, jornadas, logística, redes. Hay un lugar para ti los sábados en Pitalito."
+      }
+    ],
+    "amounts": [
+      {
+        "value": "20000",
+        "note": "1 plato"
+      },
+      {
+        "value": "50000",
+        "note": "3 platos"
+      },
+      {
+        "value": "100000",
+        "note": "una familia"
+      },
+      {
+        "value": "250000",
+        "note": "un barrio"
+      },
+      {
+        "value": "500000",
+        "note": "una jornada"
+      },
+      {
+        "value": "1000000",
+        "note": "un mes"
+      }
+    ]
+  },
+  "contact": {
+    "num": "05 / Contacto",
+    "eyebrow": "Hablemos",
+    "title": "Te respondemos. Te recibimos.",
+    "lede": "Empresa, donante, voluntario o vecino: escríbenos. Estamos en Pitalito y siempre tenemos café.",
+    "infoTitle": "Pitalito, el corazón del Huila.",
+    "address": "Calle 15 Sur # 2 Este — 200\nBarrio Solarte, Pitalito, Huila",
+    "email": "admin@fundacionhannahdelacaridad.com",
+    "phone": "+57 315 989 9377",
+    "instagram": "@hannah_delacaridad",
+    "mapQuery": "Pitalito,Huila,Colombia"
+  },
+  "footer": {
+    "quote": "“Alimentando sueños, sembrando sonrisas.”",
+    "desc": "Entidad Sin Ánimo de Lucro (ESAL) bajo Régimen Tributario Especial. Pitalito, Huila — Colombia.",
+    "nit": "NIT 901.631.639-1 · ESAL — Régimen Tributario Especial",
+    "copyright": "© 2022—2026 Fundación Hannah de la Caridad. Todos los derechos reservados."
+  }
+}
