@@ -327,11 +327,30 @@ window.CMS = (function () {
   }
 
   /* ---------- media ---------- */
+  // Sube la foto al repositorio a través de /api/subir. Se comprime aquí, en el
+  // navegador, con los mismos valores que el resto de fotos del sitio (1500px de
+  // lado mayor), para que no desentonen ni pesen de más.
   async function upload(file) {
-    const id = 'img_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7);
-    const blob = await compress(file);
-    await mediaPut(id, blob);
-    return 'media:' + id;
+    if (!file || !file.type || !file.type.startsWith('image/')) {
+      throw new Error('Solo se pueden subir imágenes. Los videos hay que enviarlos aparte.');
+    }
+    const blob = await compress(file, 1500, 0.82);
+    const base64 = await new Promise((res, rej) => {
+      const r = new FileReader();
+      r.onload = () => res(String(r.result).split(',').pop());
+      r.onerror = () => rej(new Error('No se pudo leer la imagen.'));
+      r.readAsDataURL(blob);
+    });
+    const token = await session.token();
+    if (!token) throw new Error('Tu sesión expiró. Vuelve a entrar al panel.');
+    const r = await fetch('/api/subir', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token },
+      body: JSON.stringify({ datos: base64 })
+    });
+    const d = await r.json().catch(() => ({ ok: false, mensaje: 'El servidor respondió algo inesperado.' }));
+    if (!r.ok || !d.ok) throw new Error(d.mensaje || 'No se pudo subir la foto.');
+    return d.ruta;   // p.ej. uploads/foto-20260904-a1b2c3.jpeg
   }
   function compress(file, maxW = 1800, quality = 0.86) {
     return new Promise((res) => {

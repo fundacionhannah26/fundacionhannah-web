@@ -234,8 +234,9 @@ a:hover{color:var(--brand-magenta-deep)}
     </div>
     <div class="aviso-fase" style="margin:0 0 22px;padding:13px 16px;border-radius:12px;border-left:3px solid #d4a12a;background:#fdf6e3;font-size:13px;line-height:1.55;color:#5c4a1a">
       <b>Al publicar, el sitio tarda un par de minutos</b> en mostrar los cambios: se guardan y la
-      página se vuelve a generar. Refresca pasado ese rato. <b>Subir fotos todavía no está
-      disponible</b> desde aquí.
+      página se vuelve a generar. Refresca pasado ese rato. Las fotos se suben aquí mismo y se
+      optimizan solas, pero <b>los videos no</b>: pesan demasiado para subirlos por el panel y hay
+      que pedirlos aparte.
     </div>
     <div id="form"></div>
   </main>
@@ -364,9 +365,11 @@ function imageField(path,label,hint,getV,setV){
   const img=wrap.querySelector('img');
   CMS.url(cur).then(u=>{img.src=u||''});
   wrap.querySelector('.up').addEventListener('click',()=>pickFile(async(file)=>{
-    const ref=await CMS.upload(file);
+    const ref=await subirFoto(file,0,1);
+    if(!ref)return;
     setV?setV(ref):sv(path,ref);
     img.src=await CMS.url(ref);markDirty();updateStorage();
+    toast('Foto lista · pulsa Publicar para que aparezca en el sitio');
   }));
   wrap.querySelector('.rm').addEventListener('click',()=>{setV?setV(''):sv(path,'');img.src='';markDirty()});
   return wrap;
@@ -375,8 +378,14 @@ function imageListField(f){
   const wrap=document.createElement('div');
   const drop=makeDrop('Arrastra fotos aquí o haz clic para elegir','Se usan como fondo rotativo de la portada',async(files)=>{
     const arr=gv(f.path).slice();
-    for(const file of files)arr.push(await CMS.upload(file));
+    let n=0;
+    for(let i=0;i<files.length;i++){
+      const ruta=await subirFoto(files[i],i,files.length);
+      if(ruta){arr.push(ruta);n++}
+    }
+    if(!n)return;
     sv(f.path,arr);renderForm(CMS.SCHEMA.find(s=>s.id===current));updateStorage();
+    toast(n+(n===1?' foto lista':' fotos listas')+' · pulsa Publicar');
   });
   wrap.appendChild(drop);
   const list=document.createElement('div');list.className='ilist';
@@ -396,8 +405,14 @@ function galleryField(f){
   const wrap=document.createElement('div');
   wrap.appendChild(makeDrop('Arrastra fotografías aquí o haz clic para elegir','Puedes subir varias a la vez · JPG o PNG',async(files)=>{
     const arr=gv(f.path).slice();
-    for(const file of files)arr.push({src:await CMS.upload(file),tag:''});
-    sv(f.path,arr);renderForm(CMS.SCHEMA.find(s=>s.id===current));updateStorage();toast(`${files.length} ${files.length===1?'foto añadida':'fotos añadidas'}`);
+    let n=0;
+    for(let i=0;i<files.length;i++){
+      const ruta=await subirFoto(files[i],i,files.length);
+      if(ruta){arr.push({src:ruta,tag:''});n++}
+    }
+    if(!n)return;
+    sv(f.path,arr);renderForm(CMS.SCHEMA.find(s=>s.id===current));updateStorage();
+    toast(n+(n===1?' foto lista':' fotos listas')+' · pulsa Publicar para que aparezcan');
   }));
   const grid=document.createElement('div');grid.className='gal';
   const arr=gv(f.path)||[];
