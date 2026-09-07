@@ -89,6 +89,7 @@ a:hover{color:var(--brand-magenta-deep)}
 .side-foot a#btn-view{display:inline-flex;align-items:center;text-decoration:none}
 .side-foot button:hover,.side-foot a#btn-view:hover{background:rgba(255,255,255,.2)}
 .side-foot a#btn-view:focus-visible{outline:2px solid rgba(255,255,255,.6);outline-offset:2px}
+.gal-item .vid{position:absolute;left:6px;bottom:6px;background:rgba(20,8,30,.82);color:#fff;font-size:10.5px;font-weight:600;letter-spacing:.04em;padding:3px 7px;border-radius:99px;pointer-events:none}
 .storage{font-size:11px;letter-spacing:.06em}
 .storage .bar{height:4px;border-radius:99px;background:rgba(255,255,255,.15);margin-top:6px;overflow:hidden}
 .storage .bar i{display:block;height:100%;background:var(--brand-yellow);width:0;transition:width .5s}
@@ -264,6 +265,23 @@ let draft=CMS.clone(CMS.data());
 
 // Sube una foto avisando de lo que pasa. Devuelve null si falla, para que quien
 // la llama no meta rutas vacías en la galería.
+// Sube lo que sea: si es video usa el camino largo (almacén temporal), si es
+// foto el directo. Devuelve el objeto listo para la galería, o null si falla.
+async function subirMedio(file, i, total){
+  const esVideo = (file.type||'').startsWith('video/');
+  const cual = total>1 ? ' ('+(i+1)+' de '+total+')' : '';
+  try{
+    if(esVideo){
+      return await CMS.subirVideo(file, (paso)=>toast(paso+cual));
+    }
+    toast('Subiendo foto…'+cual);
+    return { src: await CMS.upload(file), tag:'' };
+  }catch(e){
+    alert('No se pudo subir «'+(file.name||'el archivo')+'»:\n\n'+e.message);
+    return null;
+  }
+}
+
 async function subirFoto(file, i, total){
   try{
     toast(total>1 ? 'Subiendo foto '+(i+1)+' de '+total+'…' : 'Subiendo foto…');
@@ -415,22 +433,25 @@ function imageListField(f){
 }
 function galleryField(f){
   const wrap=document.createElement('div');
-  wrap.appendChild(makeDrop('Arrastra fotografías aquí o haz clic para elegir','Puedes subir varias a la vez · JPG o PNG',async(files)=>{
+  wrap.appendChild(makeDrop('Arrastra fotos o videos aquí, o haz clic para elegir','Varios a la vez · Fotos JPG o PNG · Videos MP4 hasta 30 MB',async(files)=>{
     const arr=gv(f.path).slice();
-    let n=0;
+    let n=0, videos=0;
     for(let i=0;i<files.length;i++){
-      const ruta=await subirFoto(files[i],i,files.length);
-      if(ruta){arr.push({src:ruta,tag:''});n++}
+      const item=await subirMedio(files[i],i,files.length);
+      if(item){arr.push(item); n++; if(item.video)videos++}
     }
     if(!n)return;
     sv(f.path,arr);renderForm(CMS.SCHEMA.find(s=>s.id===current));updateStorage();
-    toast(n+(n===1?' foto lista':' fotos listas')+' · pulsa Publicar para que aparezcan');
-  }));
+    toast(n+(n===1?' archivo listo':' archivos listos')+(videos?' ('+videos+' video'+(videos===1?'':'s')+')':'')+' · pulsa Publicar');
+  },true));
   const grid=document.createElement('div');grid.className='gal';
   const arr=gv(f.path)||[];
   arr.forEach((it,i)=>{
     const el=document.createElement('div');el.className='gal-item';el.draggable=true;el.dataset.i=i;
-    el.innerHTML=`<div class="ph"><img alt="" /><span class="n">${String(i+1).padStart(2,'0')}</span><button type="button" class="x" title="Eliminar">${svg('<path d="M6 6l12 12M18 6l-12 12"/>')}</button></div><input type="text" placeholder="Descripción de la foto" />`;
+    const esVid=!!it.video;
+    el.innerHTML=`<div class="ph"><img alt="" />`+
+      (esVid?`<span class="vid">▶ ${it.dur||'video'}</span>`:'')+
+      `<span class="n">${String(i+1).padStart(2,'0')}</span><button type="button" class="x" title="Eliminar">${svg('<path d="M6 6l12 12M18 6l-12 12"/>')}</button></div><input type="text" placeholder="${esVid?'Descripción del video':'Descripción de la foto'}" />`;
     CMS.url(it.src).then(u=>{el.querySelector('img').src=u||''});
     const inp=el.querySelector('input');inp.value=it.tag||'';
     inp.addEventListener('input',()=>{const a=gv(f.path).slice();a[i]={...a[i],tag:inp.value};sv(f.path,a)});
@@ -461,17 +482,17 @@ function repeatField(f){
   });
   return wrap;
 }
-function makeDrop(title,sub,onFiles){
+function makeDrop(title,sub,onFiles,conVideo){
   const d=document.createElement('div');d.className='drop';
   d.innerHTML=`<div class="ic">${svg('<path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/>')}</div><b>${title}</b><span>${sub}</span>`;
-  d.addEventListener('click',()=>pickFile(onFiles,true));
+  d.addEventListener('click',()=>pickFile(onFiles,true,conVideo));
   d.addEventListener('dragover',(e)=>{e.preventDefault();d.classList.add('over')});
   d.addEventListener('dragleave',()=>d.classList.remove('over'));
-  d.addEventListener('drop',(e)=>{e.preventDefault();d.classList.remove('over');const fs=[...e.dataTransfer.files].filter(f=>f.type.startsWith('image/'));if(fs.length)onFiles(fs)});
+  d.addEventListener('drop',(e)=>{e.preventDefault();d.classList.remove('over');const fs=[...e.dataTransfer.files].filter(f=>f.type.startsWith('image/')||(conVideo&&f.type.startsWith('video/')));if(fs.length)onFiles(fs)});
   return d;
 }
-function pickFile(cb,multi){
-  const i=document.createElement('input');i.type='file';i.accept='image/*';if(multi)i.multiple=true;
+function pickFile(cb,multi,conVideo){
+  const i=document.createElement('input');i.type='file';i.accept=conVideo?'image/*,video/mp4,video/quicktime,video/webm':'image/*';if(multi)i.multiple=true;
   i.addEventListener('change',()=>{const fs=[...i.files];if(!fs.length)return;multi?cb(fs):cb(fs[0])});
   i.click();
 }

@@ -327,6 +327,81 @@ window.CMS = (function () {
   }
 
   /* ---------- media ---------- */
+  // ---- Videos --------------------------------------------------
+  // No se pueden mandar a /api/... porque Vercel corta en 4,5 MB. Se suben
+  // primero al almacén de Supabase (admite 50 MB y no pasa por Vercel) y luego
+  // una función los pasa al repositorio.
+  const BUCKET_VIDEOS = 'videos-temp';
+
+  // Saca una imagen del video para usarla de portada, y mide su duración.
+  function portadaDeVideo(file) {
+    return new Promise((res, rej) => {
+      const v = document.createElement('video');
+      v.preload = 'metadata'; v.muted = true; v.playsInline = true;
+      v.src = URL.createObjectURL(file);
+      const limpiar = () => URL.revokeObjectURL(v.src);
+      v.onerror = () => { limpiar(); rej(new Error('No se pudo leer el video.')); };
+      v.onloadedmetadata = () => {
+        const dur = v.duration;
+        // Un fotograma del 10% suele mostrar algo más representativo que el primero
+        v.currentTime = Math.min(Math.max(0.5, dur * 0.1), Math.max(0.1, dur - 0.1));
+      };
+      v.onseeked = () => {
+        const lado = 1200;
+        const escala = Math.min(1, lado / Math.max(v.videoWidth, v.videoHeight));
+        const c = document.createElement('canvas');
+        c.width = Math.round(v.videoWidth * escala);
+        c.height = Math.round(v.videoHeight * escala);
+        c.getContext('2d').drawImage(v, 0, 0, c.width, c.height);
+        const m = Math.floor(v.duration / 60), sg = Math.round(v.duration % 60);
+        const dur = m + ':' + String(sg).padStart(2, '0');
+        c.toBlob((b) => { limpiar(); b ? res({ portada: b, dur }) : rej(new Error('No se pudo crear la portada.')); },
+                 'image/jpeg', 0.82);
+      };
+    });
+  }
+
+  async function subirVideo(file, avisar) {
+    if (file.size > 30 * 1024 * 1024) {
+      throw new Error('El video pesa ' + (file.size/1024/1024).toFixed(1) + ' MB y el máximo son 30 MB.');
+    }
+    const token = await session.token();
+    if (!token) throw new Error('Tu sesión expiró. Vuelve a entrar al panel.');
+
+    if (avisar) avisar('Preparando la portada del video…');
+    const { portada, dur } = await portadaDeVideo(file);
+
+    // 1) Al almacén temporal, directo desde el navegador
+    if (avisar) avisar('Subiendo el video… (puede tardar)');
+    const ext = (file.name.split('.').pop() || 'mp4').toLowerCase();
+    const nombre = 'tmp-' + Date.now() + '-' + Math.random().toString(36).slice(2,7) + '.' + (ext === 'webm' ? 'webm' : ext === 'mov' ? 'mov' : 'mp4');
+    const subida = await fetch(SB_URL + '/storage/v1/object/' + BUCKET_VIDEOS + '/' + nombre, {
+      method: 'POST',
+      headers: { apikey: SB_KEY, Authorization: 'Bearer ' + token, 'Content-Type': file.type || 'video/mp4' },
+      body: file
+    });
+    if (!subida.ok) {
+      const t = await subida.text();
+      throw new Error('No se pudo subir el video (' + subida.status + '). ' + t.slice(0,120));
+    }
+
+    // 2) Del almacén al repositorio
+    if (avisar) avisar('Guardando el video en el sitio…');
+    const r = await fetch('/api/subir-video', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token },
+      body: JSON.stringify({ archivo: nombre })
+    });
+    const d = await r.json().catch(() => ({ ok:false, mensaje:'El servidor respondió algo inesperado.' }));
+    if (!r.ok || !d.ok) throw new Error(d.mensaje || 'No se pudo guardar el video.');
+
+    // 3) La portada va por la vía normal de imágenes
+    if (avisar) avisar('Subiendo la portada…');
+    const rutaPortada = await upload(new File([portada], 'portada.jpg', { type: 'image/jpeg' }));
+
+    return { src: rutaPortada, video: d.ruta, dur, tag: '' };
+  }
+
   // Sube la foto al repositorio a través de /api/subir. Se comprime aquí, en el
   // navegador, con los mismos valores que el resto de fotos del sitio (1500px de
   // lado mayor), para que no desentonen ni pesen de más.
@@ -456,6 +531,6 @@ window.CMS = (function () {
 
   return {
     DEFAULTS, SCHEMA, data: () => data, get: (p) => get(data, p), set: (p, v) => set(data, p, v),
-    init, load, save, reset, clone, upload, url, resolveAll, gc, usage, rich, esc, session, dirty, diff
+    init, load, save, reset, clone, upload, subirVideo, url, resolveAll, gc, usage, rich, esc, session, dirty, diff
   };
 })();
