@@ -6,9 +6,14 @@
 # perfecta y solo falla al enviar. Ya ocurrió: estuvo caído del 5 al 28 de agosto
 # de 2026 sin que nadie se enterara.
 #
-# Qué hace: cada 3 días consulta el mismo endpoint que usa la web. Eso cuenta como
-# actividad y evita la pausa. Si el endpoint no responde, el workflow FALLA a
-# propósito para que GitHub mande un correo de aviso.
+# Qué hace: cada 6 horas consulta las dos tablas que usa la web. Si el endpoint
+# no responde, el workflow FALLA a propósito para que GitHub mande un correo.
+#
+# Por qué cada 6 horas y no cada 3 días: la primera versión corría cada 3 días
+# y NO evitó la pausa (se pausó el 11-sep-2026 con el latido en verde). La doc
+# de Supabase dice que hacen falta "a few user requests to the database each
+# day"; una cada tres días queda muy por debajo. Ahora son 4 al día, y cada una
+# toca las dos tablas.
 #
 # No usa contraseñas ni tokens: la URL y la clave se leen del index.html, donde ya
 # son públicas por diseño (la clave "publishable" es segura porque las tablas están
@@ -18,9 +23,8 @@ name: Mantener Supabase despierto
 
 on:
   schedule:
-    # Cada 3 días a las 09:17 UTC (~04:17 en Colombia). El minuto raro es a
-    # propósito: en punto los cron de GitHub se congestionan y se retrasan.
-    - cron: '17 9 */3 * *'
+    # Cada 6 horas, en el minuto 17 (en punto los cron de GitHub se congestionan).
+    - cron: '17 */6 * * *'
   workflow_dispatch:   # permite ejecutarlo a mano desde la pestaña Actions
 
 jobs:
@@ -44,16 +48,20 @@ jobs:
           echo "key=$KEY" >> "$GITHUB_OUTPUT"
           echo "Proyecto detectado: $URL"
 
-      - name: Consultar el endpoint (hasta 3 intentos)
+      - name: Consultar las dos tablas (hasta 3 intentos)
         run: |
           URL='${{ steps.cfg.outputs.url }}'
           KEY='${{ steps.cfg.outputs.key }}'
           for intento in 1 2 3; do
-            code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 30 \
-              "$URL/rest/v1/contactos?select=id&limit=1" \
-              -H "apikey: $KEY" -H "Authorization: Bearer $KEY" || echo "000")
-            echo "Intento $intento → HTTP $code"
-            if [ "$code" = "200" ]; then
+            ok=0
+            for tabla in contactos donaciones_interes; do
+              code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 30 \
+                "$URL/rest/v1/$tabla?select=id&limit=1" \
+                -H "apikey: $KEY" -H "Authorization: Bearer $KEY" || echo "000")
+              echo "Intento $intento · $tabla → HTTP $code"
+              [ "$code" = "200" ] && ok=$((ok+1))
+            done
+            if [ "$ok" = "2" ]; then
               echo "✅ Supabase responde. El formulario del sitio está funcionando."
               exit 0
             fi
