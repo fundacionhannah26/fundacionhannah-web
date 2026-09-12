@@ -1187,6 +1187,15 @@ footer {
   display: grid; place-items: center;
 }
 .payment-tile svg, .payment-tile .pay-text { max-height: 28px; }
+/* Un solo método de pago: se muestra, no se elige */
+.payment-single {
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  margin-top: 12px; padding: 14px 16px;
+  background: white; border: 1.5px solid var(--brand-magenta);
+  border-radius: 14px; box-shadow: 0 0 0 3px oklch(0.65 0.20 14 / .12);
+}
+.payment-single .pay-text { font-size: 20px; }
+.payment-single-sub { font-size: 12.5px; color: var(--ink-muted); line-height: 1.4; flex: 1; min-width: 180px; }
 .pay-text {
   font-weight: 800; font-size: 15px; letter-spacing: -0.02em;
   display: flex; align-items: center; gap: 4px;
@@ -1791,32 +1800,9 @@ footer {
         </label>
 
         <div class="payments-label">Método de pago</div>
-        <div class="payments-grid" id="payments-grid">
-          <button type="button" class="payment-tile" data-pay="paypal" aria-label="PayPal">
-            <span class="pay-text" style="color:#003087;">Pay<span style="color:#0070BA;">Pal</span></span>
-          </button>
-          <button type="button" class="payment-tile active" data-pay="bancolombia" aria-label="Bancolombia">
-            <span class="pay-text" style="color:#0a0a0a; font-size:13px;">
-              <span style="display:inline-block; width:14px; height:14px; background:#FDDA24; border-radius:2px; margin-right:4px; transform:skewX(-12deg);"></span>
-              Bancolombia
-            </span>
-          </button>
-          <button type="button" class="payment-tile" data-pay="wompi" aria-label="Wompi">
-            <span class="pay-text" style="color:#0a0a0a; font-size:14px;">Wompi</span>
-          </button>
-          <button type="button" class="payment-tile" data-pay="mastercard" aria-label="Mastercard">
-            <svg viewBox="0 0 40 24" width="40" height="24" aria-hidden="true">
-              <circle cx="15" cy="12" r="8" fill="#EB001B"/>
-              <circle cx="25" cy="12" r="8" fill="#F79E1B"/>
-              <path d="M20 6.5a8 8 0 0 1 0 11A8 8 0 0 1 20 6.5z" fill="#FF5F00"/>
-            </svg>
-          </button>
-          <button type="button" class="payment-tile" data-pay="amex" aria-label="American Express">
-            <span style="background:#2E77BC; color:white; padding:4px 8px; border-radius:3px; font-size:9px; font-weight:800; letter-spacing:0.05em; line-height:1.1; text-align:center;">AMERICAN<br>EXPRESS</span>
-          </button>
-          <button type="button" class="payment-tile" data-pay="visa" aria-label="Visa">
-            <span class="pay-text" style="color:#1A1F71; font-size:18px; font-style:italic; font-weight:900; letter-spacing:-0.02em;">VISA</span>
-          </button>
+        <div class="payment-single" id="payments-grid">
+          <span class="pay-text" style="color:#003087;">Pay<span style="color:#0070BA;">Pal</span></span>
+          <span class="payment-single-sub">Pago seguro · acepta tarjeta débito o crédito, cuenta PayPal y Apple Pay</span>
         </div>
 
         <div class="payments-label" style="margin-top: 26px;">Tus datos</div>
@@ -2179,9 +2165,24 @@ const paymentsGrid = document.getElementById('payments-grid');
 const stepForm = document.getElementById('donate-step-form');
 const stepSuccess = document.getElementById('donate-step-success');
 
-const PAY_LABELS = { paypal: 'PayPal', bancolombia: 'Bancolombia', wompi: 'Wompi', mastercard: 'Mastercard', amex: 'American Express', visa: 'Visa' };
+const PAY_LABELS = { paypal: 'PayPal' };
 
-let donateState = { freq: 'unica', amount: 50000, method: 'bancolombia', custom: false };
+// ----- Aviso por correo (Web3Forms) -------------------------
+// Se envía EN PARALELO a Supabase. Si la base está pausada o caída, el mensaje
+// llega igual al correo de la fundación. La clave es pública por diseño: solo
+// sirve para enviar correo a la fundación, no da acceso a nada.
+const W3F_KEY = '68cd81da-51c8-417c-9665-04db64ec703d';
+
+// ----- PayPal --------------------------------------------------
+// Botón de donación de la fundación (PayPal No-Code Checkout). Cobra en USD:
+// es la única moneda que PayPal maneja para Colombia, el COP no está soportado.
+const PAYPAL_URL = 'https://www.paypal.com/ncp/payment/F5U8N2D2HL4QS';
+// Tasa solo para mostrar una EQUIVALENCIA APROXIMADA y que la persona sepa
+// cuántos dólares poner. No se usa para cobrar: el monto real lo escribe en
+// PayPal. Conviene revisarla de vez en cuando (consultada el 2026-09-02).
+const USD_COP = 3168;
+
+let donateState = { freq: 'unica', amount: 50000, method: 'paypal', custom: false };
 
 function fmtCOP(n) {
   if (!n) return '$0';
@@ -2244,15 +2245,7 @@ amountCustomInput.addEventListener('input', () => {
   updateCtaLabel();
 });
 
-// Payment method
-paymentsGrid.querySelectorAll('.payment-tile').forEach(tile => {
-  tile.addEventListener('click', () => {
-    paymentsGrid.querySelectorAll('.payment-tile').forEach(t => t.classList.remove('active'));
-    tile.classList.add('active');
-    donateState.method = tile.dataset.pay;
-    updateCtaLabel();
-  });
-});
+// Un solo método de pago (PayPal): no hay nada que elegir.
 
 function updateCtaLabel() {
   const amt = fmtCOP(donateState.amount);
@@ -2281,20 +2274,6 @@ function actualizarAvisoPaypal() {
 }
 updateCtaLabel();
 
-// ----- Aviso por correo (Web3Forms) -------------------------
-// Se envía EN PARALELO a Supabase. Si la base está pausada o caída, el mensaje
-// llega igual al correo de la fundación. La clave es pública por diseño: solo
-// sirve para enviar correo a la fundación, no da acceso a nada.
-const W3F_KEY = '68cd81da-51c8-417c-9665-04db64ec703d';
-
-// ----- PayPal --------------------------------------------------
-// Botón de donación de la fundación (PayPal No-Code Checkout). Cobra en USD:
-// es la única moneda que PayPal maneja para Colombia, el COP no está soportado.
-const PAYPAL_URL = 'https://www.paypal.com/ncp/payment/F5U8N2D2HL4QS';
-// Tasa solo para mostrar una EQUIVALENCIA APROXIMADA y que la persona sepa
-// cuántos dólares poner. No se usa para cobrar: el monto real lo escribe en
-// PayPal. Conviene revisarla de vez en cuando (consultada el 2026-09-02).
-const USD_COP = 3168;
 window.avisarPorCorreo = function (asunto, campos) {
   return fetch('https://api.web3forms.com/submit', {
     method: 'POST',
