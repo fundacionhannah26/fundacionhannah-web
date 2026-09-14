@@ -176,7 +176,11 @@ window.CMS = (function () {
       { path: 'programs.eyebrow', label: 'Etiqueta', type: 'text' },
       { path: 'programs.title', label: 'Título', type: 'textarea' },
       { path: 'programs.lede', label: 'Bajada', type: 'textarea' },
-      { path: 'programs.items', label: 'Tarjetas de programa', type: 'repeat', sub: [
+      { path: 'programs.items', label: 'Tarjetas de programa', type: 'repeat',
+        addable: true, addLabel: 'Añadir programa', minItems: 1,
+        hint: 'Con tres o menos se ven en fila. A partir del cuarto, la sección pasa a carrusel para no saturar la página.',
+        blank: { title: 'Nuevo programa', body: '', tag: '', photo: '' },
+        sub: [
         { key: 'title', label: 'Nombre del programa', type: 'text' },
         { key: 'body', label: 'Descripción', type: 'textarea' },
         { key: 'tag', label: 'Etiqueta inferior', type: 'text' },

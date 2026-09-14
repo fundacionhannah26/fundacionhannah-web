@@ -503,6 +503,46 @@ section { padding: 96px 0; position: relative; }
 @media (min-width: 720px)  { .programs-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 1000px) { .programs-grid { grid-template-columns: repeat(3, 1fr); } }
 
+/* Con más de tres programas la rejilla pasa a carrusel horizontal: se ven tres
+   de golpe en escritorio y el resto se alcanza deslizando o con las flechas. */
+.programs-grid.is-carousel {
+  display: flex;
+  grid-template-columns: none;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  padding: 4px 4px 12px;
+  margin: -4px -4px 0;
+  -webkit-overflow-scrolling: touch;
+}
+.programs-grid.is-carousel::-webkit-scrollbar { display: none; }
+.programs-grid.is-carousel .program-card {
+  flex: 0 0 min(86vw, 340px);
+  scroll-snap-align: start;
+}
+@media (min-width: 720px)  { .programs-grid.is-carousel .program-card { flex-basis: calc((100% - 20px) / 2); } }
+@media (min-width: 1000px) { .programs-grid.is-carousel .program-card { flex-basis: calc((100% - 40px) / 3); } }
+.programs-nav {
+  display: flex; align-items: center; justify-content: center; gap: 14px;
+  margin-top: 22px;
+}
+.programs-nav button {
+  width: 44px; height: 44px; border-radius: 999px;
+  border: 1.5px solid var(--line); background: white; color: var(--brand-violet);
+  display: grid; place-items: center; cursor: pointer;
+  transition: border-color .2s, transform .2s, opacity .2s;
+}
+.programs-nav button svg { width: 20px; height: 20px; }
+.programs-nav button:hover:not(:disabled) { border-color: var(--brand-violet); transform: translateY(-1px); }
+.programs-nav button:disabled { opacity: .35; cursor: default; }
+.programs-nav button:focus-visible { outline: 2px solid var(--brand-magenta); outline-offset: 3px; }
+.programs-count {
+  font-family: 'Manrope', sans-serif; font-size: 13px; font-weight: 600;
+  letter-spacing: 0.06em; color: var(--ink-muted); min-width: 48px; text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
 .program-card {
   position: relative;
   background: white;
@@ -2466,6 +2506,72 @@ function applyTweaks(t) {
 // initial
 applyTweaks(TWEAK_DEFAULTS);
 
+// ----- Programas: se generan desde el contenido ------------------
+// Los iconos de las tarjetas. Si hay más programas que iconos, se repiten.
+const PROGRAM_ICONS = [
+  '<path d="M3 11h18a8 8 0 0 1-8 8h-2a8 8 0 0 1-8-8z"/> <path d="M7 7c0-1 1-2 1-3M11 7c0-1 1-2 1-3M15 7c0-1 1-2 1-3"/> <path d="M3 19h18"/>',
+  '<circle cx="9" cy="8" r="3.2"/> <circle cx="17" cy="9" r="2.4"/> <path d="M3 19c0-3 2.5-5 6-5s6 2 6 5"/> <path d="M14.5 19c.2-2 1.5-3.5 4-3.5s3.5 1.5 3.5 3.5"/>',
+  '<path d="M12 21s-7-4.5-7-10a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 21 11c0 5.5-7 10-7 10z" transform="translate(-1 0)"/>',
+  '<path d="M12 21s-7-4.5-7-10a4.5 4.5 0 0 1 7-3.6A4.5 4.5 0 0 1 19 11c0 5.5-7 10-7 10z"/>'
+];
+
+const PROGRAMS_MAX_GRID = 3;   // a partir del cuarto, la sección pasa a carrusel
+
+function renderPrograms(items) {
+  const grid = document.querySelector('.programs-grid');
+  if (!grid || !Array.isArray(items) || !items.length) return;
+  const esc = (t) => String(t == null ? '' : t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  // El título parte antes de la última palabra, como en el diseño original
+  const titulo = (t) => esc(t).replace(/ (?=\S+$)/, '<br>');
+  grid.innerHTML = items.map((p, i) => `
+      <article class="program-card">
+        <div class="program-photo" style="background-image: url('${esc(p.photo || '')}');">
+          <span class="program-num">${String(i + 1).padStart(2, '0')}</span>
+          <span class="program-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="color: var(--brand-magenta);">${PROGRAM_ICONS[i % PROGRAM_ICONS.length]}</svg>
+          </span>
+        </div>
+        <div class="program-body">
+          <h3>${titulo(p.title || '')}</h3>
+          <p>${esc(p.body || '')}</p>
+          <span class="tag">${esc(p.tag || '')}</span>
+        </div>
+      </article>`).join('');
+
+  // Con pocos programas, la rejilla de siempre. Con más, carrusel horizontal.
+  const carrusel = items.length > PROGRAMS_MAX_GRID;
+  grid.classList.toggle('is-carousel', carrusel);
+  const sec = grid.closest('.programs');
+  let nav = sec && sec.querySelector('.programs-nav');
+  if (carrusel) {
+    if (!nav) {
+      nav = document.createElement('div');
+      nav.className = 'programs-nav';
+      nav.innerHTML = `
+        <button type="button" class="prev" aria-label="Programas anteriores"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button>
+        <span class="programs-count"></span>
+        <button type="button" class="next" aria-label="Programas siguientes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>`;
+      grid.insertAdjacentElement('afterend', nav);
+      const paso = () => (grid.querySelector('.program-card')?.getBoundingClientRect().width || 320) + 20;
+      nav.querySelector('.prev').addEventListener('click', () => grid.scrollBy({ left: -paso(), behavior: 'smooth' }));
+      nav.querySelector('.next').addEventListener('click', () => grid.scrollBy({ left:  paso(), behavior: 'smooth' }));
+      const actualizar = () => {
+        const max = grid.scrollWidth - grid.clientWidth;
+        nav.querySelector('.prev').disabled = grid.scrollLeft <= 4;
+        nav.querySelector('.next').disabled = grid.scrollLeft >= max - 4;
+        const idx = Math.round(grid.scrollLeft / paso()) + 1;
+        nav.querySelector('.programs-count').textContent = `${Math.min(idx, items.length)} / ${items.length}`;
+      };
+      grid.addEventListener('scroll', actualizar, { passive: true });
+      window.addEventListener('resize', actualizar);
+      setTimeout(actualizar, 50);
+    }
+    nav.style.display = '';
+  } else if (nav) {
+    nav.style.display = 'none';
+  }
+}
+
 // ----- Contenido editable desde el panel ---------------------
 // El contenido vive en contenido.json y lo edita el panel de administración.
 // Si ese archivo falta o falla, la página sigue mostrando lo que trae escrito:
@@ -2546,15 +2652,9 @@ applyTweaks(TWEAK_DEFAULTS);
     txt('.programs .eyebrow', C.programs.eyebrow);
     html('.programs .section-head h2', C.programs.title);
     txt('.programs .section-head .lede', C.programs.lede);
-    document.querySelectorAll('.program-card').forEach((card, i) => {
-      const p = (C.programs.items || [])[i]; if (!p) return;
-      const h3 = card.querySelector('.program-body h3');
-      if (h3 && p.title) h3.innerHTML = esc(p.title).replace(/ (?=\S+$)/, '<br>');
-      txt2(card, '.program-body p', p.body);
-      txt2(card, '.program-body .tag', p.tag);
-      const foto = card.querySelector('.program-photo');
-      if (foto && p.photo) foto.style.backgroundImage = "url('" + p.photo + "')";
-    });
+    // Las tarjetas se generan todas desde el contenido: así se pueden añadir
+    // o quitar programas desde el panel sin tocar el HTML.
+    renderPrograms(C.programs.items);
   }
 
   // ---- Galería (conserva videos: src es el póster, video el archivo)

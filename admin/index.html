@@ -90,6 +90,13 @@ a:hover{color:var(--brand-magenta-deep)}
 .side-foot button:hover,.side-foot a#btn-view:hover{background:rgba(255,255,255,.2)}
 .side-foot a#btn-view:focus-visible{outline:2px solid rgba(255,255,255,.6);outline-offset:2px}
 .gal-item .vid{position:absolute;left:6px;bottom:6px;background:rgba(20,8,30,.82);color:#fff;font-size:10.5px;font-weight:600;letter-spacing:.04em;padding:3px 7px;border-radius:99px;pointer-events:none}
+.rep-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.rep-del{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;color:var(--brand-magenta-deep,#b0264f);background:none;border:1px solid transparent;border-radius:999px;padding:5px 10px;cursor:pointer}
+.rep-del svg{width:13px;height:13px}
+.rep-del:hover{border-color:currentColor;background:rgba(214,58,112,.06)}
+.rep-add{display:inline-flex;align-items:center;gap:8px;margin-top:8px;font-size:13.5px;font-weight:700;color:var(--brand-violet-deep,#3a1a55);background:white;border:1.5px dashed var(--brand-violet,#5b2a6e);border-radius:14px;padding:12px 18px;cursor:pointer;width:100%;justify-content:center;transition:background .2s}
+.rep-add svg{width:16px;height:16px}
+.rep-add:hover{background:rgba(91,42,110,.06)}
 .storage{font-size:11px;letter-spacing:.06em}
 .storage .bar{height:4px;border-radius:99px;background:rgba(255,255,255,.15);margin-top:6px;overflow:hidden}
 .storage .bar i{display:block;height:100%;background:var(--brand-yellow);width:0;transition:width .5s}
@@ -468,9 +475,24 @@ function galleryField(f){
 function repeatField(f){
   const wrap=document.createElement('div');
   const arr=gv(f.path)||[];
+  const repintar=()=>{renderForm(CMS.SCHEMA.find(s=>s.id===current));};
   arr.forEach((row,i)=>{
     const box=document.createElement('div');box.className='rep'+(f.compact?' compact':'');
     box.innerHTML=`<div class="rep-head"><span class="idx">${String(i+1).padStart(2,'0')}</span></div>`;
+    if(f.addable){
+      const head=box.querySelector('.rep-head');
+      const min=f.minItems||0;
+      if(arr.length>min){
+        const del=document.createElement('button');del.type='button';del.className='rep-del';del.title='Eliminar';
+        del.innerHTML=svg('<path d="M6 6l12 12M18 6l-12 12"/>')+' Eliminar';
+        del.addEventListener('click',()=>{
+          const nombre=row.title||row.label||('el elemento '+(i+1));
+          if(!confirm('¿Eliminar «'+nombre+'»?\n\nSe quitará de la lista. Recuerda publicar para que el sitio lo refleje.'))return;
+          const a=gv(f.path).slice();a.splice(i,1);sv(f.path,a);repintar();toast('Eliminado · pulsa Publicar');
+        });
+        head.appendChild(del);
+      }
+    }
     f.sub.forEach(s=>{
       if(s.type==='image'){
         box.appendChild(imageField(null,s.label,null,()=>gv(f.path)[i][s.key],(v)=>{const a=gv(f.path).slice();a[i]={...a[i],[s.key]:v};sv(f.path,a)}));
@@ -480,6 +502,16 @@ function repeatField(f){
     });
     wrap.appendChild(box);
   });
+  if(f.addable){
+    const add=document.createElement('button');add.type='button';add.className='rep-add';
+    add.innerHTML=svg('<path d="M12 5v14M5 12h14"/>')+' '+(f.addLabel||'Añadir');
+    add.addEventListener('click',()=>{
+      const a=gv(f.path).slice();a.push({...(f.blank||{})});sv(f.path,a);repintar();
+      toast('Añadido al final · rellena sus datos y pulsa Publicar');
+      setTimeout(()=>{const boxes=wrap.parentElement?.querySelectorAll('.rep');const ult=boxes&&boxes[boxes.length-1];if(ult)ult.scrollIntoView({behavior:'smooth',block:'center'})},80);
+    });
+    wrap.appendChild(add);
+  }
   return wrap;
 }
 function makeDrop(title,sub,onFiles,conVideo){
