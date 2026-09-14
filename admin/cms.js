@@ -184,6 +184,7 @@ window.CMS = (function () {
         { key: 'title', label: 'Nombre del programa', type: 'text' },
         { key: 'body', label: 'Descripción', type: 'textarea' },
         { key: 'tag', label: 'Etiqueta inferior', type: 'text' },
+        { key: 'icon', label: 'Icono', type: 'iconpicker', hint: 'Aparece sobre la foto. Si no eliges ninguno, se asigna uno por orden.' },
         { key: 'photo', label: 'Fotografía', type: 'image' }
       ] }
     ] },

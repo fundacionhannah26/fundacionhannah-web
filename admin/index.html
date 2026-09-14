@@ -90,6 +90,12 @@ a:hover{color:var(--brand-magenta-deep)}
 .side-foot button:hover,.side-foot a#btn-view:hover{background:rgba(255,255,255,.2)}
 .side-foot a#btn-view:focus-visible{outline:2px solid rgba(255,255,255,.6);outline-offset:2px}
 .gal-item .vid{position:absolute;left:6px;bottom:6px;background:rgba(20,8,30,.82);color:#fff;font-size:10.5px;font-weight:600;letter-spacing:.04em;padding:3px 7px;border-radius:99px;pointer-events:none}
+.icon-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(78px,1fr));gap:8px;margin-top:8px}
+.icon-opt{display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 6px;border:1.5px solid var(--line,#e6e0ea);border-radius:12px;background:#fff;cursor:pointer;color:var(--ink,#2a1230);font-size:10.5px;line-height:1.15;text-align:center;transition:border-color .15s,box-shadow .15s,transform .15s}
+.icon-opt svg{width:22px;height:22px;color:var(--brand-magenta,#d4306b)}
+.icon-opt:hover{border-color:var(--brand-violet,#5b2a6e);transform:translateY(-1px)}
+.icon-opt.on{border-color:var(--brand-magenta,#d4306b);box-shadow:0 0 0 3px rgba(212,48,107,.15);font-weight:700}
+.icon-opt:focus-visible{outline:2px solid var(--brand-magenta,#d4306b);outline-offset:2px}
 .rep-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
 .rep-del{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;color:var(--brand-magenta-deep,#b0264f);background:none;border:1px solid transparent;border-radius:999px;padding:5px 10px;cursor:pointer}
 .rep-del svg{width:13px;height:13px}
@@ -262,6 +268,7 @@ a:hover{color:var(--brand-magenta-deep)}
 <div class="toast" id="toast"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg><span id="toast-txt"></span></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="../iconos-programas.js"></script>
 <script src="cms.js"></script>
 <script>
 const ICONS={home:'<path d="M3 10l9-7 9 7v10a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',heart:'<path d="M12 21s-7-4.5-7-10a4.5 4.5 0 0 1 7-3.6A4.5 4.5 0 0 1 19 11c0 5.5-7 10-7 10z"/>',grid:'<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',image:'<rect x="3" y="4" width="18" height="16" rx="2.5"/><circle cx="8.5" cy="9.5" r="1.8"/><path d="M21 16l-5-5-6 6"/>',gift:'<rect x="3" y="8" width="18" height="13" rx="2"/><path d="M3 12h18M12 8v13"/><path d="M12 8S9.5 3 7 4.5 8 8 12 8s5-2 3-3.5S12 8 12 8z"/>',pin:'<path d="M12 21s-7-7-7-12a7 7 0 1 1 14 0c0 5-7 12-7 12z"/><circle cx="12" cy="9" r="2.5"/>',layers:'<path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/>',lock:'<rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>'};
@@ -494,7 +501,9 @@ function repeatField(f){
       }
     }
     f.sub.forEach(s=>{
-      if(s.type==='image'){
+      if(s.type==='iconpicker'){
+        box.appendChild(iconPickerField(s.label,s.hint,()=>gv(f.path)[i][s.key],(v)=>{const a=gv(f.path).slice();a[i]={...a[i],[s.key]:v};sv(f.path,a)},i));
+      }else if(s.type==='image'){
         box.appendChild(imageField(null,s.label,null,()=>gv(f.path)[i][s.key],(v)=>{const a=gv(f.path).slice();a[i]={...a[i],[s.key]:v};sv(f.path,a)}));
       }else{
         box.appendChild(textField({label:s.label,type:s.type},null,row[s.key],(v)=>{const a=gv(f.path).slice();a[i]={...a[i],[s.key]:v};sv(f.path,a)}));
@@ -512,6 +521,28 @@ function repeatField(f){
     });
     wrap.appendChild(add);
   }
+  return wrap;
+}
+// Selector de icono: muestra todos los disponibles y marca el elegido. Si el
+// programa aún no tiene uno guardado, marca el que le tocaría por orden.
+function iconPickerField(label,hint,getV,setV,idx){
+  const wrap=document.createElement('div');wrap.className='field';
+  const iconos=window.PROGRAM_ICONS||[];
+  wrap.innerHTML=`<label>${label}</label>`+(hint?`<div class="sub">${hint}</div>`:'');
+  const grid=document.createElement('div');grid.className='icon-grid';
+  const pintar=()=>{
+    const cur=getV(); const activo=Number.isInteger(cur)?cur:(idx%Math.max(1,iconos.length));
+    grid.innerHTML='';
+    iconos.forEach((ic,k)=>{
+      const b=document.createElement('button');b.type='button';b.className='icon-opt'+(k===activo?' on':'');
+      b.title=ic.nombre;b.setAttribute('aria-label',ic.nombre);b.setAttribute('aria-pressed',k===activo?'true':'false');
+      b.innerHTML=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${ic.svg}</svg><span>${ic.nombre}</span>`;
+      b.addEventListener('click',()=>{setV(k);pintar();});
+      grid.appendChild(b);
+    });
+  };
+  pintar();
+  wrap.appendChild(grid);
   return wrap;
 }
 function makeDrop(title,sub,onFiles,conVideo){
@@ -558,6 +589,7 @@ $('btn-save').addEventListener('click',async()=>{
       CMS.save(CMS.clone(draft));
       markClean('Publicado · el sitio se actualiza en un par de minutos');
       toast('Cambios publicados');
+      alert('Publicado.\n\nEl sitio tarda entre 1 y 3 minutos en reflejar el cambio: se vuelve a generar la página.\n\nSi pasado ese tiempo sigues viendo lo anterior, recarga con Cmd+Shift+R (Mac) o Ctrl+F5 (Windows) para saltarte la caché del navegador.');
     }else{
       alert(d.mensaje||'No se pudo publicar.');
       if(r.status===401){location.reload()}
